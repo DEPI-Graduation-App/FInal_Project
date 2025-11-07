@@ -1,12 +1,11 @@
-
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:news_depi_final_project/main.dart';
-
 import '../Models/UserModel.dart';
+final cloud = Supabase.instance.client;
+
 class AuthService extends GetxService {
   final Rxn<UserModel> userData = Rxn<UserModel>();
-
 
   Future<UserModel?> register(
       String email,
@@ -62,5 +61,10 @@ class AuthService extends GetxService {
     } catch (_) {
       return false;
     }
+  }
+
+  bool isLoggedIn() {
+    final user = cloud.auth.currentUser;
+    return user != null;
   }
 }

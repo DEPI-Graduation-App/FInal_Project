@@ -42,6 +42,7 @@ dependencies:
   dartx: ^1.2.0
   connectivity_plus: ^7.0.0
   dio: ^5.9.0
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:

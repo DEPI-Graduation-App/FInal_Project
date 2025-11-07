@@ -11,14 +11,14 @@ class UserModel {
   DateTime createdAt;
   String username;
   String email;
-  String? profilepic;
+  String? profilePic;
 
   UserModel({
     required this.id,
     required this.createdAt,
     required this.username,
     required this.email,
-    this.profilepic,
+    this.profilePic,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -26,7 +26,7 @@ class UserModel {
     createdAt: DateTime.parse(json["created_at"]),
     username: json["username"],
     email: json["email"],
-    profilepic: json["profilepic"]
+    profilePic: json["profilepic"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -34,6 +34,6 @@ class UserModel {
     "created_at": createdAt.toIso8601String(),
     "username": username,
     "email": email,
-    "profilepic":profilepic,
+    "profilepic":profilePic,
   };
 }
