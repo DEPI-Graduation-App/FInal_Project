@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:news_depi_final_project/main.dart';
 import '../Models/UserModel.dart';
 final cloud = Supabase.instance.client;
 
