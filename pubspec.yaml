@@ -43,6 +43,8 @@ dependencies:
   connectivity_plus: ^7.0.0
   dio: ^5.9.0
   flutter_screenutil: ^5.9.3
+  flutter_dotenv: ^6.0.0
+  lottie: ^3.3.2
 
 dev_dependencies:
   flutter_test:
