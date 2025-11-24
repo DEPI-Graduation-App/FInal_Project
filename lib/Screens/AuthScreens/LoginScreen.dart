@@ -3,17 +3,16 @@ import 'package:get/get.dart';
 import 'package:news_depi_final_project/Screens/AuthScreens/ForgotPasswordScreen.dart';
 import 'package:news_depi_final_project/Screens/AuthScreens/RegisterScreen.dart';
 import '../../Controllers/LoginController.dart';
+import '../../Roads/road.dart';
 import '../../widgets/BuildTextField.dart';
 import '../../Management/AssetsManager.dart';
 import '../../widgets/CustomTextAlignment.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoginController());
-
     return Scaffold(
       backgroundColor: const Color(0xfff7f4ef),
       body: SafeArea(
@@ -132,7 +131,7 @@ class LoginScreen extends StatelessWidget {
               ),
 
               InkWell(
-                onTap: () => Get.to(RegisterScreen()),
+                onTap: () => Get.toNamed(Road.register),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [

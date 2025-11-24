@@ -4,15 +4,12 @@ import 'package:news_depi_final_project/Management/AssetsManager.dart';
 import 'package:news_depi_final_project/widgets/BuildTextField.dart';
 import 'package:news_depi_final_project/widgets/CustomTextAlignment.dart';
 import 'package:news_depi_final_project/Screens/AuthScreens/LoginScreen.dart';
-
 import '../../Controllers/RegisterController.dart';
 import '../../Services/AuthService.dart';
 import '../HomeScreen.dart';
 
-class RegisterScreen extends StatelessWidget {
-  RegisterScreen({super.key});
-
-  final RegisterController controller = Get.put(RegisterController());
+class RegisterScreen extends GetView<RegisterController> {
+  const RegisterScreen({super.key});
 
   void register() async {
     final email = controller.EmailController.text.trim();
