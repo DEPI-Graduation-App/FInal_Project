@@ -16,14 +16,14 @@ class AuthService extends GetxService {
       final user = response.user;
 
       if (user != null) {
-        await cloud.from('users').insert({
+        await cloud.from('user').insert({
           'id': user.id,
           'username': username,
           'email': email,
         });
 
         final userData =
-        await cloud.from('users').select().eq('id', user.id).single();
+        await cloud.from('user').select().eq('id', user.id).single();
 
         return UserModel.fromJson(userData);
       }
@@ -44,7 +44,7 @@ class AuthService extends GetxService {
       if (res.user == null) return null;
 
       final userData =
-      await cloud.from('users').select().eq('id', res.user!.id).single();
+      await cloud.from('user').select().eq('id', res.user!.id).single();
 
       return UserModel.fromJson(userData);
     } catch (e) {

@@ -5,35 +5,40 @@ List<UserModel> userFromJson(String str) =>
 
 String userToJson(List<UserModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class UserModel {
-  String id;
-  DateTime createdAt;
-  String username;
-  String email;
-  String? profilePic;
+  final String id;
+  final DateTime? createdAt;
+  final String username;
+  final String email;
+  final String? profilePic;
 
   UserModel({
     required this.id,
-    required this.createdAt,
+    this.createdAt,
     required this.username,
     required this.email,
     this.profilePic,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-    id: json["id"],
-    createdAt: DateTime.parse(json["created_at"]),
-    username: json["username"],
-    email: json["email"],
-    profilePic: json["profilepic"]
-  );
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json["id"],
+      createdAt: json["created_at"] == null
+          ? null
+          : DateTime.parse(json["created_at"]),
+      username: json["username"] ?? "",
+      email: json["email"] ?? "",
+      profilePic: json["profile_picture"],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "created_at": createdAt.toIso8601String(),
-    "username": username,
-    "email": email,
-    "profilepic":profilePic,
-  };
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "created_at": createdAt?.toIso8601String(),
+      "username": username,
+      "email": email,
+      "profile_picture": profilePic,
+    };
+  }
 }
