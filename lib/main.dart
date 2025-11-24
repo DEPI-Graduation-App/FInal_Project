@@ -12,7 +12,6 @@ Future<void> main() async
   await Supabase.initialize(url: DatabaseKeys.supabaseUrl, anonKey: DatabaseKeys.supabaseAnonKey);
     runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
