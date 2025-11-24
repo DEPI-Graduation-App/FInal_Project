@@ -44,6 +44,8 @@ dependencies:
   dio: ^5.9.0
   flutter_screenutil: ^5.9.3
   flutter_native_splash: ^2.4.7
+  flutter_dotenv: ^6.0.0
+  lottie: ^3.3.2
 
 
 dev_dependencies:
