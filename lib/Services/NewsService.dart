@@ -39,6 +39,33 @@ class NewsService extends GetxService {
       return null;
     }
   }
+  Future<List<String>> fetchCategories() async {
+    try {
+      final response = await dio.get(
+        ApiEndpoints.newsApiSources,
+        queryParameters: {
+          'apiKey': newsAPIKey,
+          'language': 'en',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final sources = response.data['sources'] as List<dynamic>;
+
+        final categories = sources
+            .map((s) => s['category'].toString())
+            .toSet()
+            .toList();
+        print("$categories");
+        return categories;
+      }
+
+      return [];
+    } catch (e) {
+      print("Category API error: $e");
+      return [];
+    }
+  }
 
   Future<GnewsModel?> getNewsFromGNews(String query) async {
     try {

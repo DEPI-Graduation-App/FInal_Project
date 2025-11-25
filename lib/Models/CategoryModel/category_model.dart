@@ -1,11 +1,10 @@
-// lib/Models/Category.dart
 import 'package:flutter/material.dart';
 
 class Category {
   final String id;
   final String name;
-  final String? imageUrl; // optional asset path or network url
-  final String? icon; // optional text/icon name
+  final String? imageUrl;
+  final String? icon;
   final Color? color;
 
   Category({
