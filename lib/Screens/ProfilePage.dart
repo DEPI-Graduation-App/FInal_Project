@@ -7,7 +7,6 @@ import 'package:news_depi_final_project/Controllers/ProfileController.dart';
 class ProfilePage extends GetView<Profilecontroller> {
   ProfilePage({super.key});
 
-  final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +51,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                                 title: const Text('Gallery'),
                                 onTap: () async {
                                   final pickedImage =
-                                  await _picker.pickImage(source: ImageSource.gallery);
+                                  await controller.picker.pickImage(source: ImageSource.gallery);
 
                                   if (pickedImage != null) {
                                     controller.setImage(pickedImage);
@@ -66,7 +65,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                                 title: const Text('Camera'),
                                 onTap: () async {
                                   final pickedImage =
-                                  await _picker.pickImage(source: ImageSource.camera);
+                                  await controller.picker.pickImage(source: ImageSource.camera);
 
                                   if (pickedImage != null) {
                                     controller.setImage(pickedImage);

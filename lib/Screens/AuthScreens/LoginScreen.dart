@@ -68,12 +68,19 @@ class LoginScreen extends GetView<LoginController> {
 
               Obx(
                     () => GestureDetector(
-                  onTap: (){
-                    controller.isLoading.value ? null : () => controller.login();
-                    Get.offNamed(Road.home);
-                    },
+                      onTap: () async {
+                        if (controller.isLoading.value) return;
 
-                  child: Container(
+                        bool success = await controller.login();
+
+                        if (success) {
+                          Get.offNamed(Road.home);  // aho el error
+                        }
+                      },
+
+
+
+                      child: Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     decoration: BoxDecoration(

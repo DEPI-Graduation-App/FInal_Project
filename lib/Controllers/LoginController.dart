@@ -14,13 +14,13 @@ class LoginController extends GetxController {
     showPassword.value = !showPassword.value;
   }
 
-  Future<void> login() async {
+  Future<bool> login() async {
     final username = usernameController.text.trim();
     final password = passwordController.text.trim();
 
     if (username.isEmpty || password.isEmpty) {
       Get.snackbar("Error", "Please fill all fields");
-      return;
+      return false;
     }
 
     try {
@@ -31,19 +31,32 @@ class LoginController extends GetxController {
       isLoading.value = false;
 
       if (user != null) {
-        Get.snackbar("Success", "Login Successful", backgroundColor: Colors.green.shade400,
-            colorText: Colors.white);
-
-        Get.off(HomeScreen());
+        Get.snackbar(
+          "Success",
+          "Login Successful",
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        return true;
       } else {
-        Get.snackbar("Error","Invalid username or password",
-            backgroundColor: Colors.redAccent,
-            colorText: Colors.white);
+        Get.snackbar(
+          "Error",
+          "Invalid username or password",
+          backgroundColor: Colors.redAccent,
+          colorText: Colors.white,
+        );
+        return false;
       }
     } catch (e) {
       isLoading.value = false;
-      Get.snackbar("Error", e.toString(),
-          backgroundColor: Colors.redAccent, colorText: Colors.white);
+      Get.snackbar(
+        "Error",
+        e.toString(),
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
+      return false;
     }
   }
+
 }

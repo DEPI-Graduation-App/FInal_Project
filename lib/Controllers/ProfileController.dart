@@ -12,6 +12,8 @@ class Profilecontroller extends GetxController {
   RxString username = ''.obs;
   RxBool loading = true.obs;
   Rx<XFile?> pickedImage = Rx<XFile?>(null);
+  final ImagePicker picker = ImagePicker();
+
   final Rxn<UserModel> userData = Rxn<UserModel>();
   @override
   void onInit() {
@@ -21,9 +23,14 @@ class Profilecontroller extends GetxController {
 
   Future<void> fetchUserData() async {
     final user = await AuthService().loadUser();
+
+    if (user == null) return;
+
     userData.value = user;
-    print(userData.value?.username);
+    username.value = user.username;
+    email.value = user.email;
   }
+
 
   void logout(){
     AuthService().logout();
