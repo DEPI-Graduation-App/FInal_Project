@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: Road.login,
+      initialRoute: AuthService().isLoggedIn()?Road.home:Road.login,
       initialBinding: BindingsBuilder((){
         Get.lazyPut(()=>NewsService());
       }),
