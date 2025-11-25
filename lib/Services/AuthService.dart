@@ -57,6 +57,7 @@ class AuthService extends GetxService {
 
       final data =
       await cloud.from('user').select().eq('id', res.user!.id).single();
+      print(UserModel.fromJson(data).username);
 
       return UserModel.fromJson(data);
     } catch (e) {
@@ -67,7 +68,11 @@ class AuthService extends GetxService {
 
   Future<UserModel?> loadUser() async {
     final currentUser = cloud.auth.currentUser;
-    if (currentUser == null) return null;
+
+    if (currentUser == null) {
+      print("No current user");
+      return null;
+    }
 
     final response = await cloud
         .from('user')
@@ -79,6 +84,7 @@ class AuthService extends GetxService {
     userData.value = user;
     return user;
   }
+
 
   // -------------------------
   // Logout
