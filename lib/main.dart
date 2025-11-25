@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:news_depi_final_project/Controllers/HomeController.dart';
 import 'package:news_depi_final_project/Controllers/LoginController.dart';
 import 'package:news_depi_final_project/Controllers/RegisterController.dart';
 import 'package:news_depi_final_project/Screens/AuthScreens/LoginScreen.dart';
@@ -7,9 +8,11 @@ import 'package:news_depi_final_project/Screens/AuthScreens/RegisterScreen.dart'
 import 'package:news_depi_final_project/Screens/HomeScreen.dart';
 import 'package:news_depi_final_project/Roads/road.dart';
 import 'package:news_depi_final_project/Services/AuthService.dart';
+import 'package:news_depi_final_project/Services/NewsService.dart';
 import 'package:news_depi_final_project/Supabase_Keys/database_keys.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'Controllers/HomeController.dart';
+
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +26,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialRoute: AuthService().isLoggedIn() ? Road.home : Road.login,
+      initialBinding: BindingsBuilder((){
+        Get.lazyPut(()=>NewsService());
+      }),
       debugShowCheckedModeBanner: false,
       getPages: [
         GetPage(
@@ -30,7 +36,7 @@ class MyApp extends StatelessWidget {
             page: () => const HomeScreen(),
             binding: BindingsBuilder((){
               Get.put(HomeController());
-            })
+            }),
         ),
         GetPage(
             name: Road.login,

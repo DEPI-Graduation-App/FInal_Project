@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_depi_final_project/Screens/AuthScreens/ForgotPasswordScreen.dart';
-import 'package:news_depi_final_project/Screens/AuthScreens/RegisterScreen.dart';
 import '../../Controllers/LoginController.dart';
 import '../../Roads/road.dart';
 import '../../widgets/BuildTextField.dart';
@@ -69,8 +68,10 @@ class LoginScreen extends GetView<LoginController> {
 
               Obx(
                     () => GestureDetector(
-                  onTap:
-                  controller.isLoading.value ? null : () => controller.login(),
+                  onTap: (){
+                    controller.isLoading.value ? null : () => controller.login();
+                    Get.offNamed(Road.home);
+                    },
 
                   child: Container(
                     width: double.infinity,

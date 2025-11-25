@@ -3,15 +3,19 @@ import 'package:get/get.dart';
 import '../Management/ApiEndPoints.dart';
 import '../Models/News_Models/CurrentsNewsModel.dart';
 import '../Models/News_Models/GnewsModel.dart';
-import '../Models/News_Models/NewsApiModel.dart' hide Article;
-
+import '../Models/News_Models/NewsApiModel.dart';
 
 class NewsService extends GetxService {
-  final Dio dio = Dio();
+  final String newsAPIKey = 'c7edb54fa7e24e58b11df93744ea9d9e';
+  final String gNewsKey = 'b626a87f91cda2579ba73078032db27f';
+  final String currentNewsKey = 'qDUdQd7Vi2YCV-yIL0WR9Yo9lcO_WSdX-Ulc19lwjFpLiR24';
 
-  final NewsAPIKey = 'c7edb54fa7e24e58b11df93744ea9d9e';
-  final GNewsKEY = 'b626a87f91cda2579ba73078032db27f';
-  final CurrentNewsKey = 'qDUdQd7Vi2YCV-yIL0WR9Yo9lcO_WSdX-Ulc19lwjFpLiR24';
+  final Dio dio = Dio();
+  final cancelToken = CancelToken();
+
+  void cancel() {
+    cancelToken.cancel();
+  }
 
   Future<NewsApiModel?> getNewsFromNewsAPI(String query) async {
     try {
@@ -19,11 +23,17 @@ class NewsService extends GetxService {
         ApiEndpoints.newsApiBase,
         queryParameters: {
           'q': query,
-          'apiKey': NewsAPIKey,
+          'apiKey': newsAPIKey,
           'language': 'en',
+          'sortBy': 'publishedAt',
         },
+        cancelToken: cancelToken,
       );
-      return NewsApiModel.fromJson(response.data);
+
+      if (response.statusCode == 200 && response.data != null) {
+        return NewsApiModel.fromJson(response.data);
+      }
+      return null;
     } catch (e) {
       print("NewsAPI error: $e");
       return null;
@@ -36,11 +46,17 @@ class NewsService extends GetxService {
         ApiEndpoints.gNewsBase,
         queryParameters: {
           'q': query,
-          'token': GNewsKEY,
+          'token': gNewsKey,
           'lang': 'en',
+          'max': 10,
         },
+        cancelToken: cancelToken,
       );
-      return GnewsModel.fromJson(response.data);
+
+      if (response.statusCode == 200 && response.data != null) {
+        return GnewsModel.fromJson(response.data);
+      }
+      return null;
     } catch (e) {
       print("GNews error: $e");
       return null;
@@ -53,10 +69,20 @@ class NewsService extends GetxService {
         ApiEndpoints.currentsNewsBase,
         queryParameters: {
           'keywords': query,
-          'apiKey': CurrentNewsKey,
+          'language': 'en',
         },
+        options: Options(
+          headers: {
+            'Authorization': currentNewsKey,
+          },
+        ),
+        cancelToken: cancelToken,
       );
-      return CurrentsNewsModel.fromJson(response.data);
+
+      if (response.statusCode == 200 && response.data != null) {
+        return CurrentsNewsModel.fromJson(response.data);
+      }
+      return null;
     } catch (e) {
       print("CurrentsAPI error: $e");
       return null;
@@ -78,17 +104,48 @@ class NewsService extends GetxService {
   }
 
   Future<bool> hasNewUpdates(String topic, DateTime lastChecked) async {
-    final combinedData = await getCombinedNews(topic);
-    final allArticles = [
-      ...?combinedData['newsApi']?.articles,
-      ...?combinedData['gnews']?.articles,
-      ...?combinedData['currents']?.news,
-    ];
+    try {
+      final combinedData = await getCombinedNews(topic);
 
-    // Check if any article is newer than last check
-    return allArticles.any((news) {
-      final date = news is Article ? news.publishedAt : DateTime.parse(news.published);
-      return date.isAfter(lastChecked);
-    });
+      // Check NewsAPI articles
+      final newsApiArticles = combinedData['newsApi']?.articles ?? [];
+      for (var article in newsApiArticles) {
+        if (article.publishedAt.isAfter(lastChecked)) {
+          return true;
+        }
+      }
+
+      // Check GNews articles
+      final gnewsArticles = combinedData['gnews']?.articles ?? [];
+      for (var article in gnewsArticles) {
+        if (article.publishedAt.isAfter(lastChecked)) {
+          return true;
+        }
+      }
+
+      // Check Currents news
+      final currentsNews = combinedData['currents']?.news ?? [];
+      for (var news in currentsNews) {
+        try {
+          final publishedAt = DateTime.parse(news.published);
+          if (publishedAt.isAfter(lastChecked)) {
+            return true;
+          }
+        } catch (e) {
+          print("Error parsing date: ${news.published}");
+        }
+      }
+
+      return false;
+    } catch (e) {
+      print("Error checking updates: $e");
+      return false;
+    }
+  }
+
+  @override
+  void onClose() {
+    cancel();
+    super.onClose();
   }
 }
