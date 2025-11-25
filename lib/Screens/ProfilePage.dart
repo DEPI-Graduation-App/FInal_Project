@@ -45,7 +45,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                           : null,
                     ),
                     IconButton(
-                      icon: const Icon(Icons.edit),
+                      icon:  Icon(Icons.edit),
                       onPressed: () {
                         showModalBottomSheet(
                           context: context,
