@@ -113,10 +113,10 @@ class LoginScreen extends GetView<LoginController> {
                   children: [
                     Image.asset(AssetsManager.Googlelogo, width: 25),
                     const SizedBox(width: 10),
-                    const Text(
-                      "Login with Google",
-                      style: TextStyle(fontSize: 15),
-                    ),
+                    TextButton(onPressed: (){
+                      
+                    }, child: Text("login with google"))
+
                   ],
                 ),
               ),

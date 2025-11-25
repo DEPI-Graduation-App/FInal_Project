@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_depi_final_project/Controllers/HomeController.dart';
 import 'package:news_depi_final_project/Controllers/LoginController.dart';
+import 'package:news_depi_final_project/Controllers/ProfileController.dart';
 import 'package:news_depi_final_project/Controllers/RegisterController.dart';
 import 'package:news_depi_final_project/Screens/AuthScreens/LoginScreen.dart';
 import 'package:news_depi_final_project/Screens/AuthScreens/RegisterScreen.dart';
 import 'package:news_depi_final_project/Screens/HomeScreen.dart';
 import 'package:news_depi_final_project/Roads/road.dart';
+import 'package:news_depi_final_project/Screens/ProfilePage.dart';
 import 'package:news_depi_final_project/Services/AuthService.dart';
 import 'package:news_depi_final_project/Services/NewsService.dart';
 import 'package:news_depi_final_project/Supabase_Keys/database_keys.dart';
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: AuthService().isLoggedIn() ? Road.home : Road.login,
+      initialRoute: Road.login,
       initialBinding: BindingsBuilder((){
         Get.lazyPut(()=>NewsService());
       }),
@@ -50,6 +52,13 @@ class MyApp extends StatelessWidget {
             page: () => const RegisterScreen(),
             binding: BindingsBuilder((){
               Get.put(RegisterController());
+            })
+        ),
+        GetPage(
+            name: Road.profile,
+            page: () => ProfilePage(),
+            binding: BindingsBuilder((){
+              Get.put(Profilecontroller());
             })
         ),
       ],

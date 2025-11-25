@@ -24,25 +24,30 @@ class HomeController extends GetxController {
   Future<void> fetchCategories() async {
     isLoading.value = true;
     errorMessage.value = '';
+
     try {
-      // Provide a default set of categories to match the home screen layout.
-      categories.value = [
-        Category(id: 'sports', name: 'Sports'),
-        Category(id: 'local', name: 'Local'),
-        Category(id: 'general', name: 'General'),
-        Category(id: 'tech', name: 'Technology'),
-        Category(id: 'business', name: 'Business'),
-        Category(id: 'health', name: 'Health'),
-        Category(id: 'science', name: 'Science'),
-        Category(id: 'entertainment', name: 'Entertainment'),
-        Category(id: 'politics', name: 'Politics'),
-      ];
+      final categoryNames = await newsService.fetchCategories();
+
+      if (categoryNames.isEmpty) {
+        errorMessage.value = 'No categories available';
+        return;
+      }
+      print("$categoryNames");
+
+      categories.value = categoryNames.map((name) {
+        return Category(
+          id: name,
+          name: name.capitalizeFirst!,
+          icon: _categoryIcon(name),
+        );
+      }).toList();
     } catch (e) {
       errorMessage.value = 'Failed to load categories';
     } finally {
       isLoading.value = false;
     }
   }
+
 
   Future<void> onCategoryTap(Category category, int index) async {
     currentNavIndex.value = index;
@@ -65,4 +70,17 @@ class HomeController extends GetxController {
   Future<bool> checkForUpdates(String topic, DateTime lastChecked) {
     return newsService.hasNewUpdates(topic, lastChecked);
   }
+}
+String _categoryIcon(String name) {
+  final icons = {
+    'business': '💼',
+    'entertainment': '🎬',
+    'general': '📰',
+    'health': '🩺',
+    'science': '🔬',
+    'sports': '🏅',
+    'technology': '💻',
+  };
+
+  return icons[name] ?? '📰';
 }
