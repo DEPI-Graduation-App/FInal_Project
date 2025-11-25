@@ -24,7 +24,6 @@ class ProfilePage extends GetView<Profilecontroller> {
             child: CircularProgressIndicator(),
           );
         }
-
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
