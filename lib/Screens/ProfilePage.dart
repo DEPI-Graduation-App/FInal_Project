@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_depi_final_project/Controllers/ProfileController.dart';
 
+import '../Roads/road.dart';
+
 class ProfilePage extends GetView<Profilecontroller> {
   ProfilePage({super.key});
 
@@ -14,12 +16,31 @@ class ProfilePage extends GetView<Profilecontroller> {
       appBar: AppBar(title: Text('Profile Page'),
         elevation: 4,
         actions: [
-          IconButton(onPressed: (){},
+          IconButton(onPressed: () {},
               icon: Icon(Icons.notifications))
         ],
       ),
+      bottomNavigationBar: Obx(() {
+        return BottomNavigationBar(
+          currentIndex: controller.currentNavIndex.value,selectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey[500],
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          onTap: controller.changeNavIndex, items: [
+           const BottomNavigationBarItem(
+              icon: Icon(Icons.home), label: ''),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.search_rounded), label: ''),
+         const BottomNavigationBarItem(icon: const Icon(Icons.person_outline),
+            label: '',
+          ),
+        ],
+
+        );
+      }),
       body: Obx(() {
-        if (controller.userData.value == null || controller.username.value.isEmpty) {
+        if (controller.userData.value == null ||
+            controller.username.value.isEmpty) {
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -38,51 +59,57 @@ class ProfilePage extends GetView<Profilecontroller> {
                       radius: 60,
                       backgroundImage: controller.pickedImage.value != null
                           ? FileImage(File(controller.pickedImage.value!.path))
-                          : const NetworkImage("https://via.placeholder.com/150")
+                          : const NetworkImage(
+                          "https://via.placeholder.com/150")
                       as ImageProvider,
                       child: controller.pickedImage.value == null
                           ? const Icon(Icons.person, size: 60)
                           : null,
                     ),
                     IconButton(
-                      icon:  Icon(Icons.edit),
+                      icon: Icon(Icons.edit),
                       onPressed: () {
                         showModalBottomSheet(
                           context: context,
-                          builder: (context) => SafeArea(
-                            child: Wrap(
-                              children: [
-                                ListTile(
-                                  leading: const Icon(Icons.photo_library),
-                                  title: const Text('Gallery'),
-                                  onTap: () async {
-                                    final pickedImage = await controller.picker
-                                        .pickImage(source: ImageSource.gallery);
+                          builder: (context) =>
+                              SafeArea(
+                                child: Wrap(
+                                  children: [
+                                    ListTile(
+                                      leading: const Icon(Icons.photo_library),
+                                      title: const Text('Gallery'),
+                                      onTap: () async {
+                                        final pickedImage = await controller
+                                            .picker
+                                            .pickImage(
+                                            source: ImageSource.gallery);
 
-                                    if (pickedImage != null) {
-                                      controller.setImage(pickedImage);
-                                    }
+                                        if (pickedImage != null) {
+                                          controller.setImage(pickedImage);
+                                        }
 
-                                    Navigator.pop(context);
-                                  },
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: const Icon(Icons.camera_alt),
+                                      title: const Text('Camera'),
+                                      onTap: () async {
+                                        final pickedImage = await controller
+                                            .picker
+                                            .pickImage(
+                                            source: ImageSource.camera);
+
+                                        if (pickedImage != null) {
+                                          controller.setImage(pickedImage);
+                                        }
+
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
                                 ),
-                                ListTile(
-                                  leading: const Icon(Icons.camera_alt),
-                                  title: const Text('Camera'),
-                                  onTap: () async {
-                                    final pickedImage = await controller.picker
-                                        .pickImage(source: ImageSource.camera);
-
-                                    if (pickedImage != null) {
-                                      controller.setImage(pickedImage);
-                                    }
-
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
+                              ),
                         );
                       },
                     ),
@@ -98,7 +125,8 @@ class ProfilePage extends GetView<Profilecontroller> {
               const SizedBox(height: 10),
               Center(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.black54,
                     border: Border.all(color: Colors.black45, width: 2),
@@ -122,7 +150,8 @@ class ProfilePage extends GetView<Profilecontroller> {
               const SizedBox(height: 10),
               Center(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.black54,
                     border: Border.all(color: Colors.black45, width: 2),
@@ -162,12 +191,15 @@ class ProfilePage extends GetView<Profilecontroller> {
                     ),
                   )
                 ],
-              )
+              ),
+
             ],
+
           ),
         );
       }),
 
     );
   }
+
 }
