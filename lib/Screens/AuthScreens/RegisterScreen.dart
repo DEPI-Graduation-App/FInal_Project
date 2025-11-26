@@ -5,72 +5,9 @@ import 'package:news_depi_final_project/widgets/BuildTextField.dart';
 import 'package:news_depi_final_project/widgets/CustomTextAlignment.dart';
 import 'package:news_depi_final_project/Screens/AuthScreens/LoginScreen.dart';
 import '../../Controllers/RegisterController.dart';
-import '../../Services/AuthService.dart';
-import '../HomeScreen.dart';
 
 class RegisterScreen extends GetView<RegisterController> {
   const RegisterScreen({super.key});
-
-  void register() async {
-    final email = controller.EmailController.text.trim();
-    final username = controller.UsernameController.text.trim();
-    final password = controller.PasswordController.text.trim();
-    final rePassword = controller.RepasswordController.text.trim();
-
-    if (email.isEmpty || username.isEmpty || password.isEmpty || rePassword.isEmpty) {
-      Get.snackbar("Error", "Please fill all fields",
-          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent);
-      return;
-    }
-
-    if (!email.contains("@")) {
-      Get.snackbar("Error", "Please enter a valid email",
-          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent);
-      return;
-    }
-
-    if (password.length < 6) {
-      Get.snackbar("Error", "Password must be at least 6 characters",
-          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent);
-      return;
-    }
-
-    if (password != rePassword) {
-      Get.snackbar("Error", "Passwords do not match",
-          snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.redAccent);
-      return;
-    }
-
-    try {
-      controller.isLoading.value = true;
-
-      final result = await AuthService().register(email, password, username);
-
-      controller.isLoading.value = false;
-
-      if (result != null) {
-        Get.snackbar(
-          "Success",
-          "Account created successfully!",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-
-        Get.offAll(HomeScreen());
-      }
-    } catch (e) {
-      controller.isLoading.value = false;
-
-      Get.snackbar(
-        "Error",
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.redAccent,
-        colorText: Colors.white,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +97,7 @@ class RegisterScreen extends GetView<RegisterController> {
             Obx(() => controller.isLoading.value
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
-              onPressed: register,
+              onPressed: controller.register,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
                 foregroundColor: Colors.white,
@@ -172,9 +109,7 @@ class RegisterScreen extends GetView<RegisterController> {
               ),
               child: const Text("Register"),
             )),
-
             const SizedBox(height: 20),
-
             InkWell(
               onTap: () => Get.off(LoginScreen()),
               child: Row(

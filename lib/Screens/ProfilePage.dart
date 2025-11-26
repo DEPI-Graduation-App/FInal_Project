@@ -4,11 +4,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_depi_final_project/Controllers/ProfileController.dart';
 
-import '../Roads/road.dart';
-
 class ProfilePage extends GetView<Profilecontroller> {
-  ProfilePage({super.key});
-
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +28,7 @@ class ProfilePage extends GetView<Profilecontroller> {
               icon: Icon(Icons.home), label: ''),
           const BottomNavigationBarItem(
               icon: Icon(Icons.search_rounded), label: ''),
-         const BottomNavigationBarItem(icon: const Icon(Icons.person_outline),
+         const BottomNavigationBarItem(icon: Icon(Icons.person_outline),
             label: '',
           ),
         ],
@@ -87,7 +84,6 @@ class ProfilePage extends GetView<Profilecontroller> {
                                         if (pickedImage != null) {
                                           controller.setImage(pickedImage);
                                         }
-
                                         Navigator.pop(context);
                                       },
                                     ),
@@ -198,8 +194,6 @@ class ProfilePage extends GetView<Profilecontroller> {
           ),
         );
       }),
-
     );
   }
-
 }
