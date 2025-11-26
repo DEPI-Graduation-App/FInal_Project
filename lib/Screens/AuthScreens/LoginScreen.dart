@@ -70,15 +70,13 @@ class LoginScreen extends GetView<LoginController> {
                     () => GestureDetector(
                       onTap: () async {
                         if (controller.isLoading.value) return;
-
                         bool success = await controller.login();
-
                         if (success) {
-                          Get.offNamed(Road.home);  // aho el error
+                          Future.delayed(const Duration(milliseconds: 100), () {
+                            Get.offAllNamed(Road.home);
+                          });
                         }
                       },
-
-
 
                       child: Container(
                     width: double.infinity,
