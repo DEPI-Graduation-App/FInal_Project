@@ -14,12 +14,13 @@ import 'package:news_depi_final_project/Services/NewsService.dart';
 import 'package:news_depi_final_project/Supabase_Keys/database_keys.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(url: DatabaseKeys.supabaseUrl, anonKey: DatabaseKeys.supabaseAnonKey);
-    runApp(const MyApp());
+  await Supabase.initialize(
+    url: DatabaseKeys.supabaseUrl,
+    anonKey: DatabaseKeys.supabaseAnonKey,
+  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -27,42 +28,45 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: AuthService().isLoggedIn()?Road.home:Road.login,
-      initialBinding: BindingsBuilder((){
-        Get.lazyPut(()=>NewsService());
+      // دي بس مستخدمها عندي عشان بعد تحديث فلاتر بقي لازم اخنا نعمل overlay اجباري عشان مثلا snackbar
+      builder: (context, child) =>
+          Overlay(initialEntries: [OverlayEntry(builder: (context) => child!)]),
+
+      initialRoute: AuthService().isLoggedIn() ? Road.home : Road.login,
+      initialBinding: BindingsBuilder(() {
+        Get.lazyPut(() => NewsService());
       }),
       debugShowCheckedModeBanner: false,
       getPages: [
         GetPage(
-            name: Road.home,
-            page: () => const HomeScreen(),
-            binding: BindingsBuilder((){
-              Get.put(HomeController());
-            }),
+          name: Road.home,
+          page: () => const HomeScreen(),
+          binding: BindingsBuilder(() {
+            Get.put(HomeController());
+          }),
         ),
         GetPage(
-            name: Road.login,
-            page: () => const LoginScreen(),
-            binding: BindingsBuilder((){
-              Get.put(LoginController());
-            })
+          name: Road.login,
+          page: () => const LoginScreen(),
+          binding: BindingsBuilder(() {
+            Get.put(LoginController());
+          }),
         ),
         GetPage(
-            name: Road.register,
-            page: () => const RegisterScreen(),
-            binding: BindingsBuilder((){
-              Get.put(RegisterController());
-            })
+          name: Road.register,
+          page: () => const RegisterScreen(),
+          binding: BindingsBuilder(() {
+            Get.put(RegisterController());
+          }),
         ),
         GetPage(
-            name: Road.profile,
-            page: () => ProfilePage(),
-            binding: BindingsBuilder((){
-              Get.put(Profilecontroller());
-            })
+          name: Road.profile,
+          page: () => ProfilePage(),
+          binding: BindingsBuilder(() {
+            Get.put(Profilecontroller());
+          }),
         ),
       ],
     );
   }
 }
-

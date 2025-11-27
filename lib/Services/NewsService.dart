@@ -8,15 +8,19 @@ import '../Models/News_Models/NewsApiModel.dart';
 class NewsService extends GetxService {
   final String newsAPIKey = 'c7edb54fa7e24e58b11df93744ea9d9e';
   final String gNewsKey = 'b626a87f91cda2579ba73078032db27f';
-  final String currentNewsKey = 'qDUdQd7Vi2YCV-yIL0WR9Yo9lcO_WSdX-Ulc19lwjFpLiR24';
+  final String currentNewsKey =
+      'qDUdQd7Vi2YCV-yIL0WR9Yo9lcO_WSdX-Ulc19lwjFpLiR24';
 
   final Dio dio = Dio();
   final cancelToken = CancelToken();
 
   void cancel() {
-    cancelToken.cancel();
+    if (!cancelToken.isCancelled) {
+      cancelToken.cancel();
+    }
   }
 
+  // 1. NewsAPI
   Future<NewsApiModel?> getNewsFromNewsAPI(String query) async {
     try {
       final response = await dio.get(
@@ -39,14 +43,13 @@ class NewsService extends GetxService {
       return null;
     }
   }
+
+  // 2. Fetch Categories
   Future<List<String>> fetchCategories() async {
     try {
       final response = await dio.get(
         ApiEndpoints.newsApiSources,
-        queryParameters: {
-          'apiKey': newsAPIKey,
-          'language': 'en',
-        },
+        queryParameters: {'apiKey': newsAPIKey, 'language': 'en'},
       );
 
       if (response.statusCode == 200) {
@@ -67,6 +70,7 @@ class NewsService extends GetxService {
     }
   }
 
+  // 3. GNews
   Future<GnewsModel?> getNewsFromGNews(String query) async {
     try {
       final response = await dio.get(
@@ -90,6 +94,7 @@ class NewsService extends GetxService {
     }
   }
 
+  // 4. CurrentsAPI
   Future<CurrentsNewsModel?> getNewsFromCurrents(String query) async {
     try {
       final response = await dio.get(
@@ -97,12 +102,9 @@ class NewsService extends GetxService {
         queryParameters: {
           'keywords': query,
           'language': 'en',
+          'apiKey':
+              currentNewsKey, // كان في مشكلة هنا انك حاطط api في ال header وتقريبا في نوع api مش بيسمح
         },
-        options: Options(
-          headers: {
-            'Authorization': currentNewsKey,
-          },
-        ),
         cancelToken: cancelToken,
       );
 
@@ -116,6 +118,7 @@ class NewsService extends GetxService {
     }
   }
 
+  // 5 mapper
   Future<Map<String, dynamic>> getCombinedNews(String query) async {
     final results = await Future.wait([
       getNewsFromNewsAPI(query),
@@ -123,27 +126,25 @@ class NewsService extends GetxService {
       getNewsFromCurrents(query),
     ]);
 
-    return {
-      'newsApi': results[0],
-      'gnews': results[1],
-      'currents': results[2],
-    };
+    return {'newsApi': results[0], 'gnews': results[1], 'currents': results[2]};
   }
 
   Future<bool> hasNewUpdates(String topic, DateTime lastChecked) async {
     try {
       final combinedData = await getCombinedNews(topic);
 
-      // Check NewsAPI articles
-      final newsApiArticles = combinedData['newsApi']?.articles ?? [];
+      final newsApiArticles =
+          (combinedData['newsApi'] as NewsApiModel?)?.articles ?? [];
       for (var article in newsApiArticles) {
-        if (article.publishedAt.isAfter(lastChecked)) {
+        if (article.publishedAt != null &&
+            article.publishedAt!.isAfter(lastChecked)) {
           return true;
         }
       }
 
       // Check GNews articles
-      final gnewsArticles = combinedData['gnews']?.articles ?? [];
+      final gnewsArticles =
+          (combinedData['gnews'] as GnewsModel?)?.articles ?? [];
       for (var article in gnewsArticles) {
         if (article.publishedAt.isAfter(lastChecked)) {
           return true;
@@ -151,11 +152,12 @@ class NewsService extends GetxService {
       }
 
       // Check Currents news
-      final currentsNews = combinedData['currents']?.news ?? [];
+      final currentsNews =
+          (combinedData['currents'] as CurrentsNewsModel?)?.news ?? [];
       for (var news in currentsNews) {
         try {
-          final publishedAt = DateTime.parse(news.published);
-          if (publishedAt.isAfter(lastChecked)) {
+          final publishedAt = DateTime.tryParse(news.published);
+          if (publishedAt != null && publishedAt.isAfter(lastChecked)) {
             return true;
           }
         } catch (e) {
