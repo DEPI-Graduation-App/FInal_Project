@@ -48,6 +48,11 @@ dependencies:
   lottie: ^3.3.2
 
 
+  # 
+  flutter_gemini: ^3.0.0
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
