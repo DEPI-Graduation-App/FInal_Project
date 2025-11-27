@@ -13,7 +13,6 @@ import 'package:news_depi_final_project/Roads/road.dart';
 import 'package:news_depi_final_project/Screens/ProfilePage.dart';
 import 'package:news_depi_final_project/Services/AuthService.dart';
 import 'package:news_depi_final_project/Services/NewsService.dart';
-import 'package:news_depi_final_project/Supabase_Keys/database_keys.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -25,9 +24,11 @@ Future<void> main() async {
   // init gemini
   Gemini.init(apiKey: dotenv.env['GEMINI_API']!);
 
+  // init supabase
+
   await Supabase.initialize(
-    url: DatabaseKeys.supabaseUrl,
-    anonKey: DatabaseKeys.supabaseAnonKey,
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_APIKEY']!,
   );
   runApp(const MyApp());
 }
