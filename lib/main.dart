@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
 import 'package:news_depi_final_project/Controllers/HomeController.dart';
 import 'package:news_depi_final_project/Controllers/LoginController.dart';
@@ -16,6 +18,13 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // load .env
+  await dotenv.load(fileName: ".env");
+
+  // init gemini
+  Gemini.init(apiKey: dotenv.env['GEMINI_API']!);
+
   await Supabase.initialize(
     url: DatabaseKeys.supabaseUrl,
     anonKey: DatabaseKeys.supabaseAnonKey,

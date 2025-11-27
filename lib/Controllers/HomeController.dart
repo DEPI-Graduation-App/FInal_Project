@@ -48,20 +48,19 @@ class HomeController extends GetxController {
     }
   }
 
-  // FIXED: Removed the line that crashed the app
+  //  Removed the line that crashed the app
   Future<void> onCategoryTap(Category category, int index) async {
-    // currentNavIndex.value = index; // <--- DELETE THIS LINE
+    // currentNavIndex.value = index;
 
     isLoading.value = true;
     errorMessage.value = '';
 
     try {
-      // You are navigating to a new screen, so you don't need to change the bottom nav index anyway
       final combined = await newsService.getCombinedNews(category.name);
-      Get.toNamed(
-        '/category',
-        arguments: {'category': category, 'news': combined},
-      );
+      // Get.toNamed(
+      //   '/category',
+      //   arguments: {'category': category, 'news': combined},
+      // );
     } catch (e) {
       errorMessage.value = 'Failed to load news for ${category.name}';
     } finally {
