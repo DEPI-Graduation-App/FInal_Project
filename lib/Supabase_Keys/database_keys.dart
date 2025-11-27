@@ -1,4 +1,0 @@
-class DatabaseKeys{
-  static const String supabaseUrl = "https://tllqtcwjoakkmxpjhudx.supabase.co";
-  static const String supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRsbHF0Y3dqb2Fra214cGpodWR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxMDEyODQsImV4cCI6MjA3NzY3NzI4NH0.WMQ8x0EZZo4LArBNWHrT4L7a7vpv9ROUpmeeCzmd6mA";
-}
