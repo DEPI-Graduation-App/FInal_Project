@@ -50,6 +50,11 @@ dependencies:
 
   # 
   flutter_gemini: ^3.0.0
+  timeago: ^3.7.1
+  share_plus: ^12.0.1
+  flutter_tts: ^4.2.3
+
+
 
 
 
@@ -77,6 +82,7 @@ flutter:
   assets:
     - assets/images/
     - .env
+    
 flutter_native_splash:
   color: "#f7f4ef"
   image: assets/images/logo.png

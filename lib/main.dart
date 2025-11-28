@@ -1,18 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
-import 'package:get/get.dart';
-import 'package:news_depi_final_project/Controllers/HomeController.dart';
-import 'package:news_depi_final_project/Controllers/LoginController.dart';
-import 'package:news_depi_final_project/Controllers/ProfileController.dart';
-import 'package:news_depi_final_project/Controllers/RegisterController.dart';
-import 'package:news_depi_final_project/Screens/AuthScreens/LoginScreen.dart';
-import 'package:news_depi_final_project/Screens/AuthScreens/RegisterScreen.dart';
-import 'package:news_depi_final_project/Screens/HomeScreen.dart';
-import 'package:news_depi_final_project/Roads/road.dart';
-import 'package:news_depi_final_project/Screens/ProfilePage.dart';
-import 'package:news_depi_final_project/Services/AuthService.dart';
-import 'package:news_depi_final_project/Services/NewsService.dart';
+import 'package:news_depi_final_project/app.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -21,62 +10,14 @@ Future<void> main() async {
   // load .env
   await dotenv.load(fileName: ".env");
 
-  // init gemini
+  // init gemini package
   Gemini.init(apiKey: dotenv.env['GEMINI_API']!);
 
   // init supabase
-
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_APIKEY']!,
   );
+
   runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      // دي بس مستخدمها عندي عشان بعد تحديث فلاتر بقي لازم اخنا نعمل overlay اجباري عشان مثلا snackbar
-      builder: (context, child) =>
-          Overlay(initialEntries: [OverlayEntry(builder: (context) => child!)]),
-
-      initialRoute: AuthService().isLoggedIn() ? Road.home : Road.login,
-      initialBinding: BindingsBuilder(() {
-        Get.lazyPut(() => NewsService());
-      }),
-      debugShowCheckedModeBanner: false,
-      getPages: [
-        GetPage(
-          name: Road.home,
-          page: () => const HomeScreen(),
-          binding: BindingsBuilder(() {
-            Get.put(HomeController());
-          }),
-        ),
-        GetPage(
-          name: Road.login,
-          page: () => const LoginScreen(),
-          binding: BindingsBuilder(() {
-            Get.put(LoginController());
-          }),
-        ),
-        GetPage(
-          name: Road.register,
-          page: () => const RegisterScreen(),
-          binding: BindingsBuilder(() {
-            Get.put(RegisterController());
-          }),
-        ),
-        GetPage(
-          name: Road.profile,
-          page: () => ProfilePage(),
-          binding: BindingsBuilder(() {
-            Get.put(Profilecontroller());
-          }),
-        ),
-      ],
-    );
-  }
 }
