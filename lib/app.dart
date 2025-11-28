@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
           Overlay(initialEntries: [OverlayEntry(builder: (context) => child!)]),
 
       initialRoute: AuthService().isLoggedIn()
-          ? AppPages.layout
+          ? AppPages.loginPage
           : AppPages.layout,
 
       getPages: AppPages.routes,
