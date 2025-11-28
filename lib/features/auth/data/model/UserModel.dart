@@ -42,4 +42,20 @@ class UserModel {
       "profile_picture": profilePic,
     };
   }
+  UserModel copyWith({
+    String? id,
+    DateTime? createdAt,
+    String? username,
+    String? email,
+    String? profilePic,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      username: username ?? this.username,
+      email: email ?? this.email,
+      profilePic: profilePic ?? this.profilePic,
+    );
+  }
+
 }

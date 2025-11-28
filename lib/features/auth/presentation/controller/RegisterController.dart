@@ -23,7 +23,6 @@ class RegisterController extends GetxController {
     final password = PasswordController.text.trim();
     final rePassword = RepasswordController.text.trim();
 
-    /// Input validation
     if (email.isEmpty ||
         username.isEmpty ||
         password.isEmpty ||

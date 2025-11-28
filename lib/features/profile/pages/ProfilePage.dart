@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:news_depi_final_project/core/constants/assets_manager.dart';
 import 'package:news_depi_final_project/features/profile/controller/ProfileController.dart';
 
 class ProfilePage extends GetView<Profilecontroller> {
@@ -17,7 +18,6 @@ class ProfilePage extends GetView<Profilecontroller> {
           IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
         ],
       ),
-      // تم حذف bottomNavigationBar من هنا
       body: Obx(() {
         if (controller.userData.value == null ||
             controller.username.value.isEmpty) {
@@ -33,18 +33,15 @@ class ProfilePage extends GetView<Profilecontroller> {
                 child: Stack(
                   alignment: Alignment.bottomRight,
                   children: [
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundImage: controller.pickedImage.value != null
-                          ? FileImage(File(controller.pickedImage.value!.path))
-                          : const NetworkImage(
-                                  "https://via.placeholder.com/150",
-                                )
-                                as ImageProvider,
-                      child: controller.pickedImage.value == null
-                          ? const Icon(Icons.person, size: 60)
-                          : null,
-                    ),
+                  CircleAvatar(
+                  radius: 60,
+                  backgroundImage: controller.userData.value?.profilePic != null
+                      ? NetworkImage(controller.userData.value!.profilePic!)
+                      : const AssetImage(AssetsManager.pp) as ImageProvider,
+                ),
+
+
+
                     IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () {
