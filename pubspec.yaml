@@ -85,11 +85,11 @@ flutter:
     
 flutter_native_splash:
   color: "#f7f4ef"
-  image: assets/images/logo.png
+  image: assets/images/logo1.png
   fullscreen: true
   android_12:
     color: "#f7f4ef"
-    image: assets/images/logo.png
+    image: assets/images/logo1.png
     icon_background_color: "#f7f4ef"
 
   # To add assets to your application, add an assets section, like this:

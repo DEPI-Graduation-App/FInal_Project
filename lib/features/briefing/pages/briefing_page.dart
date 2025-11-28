@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:news_depi_final_project/features/briefing/controller/briefing_controller.dart';
 import 'package:news_depi_final_project/features/briefing/widgets/build_smart_topic_card.dart';
-import 'package:news_depi_final_project/features/news/data/model/article.dart'; // تأكد من المسار
+import 'package:news_depi_final_project/features/news/data/model/article.dart';
 
 class AiBriefingPage extends GetView<AiBriefingController> {
   const AiBriefingPage({super.key});

@@ -20,7 +20,6 @@ class NewsService extends GetxService {
     }
   }
 
-  // 1. NewsAPI
   Future<NewsApiModel?> getNewsFromNewsAPI(String query) async {
     try {
       final response = await dio.get(
@@ -44,7 +43,6 @@ class NewsService extends GetxService {
     }
   }
 
-  // 2. Fetch Categories
   Future<List<String>> fetchCategories() async {
     try {
       final response = await dio.get(
