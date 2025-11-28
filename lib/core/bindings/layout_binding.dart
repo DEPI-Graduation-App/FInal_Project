@@ -16,7 +16,6 @@ class LayoutBinding extends Bindings {
     Get.lazyPut<HomeController>(() => HomeController());
 
     // 3. Briefing Controller
-    // لاحظ: شلنا UseCase من هنا، وهنعمله Init جوه الكنترولر نفسه
     Get.lazyPut<AiBriefingController>(
       () => AiBriefingController(newsService: Get.find<NewsService>()),
     );
