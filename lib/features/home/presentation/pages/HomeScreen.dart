@@ -29,7 +29,6 @@ class HomeScreen extends GetView<HomeController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _roundIcon(Icons.settings),
                     _roundIcon(Icons.menu),
                   ],
                 ),
@@ -37,7 +36,6 @@ class HomeScreen extends GetView<HomeController> {
 
               const SizedBox(height: 20),
 
-              /// ===== LOGO =====
               Image.asset(AssetsManager.logo, width: 140, height: 140),
 
               const SizedBox(height: 10),
@@ -135,7 +133,6 @@ class HomeScreen extends GetView<HomeController> {
         );
       }),
 
-      /// ===== BOTTOM NAV =====
     );
   }
 

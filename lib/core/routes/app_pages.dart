@@ -24,8 +24,7 @@ class AppPages {
   static const String settingsPage = '/settings';
   static const String categoriesPage = '/categories';
   static const String articleDetailsPage = '/articleDetails';
-
-  //
+  static const String News = '/newsList';
   static const String layout = '/layout';
 
   static final List<GetPage> routes = [
@@ -65,6 +64,7 @@ class AppPages {
         Get.put(ArticleDetailController());
       }),
     ),
+    GetPage(name: '/news_list', page: () => const HomeScreen()),
     GetPage(name: '/ai_briefing', page: () => const AiBriefingPage()),
   ];
 }

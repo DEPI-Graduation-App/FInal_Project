@@ -59,14 +59,13 @@ class RegisterController extends GetxController {
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
-        Get.offNamed(AppPages.layout);
+        Get.offAllNamed(AppPages.layout);
       } else {
         _showError("Email is already registered or invalid");
       }
     } catch (e) {
       isLoading.value = false;
 
-      /// Handle Supabase error
       if (e.toString().contains("email_address already exists")) {
         _showError("Email already registered. Try logging in.");
       } else if (e.toString().contains("password")) {

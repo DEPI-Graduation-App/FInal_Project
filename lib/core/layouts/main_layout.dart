@@ -6,6 +6,8 @@ import 'package:news_depi_final_project/features/briefing/pages/briefing_page.da
 import 'package:news_depi_final_project/features/home/presentation/pages/HomeScreen.dart';
 import 'package:news_depi_final_project/features/profile/pages/ProfilePage.dart';
 
+import '../../features/news/pages/SelectedNewsScreen.dart';
+
 class MainLayout extends GetView<LayoutController> {
   const MainLayout({super.key});
 
@@ -13,7 +15,7 @@ class MainLayout extends GetView<LayoutController> {
   Widget build(BuildContext context) {
     // final controller = Get.put(LayoutController());
 
-    final pages = const [HomeScreen(), AiBriefingPage(), ProfilePage()];
+    final pages = const [HomeScreen(), AiBriefingPage(), ProfilePage(),];
 
     return Obx(
       () => Scaffold(
