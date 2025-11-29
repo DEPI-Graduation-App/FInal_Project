@@ -1,18 +1,19 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:news_depi_final_project/features/article_detail/controller/article_detail_controller.dart';
+import 'package:news_depi_final_project/features/article_detail/widgets/build_tts_controls.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:news_depi_final_project/features/article_detail/controller/article_detail_controller.dart';
 
-class ArticleDetailsPage extends StatelessWidget {
+class ArticleDetailsPage extends GetView<ArticleDetailController> {
   const ArticleDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ArticleDetailController());
-
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Obx(() {
         final dynamicColor = controller.vibrantColor.value;
         return _buildContent(context, dynamicColor, controller);
@@ -34,60 +35,77 @@ class ArticleDetailsPage extends StatelessWidget {
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
-        // ================= App Bar & Image =================
+        // ================= Sliver App Bar (Image & Nav) =================
         SliverAppBar(
           expandedHeight: 320,
           pinned: true,
           stretch: true,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
+          // --- Leading Back Button (Frosted Glass) ---
           leading: Container(
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.3),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
-                size: 18,
-                color: Colors.white,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new,
+                    size: 18,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => Get.back(),
+                ),
               ),
-              onPressed: () => Get.back(),
             ),
           ),
 
+          // --- Action Buttons (Share & Like) ---
           actions: [
             _buildGlassActionButton(
-              icon: Icons.share,
-              onTap: () {
-                Share.share("${article.title}\n${article.articleUrl}");
-                Get.snackbar("Share", "Sharing feature coming soon!");
-              },
+              icon: Icons.share_rounded,
+              onTap: () =>
+                  Share.share("${article.title}\n${article.description}"),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 8), // AppGaps.h8
 
-            Obx(
-              () => _buildGlassActionButton(
-                icon: controller.isLiked.value
-                    ? Icons.favorite
-                    : Icons.favorite_border,
-                color: controller.isLiked.value
-                    ? Colors.redAccent
-                    : Colors.white,
-                onTap: () => controller.toggleLike(),
-              ),
-            ),
-            const SizedBox(width: 16),
+            Obx(() {
+              final isFav = controller.isLiked.value;
+
+              return _buildGlassActionButton(
+                icon: isFav
+                    ? Icons.favorite_rounded
+                    : Icons.favorite_border_rounded,
+                color: isFav ? Colors.redAccent : Colors.white,
+                onTap: () {
+                  controller.toggleLike();
+                },
+              );
+            }),
+            const SizedBox(width: 16), // AppGaps.h16
           ],
 
+          // --- Background Image & Gradient ---
           flexibleSpace: FlexibleSpaceBar(
-            stretchModes: const [StretchMode.zoomBackground],
+            stretchModes: const [
+              StretchMode.zoomBackground,
+              StretchMode.blurBackground,
+            ],
             background: Stack(
               fit: StackFit.expand,
               children: [
-                _buildSmartImage(article.imageUrl),
+                // 1. The Main Image
+                Hero(
+                  tag: article.imageUrl ?? article.title,
+                  child: _buildSmartImage(context, article.imageUrl),
+                ),
 
+                // 2. Gradient Overlay
                 Container(
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
@@ -103,6 +121,7 @@ class ArticleDetailsPage extends StatelessWidget {
                   ),
                 ),
 
+                // 3. Source Badge
                 Positioned(
                   bottom: 16,
                   left: 20,
@@ -114,13 +133,32 @@ class ArticleDetailsPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: dynamicColor,
                       borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
-                    child: Text(
-                      article.sourceName,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.newspaper_rounded,
+                          color: Colors.white,
+                          size: 14,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          article.sourceName,
+                          style: Theme.of(context).textTheme.labelMedium
+                              ?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 0.5,
+                              ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -129,16 +167,17 @@ class ArticleDetailsPage extends StatelessWidget {
           ),
         ),
 
+        // ================= Article Content Body =================
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.fromLTRB(20, 24, 20, 80),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // --- 1. Title ---
                 Text(
                   article.title,
-                  style: const TextStyle(
-                    fontSize: 24,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w900,
                     height: 1.3,
                   ),
@@ -146,53 +185,51 @@ class ArticleDetailsPage extends StatelessWidget {
 
                 const SizedBox(height: 16),
 
+                // --- 2. Metadata Row (Time & TTS) ---
                 Row(
                   children: [
-                    Icon(Icons.access_time, size: 16, color: Colors.grey[600]),
-                    const SizedBox(width: 5),
+                    Icon(
+                      Icons.access_time_rounded,
+                      size: 16,
+                      color: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.color?.withOpacity(0.6),
+                    ),
+                    const SizedBox(width: 8),
                     Text(
-                      article.publishedAt.toString().split(' ')[0],
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.bold,
+                      timeago.format(article.publishedAt),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.color?.withOpacity(0.6),
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     const Spacer(),
 
-                    IconButton(
-                      onPressed: () {
-                        if (controller.ttsState.value == TtsState.playing) {
-                          controller.stopTts();
-                        } else {
-                          controller.speak();
-                        }
-                      },
-                      icon: Obx(
-                        () => Icon(
-                          controller.ttsState.value == TtsState.playing
-                              ? Icons.stop_circle
-                              : Icons.play_circle_fill,
-                          size: 40,
-                          color: dynamicColor,
-                        ),
-                      ),
-                    ),
+                    // ====> TTS Widget Here <====
+                    buildTtsControls(context, dynamicColor, controller),
                   ],
                 ),
 
-                const Divider(height: 40),
+                const SizedBox(height: 24),
+                Divider(
+                  color: Theme.of(context).dividerColor.withOpacity(0.1),
+                  thickness: 1,
+                ),
+                const SizedBox(height: 24),
 
-                // الوصف / الملخص
+                // --- 3. Description Text ---
                 Text(
                   article.description ?? "No description available.",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    height: 1.6,
-                    color: Colors.black87,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontSize: 17,
+                    height: 1.7,
+                    color: Theme.of(
+                      context,
+                    ).textTheme.bodyLarge?.color?.withOpacity(0.85),
                   ),
                 ),
-
-                const SizedBox(height: 50),
               ],
             ),
           ),
@@ -201,6 +238,7 @@ class ArticleDetailsPage extends StatelessWidget {
     );
   }
 
+  // ================= Helpers =================
   Widget _buildGlassActionButton({
     required IconData icon,
     required VoidCallback onTap,
@@ -215,33 +253,68 @@ class ArticleDetailsPage extends StatelessWidget {
       child: ClipOval(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: IconButton(
-            icon: Icon(icon, color: color, size: 20),
-            onPressed: onTap,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onTap,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Icon(icon, color: color, size: 20),
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildSmartImage(String? imageUrl) {
+  Widget _buildSmartImage(BuildContext context, String? imageUrl) {
     if (imageUrl == null || imageUrl.isEmpty) {
       return Container(
-        color: Colors.grey[300],
-        child: const Icon(Icons.image, size: 50, color: Colors.grey),
+        color: Theme.of(context).colorScheme.surface,
+        child: Icon(
+          Icons.broken_image_rounded,
+          size: 50,
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
+        ),
       );
     }
-    if (imageUrl.startsWith('http')) {
-      return Image.network(
-        imageUrl,
+
+    if (imageUrl.startsWith('http') || imageUrl.startsWith('https')) {
+      return CachedNetworkImage(
+        imageUrl: imageUrl,
         fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => Container(color: Colors.grey),
+        memCacheWidth: 800,
+        placeholder: (context, url) => Container(
+          color: Theme.of(context).colorScheme.surface.withOpacity(0.15),
+          child: const Center(
+            child: CircularProgressIndicator(strokeWidth: 1.5),
+          ),
+        ),
+        errorWidget: (context, url, error) => Container(
+          color: Theme.of(context).colorScheme.surface,
+          child: Icon(
+            Icons.broken_image_rounded,
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+            size: 40,
+          ),
+        ),
       );
     }
+
     return Image.asset(
       imageUrl,
       fit: BoxFit.cover,
-      errorBuilder: (_, __, ___) => Container(color: Colors.grey),
+      errorBuilder: (context, error, stackTrace) {
+        return Container(
+          color: Theme.of(context).colorScheme.surface,
+          child: Icon(
+            Icons.broken_image_rounded,
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
+            size: 40,
+          ),
+        );
+      },
     );
   }
 }

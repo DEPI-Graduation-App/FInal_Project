@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
       initialRoute: AuthService().isLoggedIn()
           ? AppPages.layout
-          : AppPages.loginPage,
+          : AppPages.layout,
 
       getPages: AppPages.routes,
 
