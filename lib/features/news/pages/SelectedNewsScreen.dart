@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/SNSController.dart';
-import '../data/model/NewsApiModel.dart';
-import '../data/model/GnewsModel.dart';
-import '../data/model/CurrentsNewsModel.dart';
 import 'GNewsTab.dart';
 
 class SelectedNewsScreen extends StatelessWidget {
@@ -29,7 +26,6 @@ class SelectedNewsScreen extends StatelessWidget {
             tabs: [
               Tab(text: "GNews"),
               Tab(text: "NewsAPI"),
-              Tab(text: "Currents"),
             ],
           ),
         ),
@@ -38,7 +34,6 @@ class SelectedNewsScreen extends StatelessWidget {
           children: [
             NewsTab(apiKey: 'gnews', articles: controller.gnewsArticles),
             NewsTab(apiKey: 'newsApi', articles: controller.newsApiArticles),
-            NewsTab(apiKey: 'currents', articles: controller.currentsArticles),
           ],
         ),
       ),

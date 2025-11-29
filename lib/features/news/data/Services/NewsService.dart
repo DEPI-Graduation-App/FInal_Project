@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:news_depi_final_project/core/constants/api_endpoints.dart';
-import '../model/CurrentsNewsModel.dart';
 import '../model/GnewsModel.dart';
 import '../model/NewsApiModel.dart';
 
@@ -92,37 +91,14 @@ class NewsService extends GetxService {
     }
   }
 
-  Future<CurrentsNewsModel?> getNewsFromCurrents(String query) async {
-    try {
-      final response = await dio.get(
-        ApiEndpoints.currentsNewsBase,
-        queryParameters: {
-          'keywords': query,
-          'language': 'en',
-          'apiKey':
-              currentNewsKey,
-        },
-        cancelToken: cancelToken,
-      );
-
-      if (response.statusCode == 200 && response.data != null) {
-        return CurrentsNewsModel.fromJson(response.data);
-      }
-      return null;
-    } catch (e) {
-      print("CurrentsAPI error: $e");
-      return null;
-    }
-  }
 
   Future<Map<String, dynamic>> getCombinedNews(String query) async {
     final results = await Future.wait([
       getNewsFromNewsAPI(query),
       getNewsFromGNews(query),
-      getNewsFromCurrents(query),
     ]);
 
-    return {'newsApi': results[0], 'gnews': results[1], 'currents': results[2]};
+    return {'newsApi': results[0], 'gnews': results[1]};
   }
 
   Future<bool> hasNewUpdates(String topic, DateTime lastChecked) async {
@@ -146,21 +122,6 @@ class NewsService extends GetxService {
           return true;
         }
       }
-
-      // Check Currents news
-      final currentsNews =
-          (combinedData['currents'] as CurrentsNewsModel?)?.news ?? [];
-      for (var news in currentsNews) {
-        try {
-          final publishedAt = DateTime.tryParse(news.published);
-          if (publishedAt != null && publishedAt.isAfter(lastChecked)) {
-            return true;
-          }
-        } catch (e) {
-          print("Error parsing date: ${news.published}");
-        }
-      }
-
       return false;
     } catch (e) {
       print("Error checking updates: $e");

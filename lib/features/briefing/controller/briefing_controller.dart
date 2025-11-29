@@ -12,8 +12,6 @@ import 'package:news_depi_final_project/features/news/data/model/NewsApiModel.da
     as news_api;
 import 'package:news_depi_final_project/features/news/data/model/GnewsModel.dart'
     as g_news;
-import 'package:news_depi_final_project/features/news/data/model/CurrentsNewsModel.dart'
-    as currents;
 import '../../news/data/model/article.dart';
 
 class AiBriefingController extends GetxController {
@@ -183,27 +181,6 @@ class AiBriefingController extends GetxController {
             imageUrl: item.image,
             publishedAt: item.publishedAt,
             author: "GNews Source",
-          ),
-        );
-      }
-    }
-    if (rawData['currents'] != null) {
-      final data = rawData['currents'] as currents.CurrentsNewsModel;
-      for (var item in data.news) {
-        DateTime pubDate = DateTime.now();
-        try {
-          pubDate = DateTime.parse(item.published);
-        } catch (_) {}
-        list.add(
-          Article(
-            id: item.id,
-            sourceName: "Currents",
-            title: item.title,
-            description: item.description,
-            articleUrl: item.url,
-            imageUrl: item.image,
-            publishedAt: pubDate,
-            author: item.author,
           ),
         );
       }
