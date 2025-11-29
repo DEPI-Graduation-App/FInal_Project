@@ -1,5 +1,6 @@
 // lib/Controllers/HomeController.dart
 import 'package:get/get.dart';
+import '../../../news/pages/SelectedNewsScreen.dart';
 import '../../data/model/category_model.dart';
 import '../../../news/data/Services/NewsService.dart';
 
@@ -50,23 +51,13 @@ class HomeController extends GetxController {
 
   //  Removed the line that crashed the app
   Future<void> onCategoryTap(Category category, int index) async {
-    // currentNavIndex.value = index;
-
-    isLoading.value = true;
-    errorMessage.value = '';
-
     try {
-      final combined = await newsService.getCombinedNews(category.name);
-      // Get.toNamed(
-      //   '/category',
-      //   arguments: {'category': category, 'news': combined},
-      // );
+      Get.to(() => SelectedNewsScreen(), arguments: category.name);
     } catch (e) {
       errorMessage.value = 'Failed to load news for ${category.name}';
-    } finally {
-      isLoading.value = false;
     }
   }
+
 
   Future<bool> checkForUpdates(String topic, DateTime lastChecked) {
     return newsService.hasNewUpdates(topic, lastChecked);

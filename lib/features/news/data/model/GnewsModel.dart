@@ -5,7 +5,7 @@ String gnewsModelToJson(GnewsModel data) => json.encode(data.toJson());
 
 class GnewsModel {
   final int totalArticles;
-  final List<Article> articles;
+  final List<GnewsArticle> articles;
 
   GnewsModel({
     required this.totalArticles,
@@ -14,7 +14,7 @@ class GnewsModel {
 
   factory GnewsModel.fromJson(Map<String, dynamic> json) => GnewsModel(
     totalArticles: json["totalArticles"],
-    articles: List<Article>.from(json["articles"].map((x) => Article.fromJson(x))),
+    articles: List<GnewsArticle>.from(json["articles"].map((x) => GnewsArticle.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -23,7 +23,7 @@ class GnewsModel {
   };
 }
 
-class Article {
+class GnewsArticle {
   final String id;
   final String title;
   final String description;
@@ -34,7 +34,7 @@ class Article {
   final String lang;
   final Source source;
 
-  Article({
+  GnewsArticle({
     required this.id,
     required this.title,
     required this.description,
@@ -46,7 +46,7 @@ class Article {
     required this.source,
   });
 
-  factory Article.fromJson(Map<String, dynamic> json) => Article(
+  factory GnewsArticle.fromJson(Map<String, dynamic> json) => GnewsArticle(
     id: json["id"],
     title: json["title"],
     description: json["description"],

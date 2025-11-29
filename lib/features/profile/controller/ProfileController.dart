@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
@@ -52,20 +53,42 @@ class Profilecontroller extends GetxController {
     await pickAndUploadImage(userId);
   }
 
+
+// inside Profilecontroller
   Future<void> pickAndUploadImage(String userId) async {
     if (pickedImage.value == null) return;
 
     File file = File(pickedImage.value!.path);
-    final uploadedUrl = await SupaBaseServices()
-        .uploadProfilePic(file, userId);
+    final uploadedUrl = await SupaBaseServices().uploadProfilePic(file, userId);
+
+    debugPrint('uploadedUrl -> $uploadedUrl');
 
     if (uploadedUrl == null) return;
 
-    // final updated = await SupaBaseServices()
-    //     .updateUserProfilePic(userId, uploadedUrl);
-    //
-    // if (updated) {
-    //   userData.value = userData.value!.copyWith(profilePic: uploadedUrl);
-    // }
+    final updated = await SupaBaseServices().updateUserProfilePic(
+        userId, uploadedUrl);
+
+    debugPrint('updateUserProfilePic returned -> $updated');
+
+    if (updated) {
+      // Try to evict any cached image for that URL (best-effort)
+      try {
+        await NetworkImage(uploadedUrl).evict(
+            configuration: const ImageConfiguration());
+        // PaintingBinding.instance.imageCache.clear();
+        debugPrint('Image evicted from cache for url -> $uploadedUrl');
+      } catch (e) {
+        debugPrint('Error evicting image cache: $e');
+      }
+
+      userData.value = userData.value!.copyWith(profilePic: uploadedUrl);
+      userData.refresh();
+
+      pickedImage.value = null;
+      pickedImage.refresh();
+
+      debugPrint(
+          'userData.profilePic after update -> ${userData.value?.profilePic}');
+    }
   }
 }

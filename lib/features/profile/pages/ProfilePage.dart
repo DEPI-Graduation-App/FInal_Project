@@ -30,62 +30,102 @@ class ProfilePage extends GetView<Profilecontroller> {
               const SizedBox(height: 40),
 
               Center(
-                child: Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                  CircleAvatar(
-                  radius: 60,
-                  backgroundImage: controller.userData.value?.profilePic != null
-                      ? NetworkImage(controller.userData.value!.profilePic!)
-                      : const AssetImage(AssetsManager.pp) as ImageProvider,
-                ),
+                child: Obx(() {
+                  final pic = controller.userData.value?.profilePic;
+                  // show the raw URL for debugging (remove in production)
+                  final debugUrl = pic ?? 'no_url';
 
+                  final urlWithTs = pic == null
+                      ? null
+                      : "$pic?t=${DateTime.now().millisecondsSinceEpoch}";
 
-
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) => SafeArea(
-                            child: Wrap(
-                              children: [
-                                ListTile(
-                                  leading: const Icon(Icons.photo_library),
-                                  title: const Text('Gallery'),
-                                  onTap: () async {
-                                    final pickedImage = await controller.picker
-                                        .pickImage(source: ImageSource.gallery);
-
-                                    if (pickedImage != null) {
-                                      controller.setImage(pickedImage);
-                                    }
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                ListTile(
-                                  leading: const Icon(Icons.camera_alt),
-                                  title: const Text('Camera'),
-                                  onTap: () async {
-                                    final pickedImage = await controller.picker
-                                        .pickImage(source: ImageSource.camera);
-
-                                    if (pickedImage != null) {
-                                      controller.setImage(pickedImage);
-                                    }
-
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
+                  return Column(
+                    children: [
+                      Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          ClipOval(
+                            child: Container(
+                              width: 120,
+                              height: 120,
+                              color: Colors.grey[200],
+                              child: urlWithTs == null
+                                  ? Image.asset(AssetsManager.pp, fit: BoxFit.cover)
+                                  : Image.network(
+                                urlWithTs,
+                                key: ValueKey(urlWithTs),
+                                fit: BoxFit.cover,
+                                width: 120,
+                                height: 120,
+                                errorBuilder: (ctx, err, st) {
+                                  return Container(
+                                    color: Colors.grey[300],
+                                    child: const Icon(Icons.person, size: 56),
+                                  );
+                                },
+                                loadingBuilder: (ctx, child, progress) {
+                                  if (progress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(value: progress.expectedTotalBytes != null
+                                        ? progress.cumulativeBytesLoaded / (progress.expectedTotalBytes ?? 1)
+                                        : null),
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) => SafeArea(
+                                  child: Wrap(
+                                    children: [
+                                      ListTile(
+                                        leading: const Icon(Icons.photo_library),
+                                        title: const Text('Gallery'),
+                                        onTap: () async {
+                                          final pickedImage = await controller.picker
+                                              .pickImage(source: ImageSource.gallery);
+
+                                          if (pickedImage != null) {
+                                            controller.setImage(pickedImage);
+                                          }
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading: const Icon(Icons.camera_alt),
+                                        title: const Text('Camera'),
+                                        onTap: () async {
+                                          final pickedImage = await controller.picker
+                                              .pickImage(source: ImageSource.camera);
+
+                                          if (pickedImage != null) {
+                                            controller.setImage(pickedImage);
+                                          }
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 8),
+
+
+                    ],
+                  );
+                }),
               ),
+
 
               const SizedBox(height: 20),
 

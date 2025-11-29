@@ -7,7 +7,7 @@ import '../model/NewsApiModel.dart';
 
 class NewsService extends GetxService {
   final String newsAPIKey = 'c7edb54fa7e24e58b11df93744ea9d9e';
-  final String gNewsKey = 'b626a87f91cda2579ba73078032db27f';
+  final String gNewsKey = '422170ff1016b2871e6c98a7995b0821';
   final String currentNewsKey =
       'qDUdQd7Vi2YCV-yIL0WR9Yo9lcO_WSdX-Ulc19lwjFpLiR24';
 
@@ -92,7 +92,6 @@ class NewsService extends GetxService {
     }
   }
 
-  // 4. CurrentsAPI
   Future<CurrentsNewsModel?> getNewsFromCurrents(String query) async {
     try {
       final response = await dio.get(
@@ -101,7 +100,7 @@ class NewsService extends GetxService {
           'keywords': query,
           'language': 'en',
           'apiKey':
-              currentNewsKey, // كان في مشكلة هنا انك حاطط api في ال header وتقريبا في نوع api مش بيسمح
+              currentNewsKey,
         },
         cancelToken: cancelToken,
       );
@@ -116,7 +115,6 @@ class NewsService extends GetxService {
     }
   }
 
-  // 5 mapper
   Future<Map<String, dynamic>> getCombinedNews(String query) async {
     final results = await Future.wait([
       getNewsFromNewsAPI(query),
