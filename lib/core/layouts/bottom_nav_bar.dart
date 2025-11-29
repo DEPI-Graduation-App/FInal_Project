@@ -12,7 +12,7 @@ class BottomNavBar extends GetView<LayoutController> {
 
     return Obx(() {
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+        padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.7),

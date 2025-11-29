@@ -2,6 +2,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/bindings_interface.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:news_depi_final_project/core/bindings/article_details_binding.dart';
 import 'package:news_depi_final_project/core/bindings/home_binding.dart';
 import 'package:news_depi_final_project/core/bindings/layout_binding.dart';
 import 'package:news_depi_final_project/core/layouts/main_layout.dart';
@@ -60,9 +61,7 @@ class AppPages {
     GetPage(
       name: articleDetailsPage,
       page: () => ArticleDetailsPage(),
-      binding: BindingsBuilder(() {
-        Get.put(ArticleDetailController());
-      }),
+      binding: ArticleDetailsBinding(),
     ),
     GetPage(name: '/news_list', page: () => const HomeScreen()),
     GetPage(name: '/ai_briefing', page: () => const AiBriefingPage()),

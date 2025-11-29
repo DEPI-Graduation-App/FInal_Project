@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
@@ -12,6 +13,7 @@ import 'package:news_depi_final_project/features/news/data/model/NewsApiModel.da
     as news_api;
 import 'package:news_depi_final_project/features/news/data/model/GnewsModel.dart'
     as g_news;
+import 'package:vibration/vibration.dart';
 import '../../news/data/model/article.dart';
 
 class AiBriefingController extends GetxController {
@@ -92,6 +94,17 @@ class AiBriefingController extends GetxController {
 
       cachedSummaries[topicId] = result;
       loadingTopicIds.remove(topicId);
+      Vibration.vibrate(duration: 400);
+
+      Get.snackbar(
+        "Your briefing is read",
+        "${topic['label']} summary is ready",
+        backgroundColor: Colors.green,
+        snackPosition: SnackPosition.TOP,
+        margin: const EdgeInsets.all(16),
+        borderRadius: 8,
+        duration: const Duration(seconds: 3),
+      );
 
       // _navigateToDetails(result);
     } catch (e) {
