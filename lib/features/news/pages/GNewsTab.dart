@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/model/NewsApiModel.dart' hide Article;
+import '../data/model/NewsApiModel.dart';
 import '../data/model/GnewsModel.dart';
-import '../data/model/CurrentsNewsModel.dart';
-import '../data/model/article.dart';
 
 class NewsTab extends StatelessWidget {
   final String apiKey;
@@ -29,18 +27,15 @@ class NewsTab extends StatelessWidget {
           String? image;
           String? desc;
 
+          // newsApi Article
           if (item is Article) {
             title = item.title ?? '';
-            image = item.imageUrl;
+            image = item.urlToImage;
             desc = item.description;
           } else if (item is GnewsArticle) {
             title = item.title;
             image = item.image;
             desc = item.content;
-          } else if (item is News) {
-            title = item.title;
-            image = item.image;
-            desc = item.description;
           }
 
           return Container(
