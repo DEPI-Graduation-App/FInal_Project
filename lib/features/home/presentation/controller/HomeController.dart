@@ -49,10 +49,9 @@ class HomeController extends GetxController {
     }
   }
 
-  //  Removed the line that crashed the app
   Future<void> onCategoryTap(Category category, int index) async {
     try {
-      Get.to(() => SelectedNewsScreen(), arguments: category.name);
+      Get.to(() => SelectedNewsScreen(), arguments: [category.name,category]);
     } catch (e) {
       errorMessage.value = 'Failed to load news for ${category.name}';
     }

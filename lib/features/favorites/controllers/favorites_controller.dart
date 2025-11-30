@@ -11,10 +11,10 @@ class FavoritesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _loadFavorites();
+    loadFavorites();
   }
 
-  void _loadFavorites() {
+  void loadFavorites() {
     try {
       final List<dynamic>? stored = _storage.read('favorites');
       if (stored != null) {
@@ -27,7 +27,7 @@ class FavoritesController extends GetxController {
     }
   }
 
-  void _saveFavorites() {
+  void saveFavorites() {
     try {
       final List<Map<String, dynamic>> jsonList =
       favoriteItems.map((cat) => cat.toJson()).toList();
@@ -43,6 +43,7 @@ class FavoritesController extends GetxController {
     } else {
       addToFavorites(item);
     }
+    print(favoriteItems);
   }
 
   void toggleFavoriteIcon(String title) {
@@ -59,7 +60,7 @@ class FavoritesController extends GetxController {
   void addToFavorites(Category item) {
     if (!isFavorite(item)) {
       favoriteItems.add(item);
-      _saveFavorites();
+      saveFavorites();
       Get.snackbar(
         'Added to Favorites',
         '${item.name} has been added to your favorites',
@@ -71,7 +72,7 @@ class FavoritesController extends GetxController {
 
   void removeFromFavorites(Category item) {
     favoriteItems.removeWhere((cat) => cat.id == item.id);
-    _saveFavorites();
+    saveFavorites();
     Get.snackbar(
       'Removed from Favorites',
       '${item.name} has been removed from your favorites',

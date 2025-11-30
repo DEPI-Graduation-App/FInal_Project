@@ -10,19 +10,19 @@ class SelectedNewsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SelectedNewsController());
-    //final favController = Get.put(FavoritesController);
-    final category = Get.arguments as String;
-    controller.loadAllNews(category);
+    final favController = Get.put(FavoritesController());
+    final Name=Get.arguments[0];
+    final category=Get.arguments[1];
+    controller.loadAllNews(Name);
 
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           actions: [
             IconButton(
               onPressed: () {
-                /// Toggle favorite status & add or remove from favorites & save to storage
-                //favController.toggleFavoriteIcon(title);
+                favController.toggleFavorite(category);
               },
               icon: const Icon(Icons.favorite_border),
               // icon: Obx(() {
@@ -36,7 +36,7 @@ class SelectedNewsScreen extends StatelessWidget {
             ),
           ],
           title: Text(
-              category, style: const TextStyle(fontWeight: FontWeight.bold)),
+              Name  , style: const TextStyle(fontWeight: FontWeight.bold)),
           backgroundColor: Colors.white,
           elevation: 0,
           centerTitle: true,
