@@ -20,6 +20,7 @@ import '../../features/news/pages/SelectedSingleNewsScreen.dart';
 
 class AppPages {
   static const String homePage = '/home';
+  static const String favoritePage = '/favorites';
   static const String loginPage = '/login';
   static const String registerPage = '/register';
   static const String profilePage = '/profile';
