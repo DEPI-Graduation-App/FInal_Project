@@ -5,9 +5,7 @@ import '../data/model/NewsApiModel.dart';
 
 class SelectedNewsController extends GetxController {
   final NewsService newsService = Get.find<NewsService>();
-
   RxBool isLoading = false.obs;
-
   RxList<Article> newsApiArticles = <Article>[].obs;
   RxList<GnewsArticle> gnewsArticles = <GnewsArticle>[].obs;
 
@@ -15,7 +13,6 @@ class SelectedNewsController extends GetxController {
     isLoading.value = true;
 
     final combined = await newsService.getCombinedNews(category);
-
     final newsApiModel = combined['newsApi'] as NewsApiModel?;
     final gnewsModel = combined['gnews'] as GnewsModel?;
 

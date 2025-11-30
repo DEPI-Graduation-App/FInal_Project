@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
 import '../data/model/NewsApiModel.dart';
 import '../data/model/GnewsModel.dart';
-import 'SelectedSingleNewsScreen.dart';
+
 
 class NewsTab extends StatelessWidget {
   final String apiKey;
