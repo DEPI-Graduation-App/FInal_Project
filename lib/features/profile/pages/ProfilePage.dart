@@ -12,11 +12,8 @@ class ProfilePage extends GetView<Profilecontroller> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true ,
         title: const Text('Profile Page'),
-        elevation: 4,
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
-        ],
       ),
       body: Obx(() {
         if (controller.userData.value == null ||
@@ -160,10 +157,49 @@ class ProfilePage extends GetView<Profilecontroller> {
               const SizedBox(height: 20),
 
               // Username
-              const Text(
-                'Username:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
+              Obx(() => Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Username:',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 8),
+                  controller.isEditing.value
+                      ? SizedBox(
+                    width: 150,
+                    child: TextField(
+                      controller: controller.usernameController,
+                      onSubmitted: (_) {
+                        controller.updateUsername();
+                        controller.isEditing.value = false;
+                      },
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                      ),
+                    ),
+                  )
+                      : Row(
+                    children: [
+                      // Text(
+                      //   controller.username.value,
+                      //   style: const TextStyle(
+                      //       fontSize: 16, fontWeight: FontWeight.bold),
+                      // ),
+                      IconButton(
+                        onPressed: () {
+                          controller.isEditing.value = true;
+                        },
+                        icon: const Icon(Icons.edit),
+                      ),
+                    ],
+                  ),
+                ],
+              )),
+
               const SizedBox(height: 10),
               Center(
                 child: Container(
@@ -212,6 +248,60 @@ class ProfilePage extends GetView<Profilecontroller> {
                       ),
                     ),
                   ),
+                  TextButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+
+                          title: Row(
+                            children: [
+                              Icon(
+                                Icons.warning_amber_rounded,
+                                color: Colors.red,
+                                size: 28,
+                              ),
+                              const Text("Confirm"),
+                            ],
+                          ),
+                          content: const Text("Are you sure you want to delete your account?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                // الفانكشن هنا يجاهل ي ابن ال
+
+                              },
+                              child: const Text("YES"),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      decoration: const BoxDecoration(color: Colors.red),
+                      child: const Text(
+                        'Delete your account',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  )
+
+
                 ],
               ),
             ],
