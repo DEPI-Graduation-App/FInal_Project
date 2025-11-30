@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
@@ -8,6 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      // theme: ThemeData.light(),
+      // darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.system,
       builder: (context, child) =>
           Overlay(initialEntries: [OverlayEntry(builder: (context) => child!)]),
 

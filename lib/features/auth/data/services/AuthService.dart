@@ -101,6 +101,16 @@ class AuthService extends GetxService {
       return false;
     }
   }
+  Future<void> signInwithGoogle() async {
+    try {
+      await cloud.auth.signInWithOAuth(
+        OAuthProvider.google,
+        redirectTo: 'https://tllqtcwjoakkmxpjhudx.supabase.co/auth/v1/callback',
+          );
+    } catch (e) {
+      print("Google Sign-In Error: $e");
+    }
+  }
 
   // -------------------------
   // Check login
@@ -108,4 +118,5 @@ class AuthService extends GetxService {
   bool isLoggedIn() {
     return cloud.auth.currentUser != null;
   }
+
 }
