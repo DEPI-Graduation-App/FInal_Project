@@ -13,10 +13,9 @@ class MyApp extends StatelessWidget {
 
       initialRoute: AuthService().isLoggedIn()
           ? AppPages.layout
-          : AppPages.layout,
+          : AppPages.loginPage,
 
       getPages: AppPages.routes,
-
       debugShowCheckedModeBanner: false,
     );
   }

@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../data/model/GnewsModel.dart';
 import '../data/model/NewsApiModel.dart';
@@ -32,7 +35,6 @@ class SelectedSingleNewsController extends GetxController {
     } catch (_) {
       similarArticles.clear();
     }
-
     super.onInit();
   }
 

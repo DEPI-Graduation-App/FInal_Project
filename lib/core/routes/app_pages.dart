@@ -8,6 +8,8 @@ import 'package:news_depi_final_project/core/bindings/layout_binding.dart';
 import 'package:news_depi_final_project/core/layouts/main_layout.dart';
 import 'package:news_depi_final_project/features/article_detail/pages/article_detail_page.dart';
 import 'package:news_depi_final_project/features/auth/presentation/controller/LoginController.dart';
+import 'package:news_depi_final_project/features/favorites/controllers/favorites_controller.dart';
+import 'package:news_depi_final_project/features/favorites/pages/favorites_screen.dart';
 import 'package:news_depi_final_project/features/news/controller/SelectedSingleNewsController.dart';
 import 'package:news_depi_final_project/features/profile/controller/ProfileController.dart';
 import 'package:news_depi_final_project/features/auth/presentation/controller/RegisterController.dart';
@@ -16,6 +18,8 @@ import 'package:news_depi_final_project/features/auth/presentation/pages/Registe
 import 'package:news_depi_final_project/features/home/presentation/pages/HomeScreen.dart';
 import 'package:news_depi_final_project/features/profile/pages/ProfilePage.dart';
 import 'package:news_depi_final_project/features/briefing/pages/briefing_page.dart';
+import '../../features/news/controller/SNSController.dart';
+import '../../features/news/pages/SelectedNewsScreen.dart';
 import '../../features/news/pages/SelectedSingleNewsScreen.dart';
 
 class AppPages {
@@ -27,7 +31,9 @@ class AppPages {
   static const String categoriesPage = '/categories';
   static const String articleDetailsPage = '/articleDetails';
   static const String News = '/newsList';
+  static const String FavoriteNews = '/favoriteNews';
   static const String layout = '/layout';
+  static const String SelectedNews = '/selectedNews';
   static const String SelectedSingleNews = '/selectedSingleNews';
 
   static final List<GetPage> routes = [
@@ -70,6 +76,20 @@ class AppPages {
         page: () => SelectedSingleNewsScreen(),
         binding: BindingsBuilder(() {
           Get.put(SelectedSingleNewsController());
+        }),
+    ),
+    GetPage(
+      name: SelectedNews,
+      page: () => SelectedNewsScreen(),
+      binding: BindingsBuilder(() {
+        Get.put(SelectedNewsController());
+      }),
+    ),
+    GetPage(
+        name: FavoriteNews,
+        page: ()=> FavoritesScreen(),
+        binding: BindingsBuilder(() {
+          Get.put(FavoritesController());
         }),
     ),
     GetPage(name: '/news_list', page: () => const HomeScreen()),

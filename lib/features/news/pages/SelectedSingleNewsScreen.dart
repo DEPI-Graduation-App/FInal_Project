@@ -93,44 +93,44 @@ class SelectedSingleNewsScreen extends GetView<SelectedSingleNewsController> {
 
               return SizedBox(
                 height: 110,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: controller.similarArticles.length,
-                  separatorBuilder: (_, __) => const SizedBox(width: 12),
-                  itemBuilder: (context, index) {
-                    final sim = controller.similarArticles[index];
-                    final img = controller.image;
+                child: Expanded(
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: controller.similarArticles.length,
+                    separatorBuilder: (_, __) => const SizedBox(width: 12),
+                    itemBuilder: (context, index) {
+                      final sim = controller.similarArticles[index];
 
-                    return GestureDetector(
-                      onTap: () async {
-                        final url = sim is Article ? sim.url : (sim as GnewsArticle).url;
-                        if (url != null && Uri.tryParse(url) != null) {
-                          await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-                        } else {
-                          Get.snackbar("Error", "Cannot open this article");
-                        }
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: sim is Article || sim is GnewsArticle
-                            ? Image.network(
-                          sim is Article ? sim.urlToImage ?? '' : sim.image ?? '',
-                          width: 120,
-                          height: 110,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) =>
-                              Container(width: 120, height: 110, color: Colors.grey[300]),
-                        )
-                            : Container(width: 120, height: 110, color: Colors.grey[300]),
-                      ),
-                    );
-                  },
+                      return GestureDetector(
+                        onTap: () async {
+                          final url = sim is Article ? sim.url : (sim as GnewsArticle).url;
+                          if (url != null && Uri.tryParse(url) != null) {
+                            await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+                          } else {
+                            Get.snackbar("Error", "Cannot open this article");
+                          }
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: sim is Article || sim is GnewsArticle
+                              ? Image.network(
+                            sim is Article ? sim.urlToImage ?? '' : sim.image ?? '',
+                            width: 120,
+                            height: 110,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) =>
+                                Container(width: 120, height: 110, color: Colors.grey[300]),
+                          )
+                              : Container(width: 120, height: 110, color: Colors.grey[300]),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               );
             }),
-
-            const SizedBox(height: 30),
+            const SizedBox(height: 50),
           ],
         ),
       ),
