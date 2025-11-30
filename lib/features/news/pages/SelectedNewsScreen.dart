@@ -22,17 +22,19 @@ class SelectedNewsScreen extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
+                favController.toggleFavoriteIcon(Name);
                 favController.toggleFavorite(category);
               },
-              icon: const Icon(Icons.favorite_border),
-              // icon: Obx(() {
-              //   return Icon(
-              //       //favController.isFavorite() ?
-              //       //Icons.favorite :
-              //       Icons.favorite_border
-              //   );
-              // }),
-              //color: controller.isFavorite.value ? Colors.red : Colors.black,
+              icon: Obx(() {
+                return Icon(
+                  favController.isFavorite(category)
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  color: favController.isFavorite(category)
+                      ? Colors.red
+                      : Colors.black,
+                );
+              }),
             ),
           ],
           title: Text(

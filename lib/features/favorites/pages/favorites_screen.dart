@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:news_depi_final_project/core/routes/app_pages.dart';
 import '../controllers/favorites_controller.dart';
 
 class FavoritesScreen extends GetView<FavoritesController> {
@@ -101,7 +102,7 @@ class FavoritesScreen extends GetView<FavoritesController> {
                 ),
                 onTap: () {
                   // Navigate to category news
-                  // Get.to(() => SelectedNewsScreen(), arguments: category.name);
+                  Get.toNamed(AppPages.SelectedNews, arguments: category.name);
                 },
               ),
             );

@@ -61,24 +61,12 @@ class FavoritesController extends GetxController {
     if (!isFavorite(item)) {
       favoriteItems.add(item);
       saveFavorites();
-      Get.snackbar(
-        'Added to Favorites',
-        '${item.name} has been added to your favorites',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 2),
-      );
     }
   }
 
   void removeFromFavorites(Category item) {
     favoriteItems.removeWhere((cat) => cat.id == item.id);
     saveFavorites();
-    Get.snackbar(
-      'Removed from Favorites',
-      '${item.name} has been removed from your favorites',
-      snackPosition: SnackPosition.BOTTOM,
-      duration: const Duration(seconds: 2),
-    );
   }
 
   bool isFavorite(Category item) {
