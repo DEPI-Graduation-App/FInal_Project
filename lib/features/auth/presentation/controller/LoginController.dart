@@ -19,7 +19,9 @@ class LoginController extends GetxService {
     try {
       await AuthService().signInwithGoogle();
       Get.offAllNamed(AppPages.layout);
-    } catch (e) {
+    } catch (e)
+    {
+
       print(e);
     }
   }
