@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:news_depi_final_project/features/home/presentation/pages/AppDrawer.dart';
 import '../controller/HomeController.dart';
 import '../../../../core/constants/assets_manager.dart';
 
@@ -9,7 +10,15 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF7F8FA),
+      appBar: AppBar(
+        title: Text("Home"),
+        // leading: Builder(builder: (context)=> IconButton(onPressed: (){
+        //   Scaffold.of(context).openDrawer();
+        // },
+        //     icon: Icon(Icons.menu))),
+      ),
+    //  drawer:AppDrawer(),
+     // backgroundColor: const Color(0xffF7F8FA),
 
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -23,16 +32,17 @@ class HomeScreen extends GetView<HomeController> {
             children: [
               const SizedBox(height: 40),
 
+
               /// ===== TOP ICONS ROW =====
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _roundIcon(Icons.menu),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 16),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //      _roundIcon(Icons.menu),
+              //     ],
+              //   ),
+              // ),
 
               const SizedBox(height: 20),
 
@@ -55,7 +65,7 @@ class HomeScreen extends GetView<HomeController> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                   // color: Colors.black87,
                   ),
                 ),
               ),
@@ -79,7 +89,7 @@ class HomeScreen extends GetView<HomeController> {
                       onTap: () => controller.onCategoryTap(category, index),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                      //    color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Colors.grey[300]!),
                           boxShadow: const [
