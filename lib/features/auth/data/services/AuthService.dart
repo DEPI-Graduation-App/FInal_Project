@@ -108,4 +108,5 @@ class AuthService extends GetxService {
   bool isLoggedIn() {
     return cloud.auth.currentUser != null;
   }
+
 }

@@ -15,10 +15,12 @@ class Profilecontroller extends GetxController {
   RxString username = ''.obs;
   RxBool loading = false.obs;
   Rx<XFile?> pickedImage = Rx<XFile?>(null);
+  final usernameController = TextEditingController();
 
   final ImagePicker picker = ImagePicker();
 
   final Rxn<UserModel> userData = Rxn<UserModel>();
+  RxBool isEditing = false.obs;
 
   @override
   void onInit() {
@@ -26,6 +28,37 @@ class Profilecontroller extends GetxController {
     fetchUserData();
   }
 
+  Future<void> updateUsername() async {
+    final newUsername = usernameController.text.trim();
+    if (newUsername.isEmpty) {
+      Get.snackbar("Error", "Username cannot be empty");
+      return;
+    }
+
+    final uid = userData.value?.id;
+
+    if (uid == null) {
+      Get.snackbar("Error", "User not logged in");
+      return;
+    }
+
+    try {
+      await cloud
+          .from("user")
+          .update({"username": newUsername})
+          .eq("id", uid);
+
+      username.value = newUsername;
+      userData.value = userData.value!.copyWith(username: newUsername);
+
+      Get.snackbar("Success", "Username updated");
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    }
+  }
+  void DeletAccount(){
+
+  }
   Future<void> fetchUserData() async {
     loading.value = true;
 
