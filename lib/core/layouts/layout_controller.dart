@@ -5,5 +5,6 @@ class LayoutController extends GetxController {
 
   void changeTab(int index) {
     currentIndex.value = index;
+
   }
 }
