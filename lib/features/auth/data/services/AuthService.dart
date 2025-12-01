@@ -86,9 +86,7 @@ class AuthService extends GetxService {
     return user;
   }
 
-  // -------------------------
-  // Logout
-  // -------------------------
+
   Future<bool> logout() async {
     try {
       await cloud.auth.signOut();
@@ -108,9 +106,7 @@ class AuthService extends GetxService {
     }
   }
 
-  // -------------------------
-  // Check login
-  // -------------------------
+
   bool isLoggedIn() {
     return cloud.auth.currentUser != null;
   }
