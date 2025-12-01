@@ -68,6 +68,13 @@ class AppPages {
       }),
     ),
     GetPage(
+      name: favoritePage,
+      page: () => FavoritesScreen(),
+      binding: BindingsBuilder(() {
+        Get.put(FavoritesController());
+      }),
+    ),
+    GetPage(
       name: articleDetailsPage,
       page: () => ArticleDetailsPage(),
       binding: ArticleDetailsBinding(),

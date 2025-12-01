@@ -54,8 +54,15 @@ class BottomNavBar extends GetView<LayoutController> {
                     'AI Briefing',
                     Colors.purple,
                   ),
+
                   _navItem(
                     2,
+                    Icons.bookmark_border,
+                    Icons.bookmark,
+                    'Profile',
+                    primaryColor,
+                  ),_navItem(
+                    3,
                     Icons.person_outline_rounded,
                     Icons.person_rounded,
                     'Profile',

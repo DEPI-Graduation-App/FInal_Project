@@ -21,4 +21,19 @@ class SelectedNewsController extends GetxController {
 
     isLoading.value = false;
   }
+  Future<void> searchNews(String query) async {
+    if (query.isEmpty) return;
+
+    isLoading.value = true;
+
+    final combined = await newsService.getCombinedNews(query);
+    final newsApiModel = combined['newsApi'] as NewsApiModel?;
+    final gnewsModel = combined['gnews'] as GnewsModel?;
+
+    newsApiArticles.value = newsApiModel?.articles ?? [];
+    gnewsArticles.value = gnewsModel?.articles ?? [];
+
+    isLoading.value = false;
+  }
+
 }
