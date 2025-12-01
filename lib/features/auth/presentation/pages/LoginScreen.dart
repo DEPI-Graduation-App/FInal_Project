@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
-import 'package:news_depi_final_project/features/auth/presentation/pages/ForgotPasswordScreen.dart';
+
 import '../controller/LoginController.dart';
 import '../widgets/BuildTextField.dart';
 import '../../../../core/constants/assets_manager.dart';
@@ -138,13 +138,7 @@ class LoginScreen extends GetView<LoginController> {
 
               const SizedBox(height: 30),
 
-              TextButton(
-                onPressed: () => Get.to(ForgotPasswordScreen()),
-                child: const Text(
-                  "forgot password ?",
-                  style: TextStyle(color: Colors.red),
-                ),
-              ),
+
 
               InkWell(
                 onTap: () => Get.toNamed(AppPages.registerPage),

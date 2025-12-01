@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
 import 'package:news_depi_final_project/features/auth/data/model/UserModel.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../auth/data/services/AuthService.dart';
 import '../../auth/data/services/SupaBaseServices.dart';
@@ -56,7 +55,7 @@ class Profilecontroller extends GetxController {
       Get.snackbar("Error", e.toString());
     }
   }
-  void DeletAccount(){
+  void DeleteAccount(){
 
   }
   Future<void> fetchUserData() async {
@@ -87,7 +86,6 @@ class Profilecontroller extends GetxController {
   }
 
 
-// inside Profilecontroller
   Future<void> pickAndUploadImage(String userId) async {
     if (pickedImage.value == null) return;
 
@@ -104,16 +102,14 @@ class Profilecontroller extends GetxController {
     debugPrint('updateUserProfilePic returned -> $updated');
 
     if (updated) {
-      // Try to evict any cached image for that URL (best-effort)
       try {
         await NetworkImage(uploadedUrl).evict(
             configuration: const ImageConfiguration());
-        // PaintingBinding.instance.imageCache.clear();
+        PaintingBinding.instance.imageCache.clear();
         debugPrint('Image evicted from cache for url -> $uploadedUrl');
       } catch (e) {
         debugPrint('Error evicting image cache: $e');
       }
-
       userData.value = userData.value!.copyWith(profilePic: uploadedUrl);
       userData.refresh();
 

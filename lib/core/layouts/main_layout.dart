@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:news_depi_final_project/core/layouts/bottom_nav_bar.dart';
 import 'package:news_depi_final_project/core/layouts/layout_controller.dart';
 import 'package:news_depi_final_project/features/briefing/pages/briefing_page.dart';
+import 'package:news_depi_final_project/features/favorites/pages/favorites_screen.dart';
 import 'package:news_depi_final_project/features/home/presentation/pages/HomeScreen.dart';
 import 'package:news_depi_final_project/features/profile/pages/ProfilePage.dart';
 
@@ -15,7 +16,7 @@ class MainLayout extends GetView<LayoutController> {
   Widget build(BuildContext context) {
     // final controller = Get.put(LayoutController());
 
-    final pages = const [HomeScreen(), AiBriefingPage(), ProfilePage(),];
+    final pages = const [HomeScreen(), AiBriefingPage(),FavoritesScreen(), ProfilePage(),];
 
     return Obx(
       () => Scaffold(

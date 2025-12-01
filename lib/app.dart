@@ -9,8 +9,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      // theme: ThemeData.light(),
-      // darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.system,
       builder: (context, child) =>
           Overlay(initialEntries: [OverlayEntry(builder: (context) => child!)]),

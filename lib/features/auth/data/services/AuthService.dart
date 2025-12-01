@@ -7,14 +7,11 @@ final cloud = Supabase.instance.client;
 class AuthService extends GetxService {
   final Rxn<UserModel> userData = Rxn<UserModel>();
 
-  // -------------------------
-  // Register
-  // -------------------------
   Future<UserModel?> register(
-    String email,
-    String password,
-    String username,
-  ) async {
+      String email,
+      String password,
+      String username,
+      ) async {
     try {
       final response = await cloud.auth.signUp(
         email: email,
@@ -23,31 +20,30 @@ class AuthService extends GetxService {
 
       final user = response.user;
 
-      if (user != null) {
-        await cloud.from('user').insert({
-          'id': user.id,
-          'username': username,
-          'email': email,
-        });
-
-        final data = await cloud
-            .from('user')
-            .select()
-            .eq('id', user.id)
-            .single();
-
-        return UserModel.fromJson(data);
+      if (user == null) {
+        throw Exception("SignUp returned null user — check email confirmation settings");
       }
-    } catch (e) {
-      print(e);
-      return null;
-    }
-    return null;
-  }
 
-  // -------------------------
-  // Login with Email
-  // -------------------------
+      await cloud.from('user').insert({
+        'id': user.id,
+        'username': username,
+        'email': email,
+      });
+
+      final data = await cloud
+          .from('user')
+          .select()
+          .eq('id', user.id)
+          .single();
+
+      return UserModel.fromJson(data);
+
+    } catch (e, st) {
+      print("REGISTER ERROR: $e");
+      print("STACK: $st");
+      rethrow;
+    }
+  }
   Future<UserModel?> login(String email, String password) async {
     try {
       final res = await cloud.auth.signInWithPassword(
