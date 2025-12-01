@@ -86,7 +86,6 @@ class AuthService extends GetxService {
     return user;
   }
 
-
   Future<bool> logout() async {
     try {
       await cloud.auth.signOut();
@@ -105,7 +104,6 @@ class AuthService extends GetxService {
       print("Google Sign-In Error: $e");
     }
   }
-
 
   bool isLoggedIn() {
     return cloud.auth.currentUser != null;
