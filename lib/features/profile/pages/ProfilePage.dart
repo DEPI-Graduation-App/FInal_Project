@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +10,7 @@ class ProfilePage extends GetView<Profilecontroller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: const Text('Profile Page')),
+      appBar: AppBar(centerTitle: true, title: const Text('Profile')),
       body: Obx(() {
         if (controller.userData.value == null ||
             controller.username.value.isEmpty) {
@@ -20,295 +19,229 @@ class ProfilePage extends GetView<Profilecontroller> {
 
         final rawPic = controller.userData.value?.profilePic;
         final pic = (rawPic == null || rawPic.isEmpty) ? null : rawPic;
-        final urlWithTs = pic == null
-            ? null
-            : "$pic?t=${DateTime.now().millisecondsSinceEpoch}";
+        final urlWithTs =
+        pic == null ? null : "$pic?t=${DateTime.now().millisecondsSinceEpoch}";
 
         return SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 40),
+              const SizedBox(height: 10),
 
+              /// ----------------------------------------------------------
+              ///                PROFILE PICTURE + CAMERA ICON
+              /// ----------------------------------------------------------
               Center(
-                child: Column(
+                child: Stack(
+                  alignment: Alignment.bottomRight,
                   children: [
-                    Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        ClipOval(
-                          child: Container(
-                            width: 120,
-                            height: 120,
-                            color: Colors.grey[200],
-                            child: urlWithTs == null
-                                ? Image.asset(
-                                    AssetsManager.pp,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.network(
-                                    urlWithTs,
-                                    key: ValueKey(urlWithTs),
-                                    fit: BoxFit.cover,
-                                    width: 120,
-                                    height: 120,
-                                    errorBuilder: (ctx, err, st) {
-                                      return Container(
-                                        color: Colors.grey[300],
-                                        child: const Icon(
-                                          Icons.person,
-                                          size: 56,
-                                        ),
-                                      );
-                                    },
-                                    loadingBuilder: (ctx, child, progress) {
-                                      if (progress == null) return child;
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          value:
-                                              progress.expectedTotalBytes !=
-                                                  null
-                                              ? progress.cumulativeBytesLoaded /
-                                                    (progress
-                                                            .expectedTotalBytes ??
-                                                        1)
-                                              : null,
-                                        ),
-                                      );
+                    ClipOval(
+                      child: Container(
+                        width: 130,
+                        height: 130,
+                        color: Colors.grey[200],
+                        child: urlWithTs == null
+                            ? Image.asset(AssetsManager.pp, fit: BoxFit.cover)
+                            : Image.network(
+                          urlWithTs,
+                          fit: BoxFit.cover,
+                          width: 130,
+                          height: 130,
+                        ),
+                      ),
+                    ),
+
+                    /// Edit picture button
+                    CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 18,
+                      child: IconButton(
+                        icon: const Icon(Icons.camera_alt, size: 18),
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (_) => SafeArea(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    leading: const Icon(Icons.photo_library),
+                                    title: const Text("Gallery"),
+                                    onTap: () async {
+                                      final picked = await controller.picker.pickImage(
+                                          source: ImageSource.gallery);
+                                      if (picked != null) controller.setImage(picked);
+                                      Navigator.pop(context);
                                     },
                                   ),
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (context) => SafeArea(
-                                child: Wrap(
-                                  children: [
-                                    ListTile(
-                                      leading: const Icon(Icons.photo_library),
-                                      title: const Text('Gallery'),
-                                      onTap: () async {
-                                        final pickedImage = await controller
-                                            .picker
-                                            .pickImage(
-                                              source: ImageSource.gallery,
-                                            );
-
-                                        if (pickedImage != null) {
-                                          controller.setImage(pickedImage);
-                                        }
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    ListTile(
-                                      leading: const Icon(Icons.camera_alt),
-                                      title: const Text('Camera'),
-                                      onTap: () async {
-                                        final pickedImage = await controller
-                                            .picker
-                                            .pickImage(
-                                              source: ImageSource.camera,
-                                            );
-
-                                        if (pickedImage != null) {
-                                          controller.setImage(pickedImage);
-                                        }
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              const Text(
-                'Email:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                    border: Border.all(color: Colors.black45, width: 2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    controller.userData.value!.email,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              Obx(
-                () => Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Username:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    controller.isEditing.value
-                        ? SizedBox(
-                            width: 150,
-                            child: TextField(
-                              controller: controller.usernameController,
-                              onSubmitted: (_) {
-                                controller.updateUsername();
-                                controller.isEditing.value = false;
-                              },
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 8,
-                                ),
+                                  ListTile(
+                                    leading: const Icon(Icons.camera_alt),
+                                    title: const Text("Camera"),
+                                    onTap: () async {
+                                      final picked = await controller.picker.pickImage(
+                                          source: ImageSource.camera);
+                                      if (picked != null) controller.setImage(picked);
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
-                          )
-                        : Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  controller.isEditing.value = true;
-                                },
-                                icon: const Icon(Icons.edit),
-                              ),
-                            ],
-                          ),
+                          );
+                        },
+                      ),
+                    )
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                    border: Border.all(color: Colors.black45, width: 2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    controller.username.value,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+
+              const SizedBox(height: 35),
+
+              /// ----------------------------------------------------------
+              ///                         EMAIL (read only)
+              /// ----------------------------------------------------------
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Email",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: Colors.grey[700],
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  controller.userData.value!.email,
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+
+              const SizedBox(height: 25),
+
+              /// ----------------------------------------------------------
+              ///                         USERNAME (editable)
+              /// ----------------------------------------------------------
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Username",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[700],
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: TextField(
+                  controller: controller.usernameController,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Edit username ${controller.userData.value!.username}",
+                    hintStyle: TextStyle(color: Colors.white70),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
 
+              /// ----------------------------------------------------------
+              ///                UPDATE BUTTON (username only)
+              /// ----------------------------------------------------------
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: controller.updateUsername,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    backgroundColor: Colors.teal,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: const Text(
+                    "Update / Save",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 30),
+
+              /// ----------------------------------------------------------
+              ///                LOGOUT + DELETE ACCOUNT BUTTONS
+              /// ----------------------------------------------------------
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton(
-                    onPressed: () {
-                      controller.logout();
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: controller.logout,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        backgroundColor: Colors.black87,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
                       ),
-                      decoration: const BoxDecoration(color: Colors.red),
-                      child: const Text(
-                        'logout',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: const Text("Log out",
+                          style: TextStyle(fontSize: 16, color: Colors.white)),
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Row(
-                            children: const [
-                              Icon(
-                                Icons.warning_amber_rounded,
-                                color: Colors.red,
-                                size: 28,
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            title: Row(
+                              children: const [
+                                Icon(Icons.warning, color: Colors.red),
+                                SizedBox(width: 6),
+                                Text("Confirm"),
+                              ],
+                            ),
+                            content: const Text(
+                              "Are you sure you want to delete your account?",
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text("Cancel"),
                               ),
-                              Text("Confirm"),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("YES"),
+                              ),
                             ],
                           ),
-                          content: const Text(
-                            "Are you sure you want to delete your account?",
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("Cancel"),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("YES"),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
                       ),
-                      decoration: const BoxDecoration(color: Colors.red),
-                      child: const Text(
-                        'Delete your account',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
+                      child: const Text("Delete account",
+                          style: TextStyle(fontSize: 16, color: Colors.white)),
                     ),
                   ),
                 ],
               ),
+
+              const SizedBox(height: 20),
             ],
           ),
         );

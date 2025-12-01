@@ -90,34 +90,61 @@ class Profilecontroller extends GetxController {
     if (pickedImage.value == null) return;
 
     File file = File(pickedImage.value!.path);
-    final uploadedUrl = await SupaBaseServices().uploadProfilePic(file, userId);
 
-    debugPrint('uploadedUrl -> $uploadedUrl');
+    // Step A: Validate image size BEFORE uploading
+    final valid = await validateImageSize(file);
+    if (!valid) return;
 
-    if (uploadedUrl == null) return;
+    // Step 1: Upload to Supabase
+    final baseUrl = await SupaBaseServices().uploadProfilePic(file, userId);
+    debugPrint('baseUrl -> $baseUrl');
 
+    if (baseUrl == null) return;
+
+    // Step 2: Add ONE cache buster
+    final cacheBustedUrl = "$baseUrl?t=${DateTime.now().millisecondsSinceEpoch}";
+
+    // Step 3: Save to database
     final updated = await SupaBaseServices().updateUserProfilePic(
-        userId, uploadedUrl);
+        userId, cacheBustedUrl);
 
-    debugPrint('updateUserProfilePic returned -> $updated');
+    debugPrint('updateUserProfilePic -> $updated');
 
     if (updated) {
       try {
-        await NetworkImage(uploadedUrl).evict(
-            configuration: const ImageConfiguration());
+        await NetworkImage(cacheBustedUrl).evict();
         PaintingBinding.instance.imageCache.clear();
-        debugPrint('Image evicted from cache for url -> $uploadedUrl');
-      } catch (e) {
-        debugPrint('Error evicting image cache: $e');
-      }
-      userData.value = userData.value!.copyWith(profilePic: uploadedUrl);
+      } catch (_) {}
+
+      userData.value = userData.value!.copyWith(profilePic: cacheBustedUrl);
       userData.refresh();
 
       pickedImage.value = null;
-      pickedImage.refresh();
-
-      debugPrint(
-          'userData.profilePic after update -> ${userData.value?.profilePic}');
     }
   }
+  Future<bool> validateImageSize(File file, {int maxWidth = 2000, int maxHeight = 2000}) async {
+    try {
+      final bytes = await file.readAsBytes();
+      final decoded = await decodeImageFromList(bytes);
+
+      debugPrint("Selected image width: ${decoded.width}, height: ${decoded.height}");
+
+      if (decoded.width > maxWidth || decoded.height > maxHeight) {
+        Get.snackbar(
+          "Image too large",
+          "Image dimensions exceed $maxWidth x $maxHeight. Please choose a smaller image.",
+        );
+        return false;
+      }
+
+      return true;
+
+    } catch (e) {
+      debugPrint("Failed to read image size: $e");
+      Get.snackbar("Error", "Unable to read image. Please choose another picture.");
+      return false;
+    }
+  }
+
+
 }

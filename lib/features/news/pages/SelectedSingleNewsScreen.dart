@@ -68,7 +68,7 @@ class SelectedSingleNewsScreen extends GetView<SelectedSingleNewsController> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   minimumSize: const Size(double.infinity, 50),
                 ),
-                child: const Text("View article", style: TextStyle(fontSize: 16)),
+                child: const Text("View article", style: TextStyle(color: Colors.white,fontSize: 16)),
               ),
             ),
 
