@@ -7,7 +7,8 @@ import 'package:news_depi_final_project/features/auth/data/services/AuthService.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return GetMaterialApp(
       themeMode: ThemeMode.system,
       builder: (context, child) =>
