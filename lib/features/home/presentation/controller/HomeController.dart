@@ -1,5 +1,6 @@
 // lib/Controllers/HomeController.dart
 import 'package:get/get.dart';
+import 'package:news_depi_final_project/core/routes/app_pages.dart';
 import '../../../news/pages/SelectedNewsScreen.dart';
 import '../../data/model/category_model.dart';
 import '../../../news/data/Services/NewsService.dart';
@@ -51,7 +52,7 @@ class HomeController extends GetxController {
 
   Future<void> onCategoryTap(Category category, int index) async {
     try {
-      Get.to(() => SelectedNewsScreen(), arguments: [category.name,category]);
+      Get.toNamed( AppPages.SelectedNews, arguments: [category.name,category]);
     } catch (e) {
       errorMessage.value = 'Failed to load news for ${category.name}';
     }

@@ -98,11 +98,10 @@ class FavoritesScreen extends GetView<FavoritesController> {
                     Icons.favorite,
                     color: Colors.red,
                   ),
-                  onPressed: () => controller.removeFromFavorites(category),
+                  onPressed: () => controller.removeFromFavorites(category,category.name),
                 ),
                 onTap: () {
-                  // Navigate to category news
-                  Get.toNamed(AppPages.SelectedNews, arguments: category.name);
+                  Get.toNamed(AppPages.SelectedNews, arguments: [category.name,category]);
                 },
               ),
             );

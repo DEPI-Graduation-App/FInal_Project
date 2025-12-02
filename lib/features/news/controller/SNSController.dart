@@ -1,10 +1,13 @@
 import 'package:get/get.dart';
+import '../../favorites/controllers/favorites_controller.dart';
 import '../data/Services/NewsService.dart';
 import '../data/model/GnewsModel.dart';
 import '../data/model/NewsApiModel.dart';
 
 class SelectedNewsController extends GetxController {
   final NewsService newsService = Get.find<NewsService>();
+  final favController = Get.find<FavoritesController>();
+
   RxBool isLoading = false.obs;
   RxList<Article> newsApiArticles = <Article>[].obs;
   RxList<GnewsArticle> gnewsArticles = <GnewsArticle>[].obs;

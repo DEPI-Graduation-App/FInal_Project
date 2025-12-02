@@ -4,13 +4,12 @@ import '../../favorites/controllers/favorites_controller.dart';
 import '../controller/SNSController.dart';
 import 'NewsTab.dart';
 
-class SelectedNewsScreen extends StatelessWidget {
+class SelectedNewsScreen extends GetView<SelectedNewsController> {
   const SelectedNewsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SelectedNewsController());
-    final favController = Get.put(FavoritesController());
+
     final Name=Get.arguments[0];
     final category=Get.arguments[1];
     controller.loadAllNews(Name);
@@ -22,15 +21,15 @@ class SelectedNewsScreen extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                favController.toggleFavoriteIcon(Name);
-                favController.toggleFavorite(category);
+                //controller.favController.toggleFavoriteIcon(Name);
+                controller.favController.toggleFavorite(category,Name);
               },
               icon: Obx(() {
                 return Icon(
-                  favController.isFavorite(category)
+                  controller.favController.isFavorite(category)
                       ? Icons.favorite
                       : Icons.favorite_border,
-                  color: favController.isFavorite(category)
+                  color: controller.favController.isFavorite(category)
                       ? Colors.red
                       : Colors.black,
                 );

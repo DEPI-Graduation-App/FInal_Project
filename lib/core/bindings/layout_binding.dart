@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:news_depi_final_project/core/layouts/layout_controller.dart';
 import 'package:news_depi_final_project/features/briefing/controller/briefing_controller.dart';
 import 'package:news_depi_final_project/features/favorites/controllers/favorites_controller.dart';
+import 'package:news_depi_final_project/features/news/controller/SNSController.dart';
 import 'package:news_depi_final_project/features/profile/controller/ProfileController.dart';
 import '../../features/home/presentation/controller/HomeController.dart';
 import '../../features/news/data/Services/NewsService.dart';
@@ -23,6 +24,7 @@ class LayoutBinding extends Bindings {
 
     // 4. Profile
     Get.lazyPut<Profilecontroller>(() => Profilecontroller());
+    Get.lazyPut<SelectedNewsController>(() => SelectedNewsController());
     Get.lazyPut<FavoritesController>(()=>FavoritesController());
   }
 }
