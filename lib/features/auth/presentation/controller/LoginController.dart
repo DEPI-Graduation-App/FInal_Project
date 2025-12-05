@@ -15,16 +15,6 @@ class LoginController extends GetxService {
   void togglePassword() {
     showPassword.value = !showPassword.value;
   }
-  Future<void> loginwithGoogle() async {
-    try {
-      await AuthService().signInwithGoogle();
-      Get.offAllNamed(AppPages.layout);
-    } catch (e)
-    {
-
-      print(e);
-    }
-  }
   Future<bool> login() async {
     final email = usernameController.text.trim();
     final password = passwordController.text.trim();

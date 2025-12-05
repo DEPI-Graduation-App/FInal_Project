@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
@@ -30,7 +31,7 @@ class Profilecontroller extends GetxController {
   Future<void> updateUsername() async {
     final newUsername = usernameController.text.trim();
     if (newUsername.isEmpty) {
-      Get.snackbar("Error", "Username cannot be empty");
+      Get.snackbar("Error", "You didn't update nothing",backgroundColor: Colors.redAccent, colorText: Colors.white);
       return;
     }
 
@@ -54,9 +55,6 @@ class Profilecontroller extends GetxController {
     } catch (e) {
       Get.snackbar("Error", e.toString());
     }
-  }
-  void DeleteAccount(){
-
   }
   Future<void> fetchUserData() async {
     loading.value = true;

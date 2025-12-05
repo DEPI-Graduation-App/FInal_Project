@@ -115,31 +115,6 @@ class LoginScreen extends GetView<LoginController> {
 
               const SizedBox(height: 30),
 
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
-                  border: Border.all(color: Colors.black26, width: 1.3),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(AssetsManager.Googlelogo, width: 25),
-                    const SizedBox(width: 10),
-                    TextButton(
-                      onPressed: () {
-                        controller.loginwithGoogle();
-                      },
-                      child: Text("login with google"),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 30),
-
-
-
               InkWell(
                 onTap: () => Get.toNamed(AppPages.registerPage),
                 child: Row(

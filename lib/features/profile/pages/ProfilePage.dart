@@ -28,9 +28,7 @@ class ProfilePage extends GetView<Profilecontroller> {
             children: [
               const SizedBox(height: 10),
 
-              /// ----------------------------------------------------------
-              ///                PROFILE PICTURE + CAMERA ICON
-              /// ----------------------------------------------------------
+
               Center(
                 child: Stack(
                   alignment: Alignment.bottomRight,
@@ -51,7 +49,6 @@ class ProfilePage extends GetView<Profilecontroller> {
                       ),
                     ),
 
-                    /// Edit picture button
                     CircleAvatar(
                       backgroundColor: Colors.white,
                       radius: 18,
@@ -97,9 +94,6 @@ class ProfilePage extends GetView<Profilecontroller> {
 
               const SizedBox(height: 35),
 
-              /// ----------------------------------------------------------
-              ///                         EMAIL (read only)
-              /// ----------------------------------------------------------
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -123,9 +117,7 @@ class ProfilePage extends GetView<Profilecontroller> {
 
               const SizedBox(height: 25),
 
-              /// ----------------------------------------------------------
-              ///                         USERNAME (editable)
-              /// ----------------------------------------------------------
+
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -154,9 +146,7 @@ class ProfilePage extends GetView<Profilecontroller> {
 
               const SizedBox(height: 30),
 
-              /// ----------------------------------------------------------
-              ///                UPDATE BUTTON (username only)
-              /// ----------------------------------------------------------
+
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -177,69 +167,25 @@ class ProfilePage extends GetView<Profilecontroller> {
 
               const SizedBox(height: 30),
 
-              /// ----------------------------------------------------------
-              ///                LOGOUT + DELETE ACCOUNT BUTTONS
-              /// ----------------------------------------------------------
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: controller.logout,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        backgroundColor: Colors.black87,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
+
+                   SizedBox(
+                     width: double.infinity,
+                     child: ElevatedButton(
+                        onPressed: controller.logout ,
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          backgroundColor: Colors.redAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                        ),
+                        child: const Text("Log out",
+                            style: TextStyle(fontSize: 16, color: Colors.white)),
                       ),
-                      child: const Text("Log out",
-                          style: TextStyle(fontSize: 16, color: Colors.white)),
-                    ),
-                  ),
+                   ),
+
                   const SizedBox(width: 16),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                            title: Row(
-                              children: const [
-                                Icon(Icons.warning, color: Colors.red),
-                                SizedBox(width: 6),
-                                Text("Confirm"),
-                              ],
-                            ),
-                            content: const Text(
-                              "Are you sure you want to delete your account?",
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text("Cancel"),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("YES"),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        backgroundColor: Colors.red,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                      ),
-                      child: const Text("Delete account",
-                          style: TextStyle(fontSize: 16, color: Colors.white)),
-                    ),
-                  ),
-                ],
-              ),
+
+
 
               const SizedBox(height: 20),
             ],
