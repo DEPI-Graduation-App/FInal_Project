@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../favorites/controllers/favorites_controller.dart';
 import '../controller/SNSController.dart';
 import 'NewsTab.dart';
 
