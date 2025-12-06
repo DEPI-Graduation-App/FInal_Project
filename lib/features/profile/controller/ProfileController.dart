@@ -16,7 +16,8 @@ class Profilecontroller extends GetxController {
   RxBool loading = false.obs;
   Rx<XFile?> pickedImage = Rx<XFile?>(null);
   final usernameController = TextEditingController();
-
+  final Color accent = Colors.blueAccent;
+   RxBool isVisable= false.obs;
   final ImagePicker picker = ImagePicker();
 
   final Rxn<UserModel> userData = Rxn<UserModel>();
@@ -52,6 +53,8 @@ class Profilecontroller extends GetxController {
       userData.value = userData.value!.copyWith(username: newUsername);
 
       Get.snackbar("Success", "Username updated");
+      usernameController.clear();
+      isVisable.value=false;
     } catch (e) {
       Get.snackbar("Error", e.toString());
     }

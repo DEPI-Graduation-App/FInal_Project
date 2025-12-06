@@ -30,7 +30,7 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
                       ? Icons.favorite
                       : Icons.favorite_border,
                   color: controller.favController.isFavorite(category)
-                      ? Colors.red
+                      ? Colors.blueAccent
                       : Colors.black,
                 );
               }),

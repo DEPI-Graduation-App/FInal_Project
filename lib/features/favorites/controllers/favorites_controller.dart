@@ -9,33 +9,33 @@ class FavoritesController extends GetxController {
   final GetStorage _storage = GetStorage();
   final RxList<Category> favoriteItems = <Category>[].obs;
   final RxBool isFavoriteIcon = false.obs;
-  RxString username = ''.obs;
+  RxString userId = ''.obs; // Use userId instead of username
   RxBool loading = false.obs;
   final Rxn<UserModel> userData = Rxn<UserModel>();
+
   @override
   void onInit() {
     super.onInit();
     fetchUserData();
   }
+
   Future<void> fetchUserData() async {
     loading.value = true;
 
     final user = await AuthService().loadUser();
     if (user != null) {
       userData.value = user;
-      username.value = user.username;
+      userId.value = user.id;
       loadFavorites();
     }
 
     loading.value = false;
   }
 
-
   void loadFavorites() {
-    if (username.value.isEmpty) return;
+    if (userId.value.isEmpty) return;
     try {
-      final List<dynamic>? stored =
-      _storage.read('favorites_${username.value}');
+      final List<dynamic>? stored = _storage.read('favorites_${userId.value}');
 
       if (stored != null) {
         favoriteItems.value =
@@ -46,37 +46,27 @@ class FavoritesController extends GetxController {
     }
   }
 
-
   void saveFavorites() {
-    if (username.value.isEmpty) return;
+    if (userId.value.isEmpty) return;
 
     try {
-      final jsonList =
-      favoriteItems.map((cat) => cat.toJson()).toList();
-
-      _storage.write('favorites_${username.value}', jsonList);
+      final jsonList = favoriteItems.map((cat) => cat.toJson()).toList();
+      _storage.write('favorites_${userId.value}', jsonList);
     } catch (e) {
       print('Error saving favorites: $e');
     }
   }
 
-
-
-  void toggleFavorite(Category item,String title) {
-
+  void toggleFavorite(Category item, String title) {
     if (isFavorite(item)) {
-      removeFromFavorites(item,title);
+      removeFromFavorites(item, title);
     } else {
-      addToFavorites(item,title);
+      addToFavorites(item, title);
     }
   }
 
-
-
   void addToFavorites(Category item, String title) {
-
     if (!isFavorite(item)) {
-
       favoriteItems.add(item);
       Get.snackbar(
         "Added",
@@ -89,7 +79,7 @@ class FavoritesController extends GetxController {
     }
   }
 
-  void removeFromFavorites(Category item,String title) {
+  void removeFromFavorites(Category item, String title) {
     favoriteItems.removeWhere((cat) => cat.id == item.id);
     Get.snackbar(
       "Removed",

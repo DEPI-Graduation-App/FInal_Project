@@ -9,125 +9,147 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+
       appBar: AppBar(
-        title: Text("Home"),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: const Text(
+          "Home",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
         centerTitle: true,
       ),
 
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(
-            child: CircularProgressIndicator(color: Colors.red),
+            child: CircularProgressIndicator(color: Colors.blueAccent),
           );
         }
 
         return SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Column(
             children: [
-              const SizedBox(height: 40),
 
 
 
-              const SizedBox(height: 20),
+              Column(
+                children: [
+                  Image.asset(
+                    AssetsManager.logo,
+                    width: 140,
+                    height: 140,
+                  ),
 
-              Image.asset(AssetsManager.logo, width: 140, height: 140),
+                ],
+              ),
+
+
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: Divider(
+                  color: Colors.grey.shade300,
+                  thickness: 1,
+                ),
+              ),
 
               const SizedBox(height: 10),
 
-              const SizedBox(height: 20),
-
-              const Divider(height: 1, thickness: 1),
-
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
-                ),
-                child: const Text(
-                  "News categories",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                   // color: Colors.black87,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Text(
+                    "News categories",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade800,
+                    ),
                   ),
                 ),
               ),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: controller.categories.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: .95,
-                  ),
-                  itemBuilder: (context, index) {
-                    final category = controller.categories[index];
+              const SizedBox(height: 12),
 
-                    return GestureDetector(
-                      onTap: () => controller.onCategoryTap(category, index),
-                      child: Container(
-                        decoration: BoxDecoration(
-                      //    color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.grey[300]!),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            category.imageUrl != null &&
-                                    category.imageUrl!.isNotEmpty
-                                ? Image.asset(
-                                    category.imageUrl!,
-                                    width: 45,
-                                    height: 45,
-                                  )
-                                : Text(
-                                    category.icon ?? "📰",
-                                    style: const TextStyle(fontSize: 32),
-                                  ),
-                            const SizedBox(height: 8),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                              ),
-                              child: Text(
-                                category.name,
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ],
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                itemCount: controller.categories.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 14,
+                  mainAxisSpacing: 14,
+                  childAspectRatio: .92,
+                ),
+                itemBuilder: (context, index) {
+                  final category = controller.categories[index];
+
+                  return GestureDetector(
+                    onTap: () => controller.onCategoryTap(category, index),
+                    child: Container(
+
+                      decoration: BoxDecoration(
+
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.06),
+                            blurRadius: 8,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                        border: Border.all(
+                          color: Colors.blueAccent,
+                          width: 1.4,
                         ),
                       ),
-                    );
-                  },
-                ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          category.imageUrl != null &&
+                              category.imageUrl!.isNotEmpty
+                              ? Image.asset(
+                            category.imageUrl!,
+                            width: 46,
+                            height: 46,
+                          )
+                              : Text(
+                            category.icon ?? "📰",
+                            style: const TextStyle(fontSize: 32),
+                          ),
+                          const SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Text(
+                              category.name,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
             ],
           ),
         );
       }),
-
     );
   }
-
 }

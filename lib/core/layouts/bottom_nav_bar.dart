@@ -11,64 +11,47 @@ class BottomNavBar extends GetView<LayoutController> {
     const Color primaryColor = Colors.blueAccent;
 
     return Obx(() {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.08),
-                blurRadius: 12,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-              child: BottomNavigationBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                currentIndex: controller.currentIndex.value,
-                onTap: controller.changeTab,
-                type: BottomNavigationBarType.fixed,
-                selectedItemColor: primaryColor,
-                unselectedItemColor: Colors.grey,
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                items: [
-                  _navItem(
-                    0,
-                    Icons.home_outlined,
-                    Icons.home_rounded,
-                    'Home',
-                    primaryColor,
-                  ),
-                  _navItem(
-                    1,
-                    Icons.auto_awesome_outlined,
-                    Icons.auto_awesome,
-                    'AI Briefing',
-                    Colors.purple,
-                  ),
+      final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
+      if (isKeyboardOpen) return const SizedBox.shrink();
 
-                  _navItem(
-                    2,
-                    Icons.bookmark_border,
-                    Icons.bookmark,
-                    'Profile',
-                    primaryColor,
-                  ),_navItem(
-                    3,
-                    Icons.person_outline_rounded,
-                    Icons.person_rounded,
-                    'Profile',
-                    primaryColor,
-                  ),
-                ],
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),child: SafeArea(
+          child: Container(
+            height: 74,
+            decoration: BoxDecoration(
+              border: Border.all(color: primaryColor.withOpacity(0.9), width: 2.4),
+              color: Colors.white.withOpacity(0.55),
+              borderRadius: BorderRadius.circular(24), // slightly smaller radius
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.07),
+                  blurRadius: 10,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                child: BottomNavigationBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  currentIndex: controller.currentIndex.value,
+                  onTap: controller.changeTab,
+                  type: BottomNavigationBarType.fixed,
+                  selectedItemColor: primaryColor,
+                  unselectedItemColor: Colors.grey.shade600,
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  iconSize: 0,
+                  items: [
+                    _navItem(0, Icons.home_outlined, Icons.home_rounded, primaryColor),
+                    _navItem(1, Icons.auto_awesome_outlined, Icons.auto_awesome, primaryColor),
+                    _navItem(2, Icons.bookmark_border, Icons.bookmark, primaryColor),
+                    _navItem(3, Icons.person_outline_rounded, Icons.person_rounded, primaryColor),
+                  ],
+                ),
               ),
             ),
           ),
@@ -78,29 +61,28 @@ class BottomNavBar extends GetView<LayoutController> {
   }
 
   BottomNavigationBarItem _navItem(
-    int index,
-    IconData icon,
-    IconData activeIcon,
-    String label,
-    Color activeColor,
-  ) {
+      int index,
+      IconData icon,
+      IconData activeIcon,
+      Color activeColor,
+      ) {
     final isActive = controller.currentIndex.value == index;
 
     return BottomNavigationBarItem(
       icon: AnimatedContainer(
-        duration: const Duration(milliseconds: 220),
-        padding: EdgeInsets.all(isActive ? 6 : 0),
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
         decoration: BoxDecoration(
           color: isActive ? activeColor.withOpacity(0.15) : Colors.transparent,
           shape: BoxShape.circle,
         ),
         child: Icon(
           isActive ? activeIcon : icon,
-          size: isActive ? 24 : 20,
-          color: isActive ? activeColor : Colors.grey[600],
+          size: isActive ? 30 : 24, // adjusted for tighter spacing
+          color: isActive ? activeColor : Colors.grey.shade600,
         ),
       ),
-      label: label,
+      label: '',
     );
   }
 }
