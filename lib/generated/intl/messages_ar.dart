@@ -74,6 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "categoryAddedToFavorites": m1,
     "categoryRemovedFromFavorites": m2,
+    "changeLanguage": MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
     "chooseProfilePicture": MessageLookupByLibrary.simpleMessage(
       "اختر صورة الملف الشخصي",
     ),
@@ -130,6 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidEmail": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال بريد إلكتروني صالح",
     ),
+    "language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginSuccessful": MessageLookupByLibrary.simpleMessage(
       "تم تسجيل الدخول بنجاح",

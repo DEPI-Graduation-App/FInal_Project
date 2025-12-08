@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_depi_final_project/features/briefing/controller/briefing_controller.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 
 import '../../news/data/model/article.dart' show Article;
 
@@ -126,10 +127,10 @@ Widget buildSmartTopicCard(
                                 const SizedBox(width: 8),
                                 Text(
                                   isLoading
-                                      ? "Analyzing..."
+                                      ? S.of(context).analyzing
                                       : (isCached
-                                            ? "Ready"
-                                            : "Generate Summary"),
+                                            ? S.of(context).briefingReadyShort
+                                            : S.of(context).generateSummary),
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

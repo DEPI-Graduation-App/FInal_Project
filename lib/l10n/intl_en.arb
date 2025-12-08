@@ -99,5 +99,10 @@
   "noTitle": "No Title",
   "gnewsSource": "GNews Source",
   "geminiEmptyResponse": "Gemini returned an empty response.",
-  "geminiApiError": "Gemini API Error: {error}"
+  "geminiApiError": "Gemini API Error: {error}",
+  "language": "Language",
+  "changeLanguage": "Change Language",
+  "analyzing": "Analyzing...",
+  "briefingReadyShort": "Ready",
+  "generateSummary": "Generate Summary"
 }

@@ -12,6 +12,9 @@ class Article {
   final String? author;
 
   final String? content;
+  final String? contentEn;
+  final String? contentAr;
+  final List<ArticleSource>? sources;
 
   const Article({
     required this.id,
@@ -23,6 +26,9 @@ class Article {
     required this.publishedAt,
     this.author,
     this.content,
+    this.contentEn,
+    this.contentAr,
+    this.sources,
   });
 
   factory Article.fromJson(Map<String, dynamic> json) {
@@ -36,6 +42,11 @@ class Article {
       publishedAt: DateTime.parse(json['publishedAt'] as String),
       author: json['author'] as String?,
       content: json['content'] as String?,
+      contentEn: json['contentEn'] as String?,
+      contentAr: json['contentAr'] as String?,
+      sources: (json['sources'] as List<dynamic>?)
+          ?.map((e) => ArticleSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -50,6 +61,9 @@ class Article {
       'publishedAt': publishedAt.toIso8601String(),
       'author': author,
       'content': content,
+      'contentEn': contentEn,
+      'contentAr': contentAr,
+      'sources': sources?.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -62,4 +76,22 @@ class Article {
 
   @override
   int get hashCode => id.hashCode;
+}
+
+class ArticleSource {
+  final String name;
+  final String url;
+
+  ArticleSource({required this.name, required this.url});
+
+  factory ArticleSource.fromJson(Map<String, dynamic> json) {
+    return ArticleSource(
+      name: json['name'] as String,
+      url: json['url'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'name': name, 'url': url};
+  }
 }

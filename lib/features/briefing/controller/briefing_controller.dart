@@ -133,6 +133,9 @@ class AiBriefingController extends GetxController {
     final fixedImage = topic['image']!;
 
     String summaryText = "";
+    String contentEn = "";
+    String contentAr = "";
+    List<ArticleSource> sources = [];
     String articleUrl = "https://news.google.com";
 
     try {
@@ -141,32 +144,69 @@ class AiBriefingController extends GetxController {
       );
       List<Article> unifiedList = _mapRawDataToArticles(rawData);
 
+      // Filter for last 24 hours
+      final now = DateTime.now();
+      final yesterday = now.subtract(const Duration(hours: 24));
+      unifiedList = unifiedList.where((article) {
+        return article.publishedAt.isAfter(yesterday);
+      }).toList();
+
       if (unifiedList.isNotEmpty) {
         articleUrl = unifiedList.first.articleUrl;
         final useCase = Get.find<GetAiSummaryUseCase>();
 
-        summaryText = await useCase.call(
+        // Extract sources (Top 5)
+        final topArticles = unifiedList.take(5).toList();
+        sources = topArticles
+            .map((a) => ArticleSource(name: a.sourceName, url: a.articleUrl))
+            .toList();
+
+        // Request Dual Language
+        final fullResponse = await useCase.callDualLang(
           topic: label,
           articles: unifiedList.take(20).toList(),
         );
+
+        // Parse Response
+        const separator = "###SPLIT###";
+        if (fullResponse.contains(separator)) {
+          final parts = fullResponse.split(separator);
+          contentEn = parts[0].trim();
+          contentAr = parts.length > 1 ? parts[1].trim() : "";
+
+          // Default description to English (or current lang)
+          summaryText = contentEn;
+        } else {
+          // Fallback if separator missing
+          summaryText = fullResponse;
+          contentEn = fullResponse;
+          contentAr = "";
+        }
       } else {
         summaryText = S.current.noRecentArticles;
+        contentEn = summaryText;
+        contentAr = summaryText;
       }
     } catch (e) {
       print("Error inside fetch: $e");
       summaryText = S.current.errorAnalyzingNews;
+      contentEn = summaryText;
+      contentAr = summaryText;
     }
 
     return Article(
       id: value,
       sourceName: S.current.aiBriefingSource,
       title: S.current.briefingTitle(label),
-      description: summaryText,
+      description: summaryText, // Default display
       articleUrl: articleUrl,
       imageUrl: fixedImage,
       publishedAt: DateTime.now(),
       author: S.current.geminiAiAuthor,
       content: summaryText,
+      contentEn: contentEn,
+      contentAr: contentAr,
+      sources: sources,
     );
   }
 

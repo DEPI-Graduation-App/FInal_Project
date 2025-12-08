@@ -99,5 +99,10 @@
   "gnewsSource": "مصدر GNews",
   "geminiEmptyResponse": "أعاد Gemini استجابة فارغة.",
   "geminiApiError": "خطأ في Gemini API: {error}",
+  "language": "اللغة",
+  "changeLanguage": "تغيير اللغة",
+  "analyzing": "جار التحليل...",
+  "briefingReadyShort": "جاهز",
+  "generateSummary": "إنشاء ملخص",
   "technology": "تكنولوجيا"
 }

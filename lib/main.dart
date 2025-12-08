@@ -4,6 +4,8 @@ import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:news_depi_final_project/app.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:get/get.dart';
+import 'package:news_depi_final_project/core/contoller/LanguageController.dart';
 import 'features/Notifications/notification_service.dart';
 
 Future<void> main() async {
@@ -29,6 +31,9 @@ Future<void> main() async {
 
   // Request notifications permission (Android only)
   await NotificationService.requestPermissions();
+
+  // Initialize Language Controller
+  Get.put(LanguageController());
 
   // Run the app
   runApp(const MyApp());

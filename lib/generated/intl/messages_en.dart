@@ -72,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "categoryAddedToFavorites": m1,
     "categoryRemovedFromFavorites": m2,
+    "changeLanguage": MessageLookupByLibrary.simpleMessage("Change Language"),
     "chooseProfilePicture": MessageLookupByLibrary.simpleMessage(
       "Choose profile picture",
     ),
@@ -128,6 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidEmail": MessageLookupByLibrary.simpleMessage(
       "Please enter a valid email",
     ),
+    "language": MessageLookupByLibrary.simpleMessage("Language"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginSuccessful": MessageLookupByLibrary.simpleMessage("Login Successful"),
     "logoutButton": MessageLookupByLibrary.simpleMessage("Log out"),
