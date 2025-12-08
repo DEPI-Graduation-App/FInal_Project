@@ -29,8 +29,8 @@ class FavoritesController extends GetxController {
     super.onInit();
     fetchUserData();
 
-    /// Start periodic news check every 5 minutes
-    _newsTimer = Timer.periodic(const Duration(minutes: 5), (_) {
+    /// Start periodic news check every 1 minute
+    _newsTimer = Timer.periodic(const Duration(minutes: 1), (_) {
       checkForNewFavoriteNews();
     });
   }
