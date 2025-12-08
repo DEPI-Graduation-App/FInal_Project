@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:news_depi_final_project/core/contoller/LanguageController.dart';
 import 'package:news_depi_final_project/features/news/data/model/article.dart';
+import '../../../core/controller/LanguageController.dart';
 
 enum TtsState { playing, stopped, paused, continued }
 

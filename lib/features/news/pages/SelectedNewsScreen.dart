@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:news_depi_final_project/generated/l10n.dart';
 import '../controller/SNSController.dart';
 import 'NewsTab.dart';
-import '../../home/data/model/category_model.dart';
 import '../../briefing/controller/briefing_controller.dart';
 
 class SelectedNewsScreen extends GetView<SelectedNewsController> {

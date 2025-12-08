@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 <uses-permission android:name="android.permission.VIBRATE"/>
 <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+<uses-permission android:name="android.permission.WAKE_LOCK"/>
+<uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="news_depi_final_project"
         android:name="${applicationName}"
@@ -32,6 +34,15 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <receiver
+            android:name="me.cardaosoftware.ao_notification_core.broadcasters.NotificationEventReceiver"
+            android:exported="false"/>
+
+        <receiver
+            android:name="me.cardaosoftware.ao_notification_core.broadcasters.NotificationActionReceiver"
+            android:exported="false"/>
+
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

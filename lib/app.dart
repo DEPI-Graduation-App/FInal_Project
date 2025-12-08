@@ -3,8 +3,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
 import 'package:news_depi_final_project/features/auth/data/services/AuthService.dart';
 import 'package:get/get.dart';
-import 'package:news_depi_final_project/core/contoller/LanguageController.dart';
 import 'package:news_depi_final_project/generated/l10n.dart';
+import 'core/controller/LanguageController.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

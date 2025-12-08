@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:news_depi_final_project/app.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:get/get.dart';
-import 'package:news_depi_final_project/core/contoller/LanguageController.dart';
+import 'core/controller/LanguageController.dart';
 import 'features/Notifications/notification_service.dart';
 
 Future<void> main() async {
@@ -14,27 +14,26 @@ Future<void> main() async {
   // Local storage
   await GetStorage.init();
 
-  // Load environment variables
+  // Load .env
   await dotenv.load(fileName: ".env");
 
-  // Initialize Gemini API
+  // Gemini
   Gemini.init(apiKey: dotenv.env['GEMINI_API']!);
 
-  // Initialize Supabase
+  // Supabase
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_APIKEY']!,
   );
 
-  // Initialize Local Notifications
-  await NotificationService.init();
+  // Initialize Awesome Notifications
+  await NotificationService.initializeNotifications();
 
-  // Request notifications permission (Android only)
+  // Ask permissions
   await NotificationService.requestPermissions();
 
-  // Initialize Language Controller
+  // Language Controller
   Get.put(LanguageController());
 
-  // Run the app
   runApp(const MyApp());
 }

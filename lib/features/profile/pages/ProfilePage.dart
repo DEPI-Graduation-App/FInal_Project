@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_depi_final_project/core/constants/assets_manager.dart';
-import 'package:news_depi_final_project/core/contoller/LanguageController.dart';
 import 'package:news_depi_final_project/features/profile/controller/ProfileController.dart';
 import 'package:news_depi_final_project/generated/l10n.dart';
+import '../../../core/controller/LanguageController.dart';
 
 class ProfilePage extends GetView<Profilecontroller> {
   const ProfilePage({super.key});

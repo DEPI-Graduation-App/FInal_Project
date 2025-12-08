@@ -1,54 +1,46 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'dart:ui';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 class NotificationService {
-  /// Singleton instance
-  static final FlutterLocalNotificationsPlugin notificationsPlugin =
-  FlutterLocalNotificationsPlugin();
-
-  /// Initialize once from main.dart
-  static Future<void> init() async {
-    const AndroidInitializationSettings androidSettings =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
-
-    const InitializationSettings initSettings =
-    InitializationSettings(android: androidSettings);
-
-    await notificationsPlugin.initialize(initSettings);
+  /// Initialize once
+  static Future<void> initializeNotifications() async {
+    await AwesomeNotifications().initialize(
+      null,
+      [
+        NotificationChannel(
+          channelKey: 'news_channel',
+          channelName: 'News Alerts',
+          channelDescription: 'Notifications for favorite categories',
+          importance: NotificationImportance.Max,
+          defaultColor: const Color(0xFF005DAA),
+          ledColor: const Color(0xFFFFFFFF),
+        )
+      ],
+      debug: false,
+    );
   }
 
-  /// Ask the user for permission (only Android)
+  /// Request permissions
   static Future<void> requestPermissions() async {
-    final androidSpecific =
-    notificationsPlugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
-
-    if (androidSpecific != null) {
-      await androidSpecific.requestNotificationsPermission();
+    bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+    if (!isAllowed) {
+      await AwesomeNotifications().requestPermissionToSendNotifications();
     }
   }
 
-  /// Show a notification
+  /// Show local notification
   static Future<void> showNotification({
     required String title,
     required String body,
   }) async {
-    const AndroidNotificationDetails androidDetails =
-    AndroidNotificationDetails(
-      'news_channel',
-      'News Notifications',
-      channelDescription: 'Notifications for favorite categories',
-      importance: Importance.max,
-      priority: Priority.high,
-    );
-
-    const NotificationDetails notificationDetails =
-    NotificationDetails(android: androidDetails);
-
-    await notificationsPlugin.show(
-      0,
-      title,
-      body,
-      notificationDetails,
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+        channelKey: 'news_channel',
+        title: title,
+        body: body,
+        notificationLayout: NotificationLayout.Default,
+      ),
     );
   }
 }
