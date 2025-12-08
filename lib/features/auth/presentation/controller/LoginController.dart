@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
 import 'package:supabase/supabase.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 import '../../data/services/AuthService.dart';
 
 class LoginController extends GetxService {
@@ -15,12 +16,13 @@ class LoginController extends GetxService {
   void togglePassword() {
     showPassword.value = !showPassword.value;
   }
+
   Future<bool> login() async {
     final email = usernameController.text.trim();
     final password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      Get.snackbar("Error", "Please fill all fields");
+      Get.snackbar(S.current.error, S.current.pleaseFillAllFields);
       return false;
     }
 
@@ -31,8 +33,8 @@ class LoginController extends GetxService {
 
       if (user != null) {
         Get.snackbar(
-          "Success",
-          "Login Successful",
+          S.current.success,
+          S.current.loginSuccessful,
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
@@ -40,8 +42,8 @@ class LoginController extends GetxService {
       } else {
         /// This will catch unsuccessful authentication without throwing an error.
         Get.snackbar(
-          "Error",
-          "Invalid credentials",
+          S.current.error,
+          S.current.invalidCredentials,
           backgroundColor: Colors.redAccent,
           colorText: Colors.white,
           snackPosition: SnackPosition.TOP,
@@ -53,23 +55,23 @@ class LoginController extends GetxService {
 
       if (e.message.contains("Invalid login credentials")) {
         Get.snackbar(
-          "Wrong password",
-          "Please try again",
+          S.current.wrongPassword,
+          S.current.pleaseTryAgain,
           backgroundColor: Colors.redAccent,
           colorText: Colors.white,
           snackPosition: SnackPosition.TOP,
         );
       } else if (e.message.contains("Email not found")) {
         Get.snackbar(
-          "Email not found",
-          "Try signing up",
+          S.current.emailNotFound,
+          S.current.trySigningUp,
           backgroundColor: Colors.red,
           colorText: Colors.white,
           snackPosition: SnackPosition.TOP,
         );
       } else {
         Get.snackbar(
-          "Authentication Error",
+          S.current.authenticationError,
           e.message,
           backgroundColor: Colors.redAccent,
           colorText: Colors.white,
@@ -80,7 +82,7 @@ class LoginController extends GetxService {
     } catch (e) {
       isLoading.value = false;
       Get.snackbar(
-        "Error",
+        S.current.error,
         e.toString(),
         backgroundColor: Colors.redAccent,
         colorText: Colors.white,

@@ -4,6 +4,7 @@ import 'package:news_depi_final_project/core/constants/assets_manager.dart';
 import 'package:news_depi_final_project/features/auth/presentation/widgets/BuildTextField.dart';
 import 'package:news_depi_final_project/features/auth/presentation/widgets/CustomTextAlignment.dart';
 import 'package:news_depi_final_project/features/auth/presentation/pages/LoginScreen.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 import '../controller/RegisterController.dart';
 
 class RegisterScreen extends GetView<RegisterController> {
@@ -15,7 +16,7 @@ class RegisterScreen extends GetView<RegisterController> {
       backgroundColor: const Color(0xfff7f4ef),
       appBar: AppBar(
         backgroundColor: const Color(0xfff7f4ef),
-        title: const Text("Register"),
+        title: Text(S.of(context).register),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -25,9 +26,9 @@ class RegisterScreen extends GetView<RegisterController> {
             const SizedBox(height: 20),
             Image.asset(AssetsManager.logo, width: 300, height: 140),
 
-            const Text(
-              "welcome to our app",
-              style: TextStyle(
+            Text(
+              S.of(context).welcomeToApp,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: Color(0xff47515b),
@@ -37,30 +38,30 @@ class RegisterScreen extends GetView<RegisterController> {
             const Divider(),
             const SizedBox(height: 10),
 
-            const CustomTextAlignment(text: "Email"),
+            CustomTextAlignment(text: S.of(context).emailAddress),
             const SizedBox(height: 8),
             CustomTextField(
               controller: controller.EmailController,
               keyboardType: TextInputType.emailAddress,
-              hint: "Enter your email",
+              hint: S.of(context).enterEmail,
             ),
             const SizedBox(height: 20),
 
-            const CustomTextAlignment(text: "Username"),
+            CustomTextAlignment(text: S.of(context).username),
             const SizedBox(height: 8),
             CustomTextField(
               controller: controller.UsernameController,
-              hint: "Enter your username",
+              hint: S.of(context).enterUsername,
             ),
             const SizedBox(height: 20),
 
-            const CustomTextAlignment(text: "Password"),
+            CustomTextAlignment(text: S.of(context).password),
             const SizedBox(height: 8),
             Obx(
               () => CustomTextField(
                 controller: controller.PasswordController,
                 obscureText: !controller.showPassword.value,
-                hint: "Enter your password",
+                hint: S.of(context).enterPassword,
                 suffixIcon: IconButton(
                   icon: Icon(
                     controller.showPassword.value
@@ -74,13 +75,13 @@ class RegisterScreen extends GetView<RegisterController> {
             ),
             const SizedBox(height: 20),
 
-            const CustomTextAlignment(text: "Confirm Password"),
+            CustomTextAlignment(text: S.of(context).confirmPassword),
             const SizedBox(height: 8),
             Obx(
               () => CustomTextField(
                 controller: controller.RepasswordController,
                 obscureText: !controller.showRePassword.value,
-                hint: "Re-enter your password",
+                hint: S.of(context).reEnterPassword,
                 suffixIcon: IconButton(
                   icon: Icon(
                     controller.showRePassword.value
@@ -110,7 +111,7 @@ class RegisterScreen extends GetView<RegisterController> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      child: const Text("Register"),
+                      child: Text(S.of(context).register),
                     ),
             ),
             const SizedBox(height: 20),
@@ -118,9 +119,12 @@ class RegisterScreen extends GetView<RegisterController> {
               onTap: () => Get.off(LoginScreen()),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text("Already have an account? "),
-                  Text("login", style: TextStyle(color: Colors.red)),
+                children: [
+                  Text(S.of(context).alreadyHaveAccount),
+                  Text(
+                    S.of(context).login,
+                    style: const TextStyle(color: Colors.red),
+                  ),
                 ],
               ),
             ),

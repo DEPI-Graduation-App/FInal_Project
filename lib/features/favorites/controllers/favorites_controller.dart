@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 import '../../Notifications/notification_service.dart';
 import '../../auth/data/model/UserModel.dart';
 import '../../auth/data/services/AuthService.dart';
@@ -54,9 +55,10 @@ class FavoritesController extends GetxController {
         final newsApiArticles = combined['newsApi']?.articles ?? [];
         final gnewsArticles = combined['gnews']?.articles ?? [];
 
-        final newArticles = [...newsApiArticles, ...gnewsArticles]
-            .where((article) => !_alreadyNotified(article.title ?? ''))
-            .toList();
+        final newArticles = [
+          ...newsApiArticles,
+          ...gnewsArticles,
+        ].where((article) => !_alreadyNotified(article.title ?? '')).toList();
 
         for (final article in newArticles) {
           NotificationService.showNotification(
@@ -94,8 +96,9 @@ class FavoritesController extends GetxController {
     try {
       final List<dynamic>? stored = _storage.read('favorites_${userId.value}');
       if (stored != null) {
-        favoriteItems.value =
-            stored.map((json) => Category.fromJson(json)).toList();
+        favoriteItems.value = stored
+            .map((json) => Category.fromJson(json))
+            .toList();
       }
     } catch (e) {
       print('Error loading favorites: $e');
@@ -125,8 +128,8 @@ class FavoritesController extends GetxController {
     if (!isFavorite(item)) {
       favoriteItems.add(item);
       Get.snackbar(
-        "Added",
-        "Category $title added to Favorites",
+        S.current.added,
+        S.current.categoryAddedToFavorites(title),
         snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 2),
         backgroundColor: Colors.green,
@@ -138,8 +141,8 @@ class FavoritesController extends GetxController {
   void removeFromFavorites(Category item, String title) {
     favoriteItems.removeWhere((cat) => cat.id == item.id);
     Get.snackbar(
-      "Removed",
-      "Category $title removed from Favorites",
+      S.current.removed,
+      S.current.categoryRemovedFromFavorites(title),
       snackPosition: SnackPosition.TOP,
       duration: const Duration(seconds: 2),
       backgroundColor: Colors.red,

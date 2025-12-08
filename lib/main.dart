@@ -6,7 +6,6 @@ import 'package:news_depi_final_project/app.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'features/Notifications/notification_service.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

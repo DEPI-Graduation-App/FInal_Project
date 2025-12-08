@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
 import 'package:news_depi_final_project/features/news/data/Services/NewsService.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 
 import 'package:news_depi_final_project/features/gemini/data/datasources/gemini_remote_datasource.dart';
 import 'package:news_depi_final_project/features/gemini/domain/repositories/i_gemini_repository.dart';
@@ -97,8 +98,8 @@ class AiBriefingController extends GetxController {
       Vibration.vibrate(duration: 400);
 
       Get.snackbar(
-        "Your briefing is read",
-        "${topic['label']} summary is ready",
+        S.current.briefingReady,
+        S.current.summaryReady(topic['label']!),
         backgroundColor: Colors.green,
         snackPosition: SnackPosition.TOP,
         margin: const EdgeInsets.all(16),
@@ -110,7 +111,10 @@ class AiBriefingController extends GetxController {
     } catch (e) {
       loadingTopicIds.remove(topicId);
       print("ERROR: $e");
-      Get.snackbar("Error", "Failed to generate summary: $e");
+      Get.snackbar(
+        S.current.error,
+        S.current.failedToGenerateSummary(e.toString()),
+      );
     }
   }
 
@@ -164,6 +168,7 @@ class AiBriefingController extends GetxController {
   // ... (Mapping Function Remains the same)
   List<Article> _mapRawDataToArticles(Map<String, dynamic> rawData) {
     List<Article> list = [];
+
     if (rawData['newsApi'] != null) {
       final data = rawData['newsApi'] as news_api.NewsApiModel;
       for (var item in data.articles) {

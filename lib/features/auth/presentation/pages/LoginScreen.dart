@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 
 import '../controller/LoginController.dart';
 import '../widgets/BuildTextField.dart';
@@ -28,9 +29,9 @@ class LoginScreen extends GetView<LoginController> {
                 fit: BoxFit.contain,
               ),
 
-              const Text(
-                "welcome to our app",
-                style: TextStyle(
+              Text(
+                S.of(context).welcomeToApp,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Color(0xff47515b),
@@ -40,12 +41,12 @@ class LoginScreen extends GetView<LoginController> {
               const Divider(),
               const SizedBox(height: 30),
 
-              CustomTextAlignment(text: 'Email Address'),
+              CustomTextAlignment(text: S.of(context).emailAddress),
               const SizedBox(height: 8),
               CustomTextField(controller: controller.usernameController),
               const SizedBox(height: 20),
 
-              CustomTextAlignment(text: 'Password'),
+              CustomTextAlignment(text: S.of(context).password),
               const SizedBox(height: 8),
 
               Obx(
@@ -93,9 +94,9 @@ class LoginScreen extends GetView<LoginController> {
                               strokeWidth: 2,
                               color: Colors.white,
                             )
-                          : const Text(
-                              "Login",
-                              style: TextStyle(
+                          : Text(
+                              S.of(context).login,
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
                               ),
@@ -105,23 +106,18 @@ class LoginScreen extends GetView<LoginController> {
                 ),
               ),
 
-
-
-
-
-
-
-
-
               const SizedBox(height: 30),
 
               InkWell(
                 onTap: () => Get.toNamed(AppPages.registerPage),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text("don't have an account? "),
-                    Text("create", style: TextStyle(color: Colors.red)),
+                  children: [
+                    Text(S.of(context).dontHaveAccount),
+                    Text(
+                      S.of(context).create,
+                      style: const TextStyle(color: Colors.red),
+                    ),
                   ],
                 ),
               ),

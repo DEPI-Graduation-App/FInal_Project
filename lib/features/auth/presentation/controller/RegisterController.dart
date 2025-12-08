@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 import '../../data/services/AuthService.dart';
 
 class RegisterController extends GetxController {
@@ -27,22 +28,22 @@ class RegisterController extends GetxController {
         username.isEmpty ||
         password.isEmpty ||
         rePassword.isEmpty) {
-      _showError("Please fill all fields");
+      _showError(S.current.pleaseFillAllFields);
       return;
     }
 
     if (!email.isEmail) {
-      _showError("Please enter a valid email");
+      _showError(S.current.invalidEmail);
       return;
     }
 
     if (password.length < 6) {
-      _showError("Password must be at least 6 characters");
+      _showError(S.current.passwordLengthError);
       return;
     }
 
     if (password != rePassword) {
-      _showError("Passwords do not match");
+      _showError(S.current.passwordsDoNotMatch);
       return;
     }
 
@@ -53,32 +54,32 @@ class RegisterController extends GetxController {
 
       if (result != null) {
         Get.snackbar(
-          "Success",
-          "Account created successfully!",
+          S.current.success,
+          S.current.accountCreatedSuccessfully,
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
         Get.offAllNamed(AppPages.layout);
       } else {
-        _showError("Email is already registered or invalid");
+        _showError(S.current.emailAlreadyRegistered);
       }
     } catch (e) {
       isLoading.value = false;
 
       if (e.toString().contains("email_address already exists")) {
-        _showError("Email already registered. Try logging in.");
+        _showError(S.current.emailAlreadyExists);
       } else if (e.toString().contains("password")) {
-        _showError("Weak password. Try a stronger password.");
+        _showError(S.current.weakPassword);
       } else {
-        _showError("Unexpected error: ${e.toString()}");
+        _showError(S.current.unexpectedError(e.toString()));
       }
     }
   }
 
   void _showError(String message) {
     Get.snackbar(
-      "Error",
+      S.current.error,
       message,
       snackPosition: SnackPosition.TOP,
       backgroundColor: Colors.redAccent,
