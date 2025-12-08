@@ -10,9 +10,9 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
 
   @override
   Widget build(BuildContext context) {
-    final name = Get.arguments[0];
-    final Category category = Get.arguments[1];
-    controller.loadAllNews(category.id);
+    final Name = Get.arguments[0];
+    final category = Get.arguments[1];
+    controller.loadAllNews(Name);
 
     return DefaultTabController(
       length: 2,
@@ -22,7 +22,7 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
             IconButton(
               onPressed: () {
                 //controller.favController.toggleFavoriteIcon(Name);
-                controller.favController.toggleFavorite(category, name);
+                controller.favController.toggleFavorite(category, Name);
               },
               icon: Obx(() {
                 return Icon(
@@ -38,7 +38,7 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
           ],
           title: Column(
             children: [
-              Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text(Name, style: const TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 36,
                 child: TextField(
