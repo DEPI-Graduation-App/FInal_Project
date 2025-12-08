@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 import '../controller/SNSController.dart';
 import 'NewsTab.dart';
+import '../../home/data/model/category_model.dart';
 
 class SelectedNewsScreen extends GetView<SelectedNewsController> {
   const SelectedNewsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    final Name=Get.arguments[0];
-    final category=Get.arguments[1];
-    controller.loadAllNews(Name);
+    final name = Get.arguments[0];
+    final Category category = Get.arguments[1];
+    controller.loadAllNews(category.id);
 
     return DefaultTabController(
       length: 2,
@@ -21,7 +22,7 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
             IconButton(
               onPressed: () {
                 //controller.favController.toggleFavoriteIcon(Name);
-                controller.favController.toggleFavorite(category,Name);
+                controller.favController.toggleFavorite(category, name);
               },
               icon: Obx(() {
                 return Icon(
@@ -37,7 +38,7 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
           ],
           title: Column(
             children: [
-              Text(Name, style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 36,
                 child: TextField(
@@ -45,15 +46,15 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
                     controller.searchNews(value);
                   },
                   decoration: InputDecoration(
-                    hintText: "Search news...",
+                    hintText: S.of(context).searchNewsHint,
                     filled: true,
                     fillColor: Colors.grey[200],
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                       borderSide: BorderSide.none,
                     ),
-                    suffixIcon: Icon(Icons.search),
+                    suffixIcon: const Icon(Icons.search),
                   ),
                 ),
               ),
@@ -61,10 +62,10 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
           ),
           backgroundColor: Colors.white,
           centerTitle: true,
-          bottom: const TabBar(
+          bottom: TabBar(
             tabs: [
-              Tab(text: "Source1"),
-              Tab(text: "Source2"),
+              Tab(text: S.of(context).source1),
+              Tab(text: S.of(context).source2),
             ],
           ),
         ),
@@ -82,7 +83,6 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
             ],
           );
         }),
-
       ),
     );
   }

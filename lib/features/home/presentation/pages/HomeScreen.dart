@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 import '../controller/HomeController.dart';
 import '../../../../core/constants/assets_manager.dart';
 
@@ -14,12 +15,9 @@ class HomeScreen extends GetView<HomeController> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: const Text(
-          "Home",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
+        title: Text(
+          S.of(context).homeTitle,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
         centerTitle: true,
       ),
@@ -35,27 +33,15 @@ class HomeScreen extends GetView<HomeController> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Column(
             children: [
-
-
-
               Column(
                 children: [
-                  Image.asset(
-                    AssetsManager.logo,
-                    width: 140,
-                    height: 140,
-                  ),
-
+                  Image.asset(AssetsManager.logo, width: 140, height: 140),
                 ],
               ),
 
-
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: Divider(
-                  color: Colors.grey.shade300,
-                  thickness: 1,
-                ),
+                child: Divider(color: Colors.grey.shade300, thickness: 1),
               ),
 
               const SizedBox(height: 10),
@@ -65,7 +51,7 @@ class HomeScreen extends GetView<HomeController> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: Text(
-                    "News categories",
+                    S.of(context).newsCategories,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -94,9 +80,7 @@ class HomeScreen extends GetView<HomeController> {
                   return GestureDetector(
                     onTap: () => controller.onCategoryTap(category, index),
                     child: Container(
-
                       decoration: BoxDecoration(
-
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
@@ -115,16 +99,16 @@ class HomeScreen extends GetView<HomeController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           category.imageUrl != null &&
-                              category.imageUrl!.isNotEmpty
+                                  category.imageUrl!.isNotEmpty
                               ? Image.asset(
-                            category.imageUrl!,
-                            width: 46,
-                            height: 46,
-                          )
+                                  category.imageUrl!,
+                                  width: 46,
+                                  height: 46,
+                                )
                               : Text(
-                            category.icon ?? "📰",
-                            style: const TextStyle(fontSize: 32),
-                          ),
+                                  category.icon ?? "📰",
+                                  style: const TextStyle(fontSize: 32),
+                                ),
                           const SizedBox(height: 10),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),

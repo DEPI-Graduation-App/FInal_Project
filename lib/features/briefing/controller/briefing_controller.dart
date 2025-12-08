@@ -27,24 +27,32 @@ class AiBriefingController extends GetxController {
 
   List<Map<String, String>> get staticTopics => [
     {
-      'label': 'General',
+      'label': S.current.general,
       'value': 'general',
       'image': 'assets/images/general.png',
     },
-    {'label': 'Sports', 'value': 'sports', 'image': 'assets/images/Sports.png'},
     {
-      'label': 'Technology',
+      'label': S.current.sports,
+      'value': 'sports',
+      'image': 'assets/images/Sports.png',
+    },
+    {
+      'label': S.current.technology,
       'value': 'technology',
       'image': 'assets/images/Technology.png',
     },
     {
-      'label': 'Business',
+      'label': S.current.business,
       'value': 'business',
       'image': 'assets/images/Business.png',
     },
-    {'label': 'Health', 'value': 'health', 'image': 'assets/images/Health.png'},
     {
-      'label': 'Science',
+      'label': S.current.health,
+      'value': 'health',
+      'image': 'assets/images/Health.png',
+    },
+    {
+      'label': S.current.science,
       'value': 'science',
       'image': 'assets/images/Science.png',
     },
@@ -99,7 +107,7 @@ class AiBriefingController extends GetxController {
 
       Get.snackbar(
         S.current.briefingReady,
-        S.current.summaryReady(topic['label']!),
+        S.current.briefingTitle(topic['label']!),
         backgroundColor: Colors.green,
         snackPosition: SnackPosition.TOP,
         margin: const EdgeInsets.all(16),
@@ -111,10 +119,7 @@ class AiBriefingController extends GetxController {
     } catch (e) {
       loadingTopicIds.remove(topicId);
       print("ERROR: $e");
-      Get.snackbar(
-        S.current.error,
-        S.current.failedToGenerateSummary(e.toString()),
-      );
+      Get.snackbar(S.current.error, S.current.errorAnalyzingNews);
     }
   }
 
@@ -145,22 +150,22 @@ class AiBriefingController extends GetxController {
           articles: unifiedList.take(20).toList(),
         );
       } else {
-        summaryText = "No recent articles found regarding this topic.";
+        summaryText = S.current.noRecentArticles;
       }
     } catch (e) {
       print("Error inside fetch: $e");
-      summaryText = "An error occurred while analyzing news.";
+      summaryText = S.current.errorAnalyzingNews;
     }
 
     return Article(
       id: value,
-      sourceName: "AI Briefing",
-      title: "Briefing: $label",
+      sourceName: S.current.aiBriefingSource,
+      title: S.current.briefingTitle(label),
       description: summaryText,
       articleUrl: articleUrl,
       imageUrl: fixedImage,
       publishedAt: DateTime.now(),
-      author: "Gemini AI",
+      author: S.current.geminiAiAuthor,
       content: summaryText,
     );
   }
@@ -175,8 +180,8 @@ class AiBriefingController extends GetxController {
         list.add(
           Article(
             id: item.url ?? DateTime.now().toString(),
-            sourceName: item.source?.name ?? "NewsAPI",
-            title: item.title ?? "No Title",
+            sourceName: item.source?.name ?? S.current.newsApiSource,
+            title: item.title ?? S.current.noTitle,
             description: item.description,
             articleUrl: item.url ?? "",
             imageUrl: item.urlToImage,
@@ -198,7 +203,7 @@ class AiBriefingController extends GetxController {
             articleUrl: item.url,
             imageUrl: item.image,
             publishedAt: item.publishedAt,
-            author: "GNews Source",
+            author: S.current.gnewsSource,
           ),
         );
       }

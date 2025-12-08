@@ -6,6 +6,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:news_depi_final_project/features/article_detail/controller/article_detail_controller.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 
 class ArticleDetailsPage extends GetView<ArticleDetailController> {
   const ArticleDetailsPage({super.key});
@@ -221,7 +222,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
 
                 // --- 3. Description Text ---
                 Text(
-                  article.description ?? "No description available.",
+                  article.description ?? S.of(context).noDescriptionAvailable,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontSize: 17,
                     height: 1.7,

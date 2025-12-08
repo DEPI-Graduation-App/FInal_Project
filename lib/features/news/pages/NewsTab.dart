@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 import '../data/model/NewsApiModel.dart';
 import '../data/model/GnewsModel.dart';
-
 
 class NewsTab extends StatelessWidget {
   final String apiKey;
@@ -15,7 +15,7 @@ class NewsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (articles.isEmpty) {
-        return const Center(child: Text("No news found"));
+        return Center(child: Text(S.of(context).noNewsFound));
       }
 
       return ListView.separated(
@@ -49,7 +49,11 @@ class NewsTab extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: const [
-                  BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  ),
                 ],
               ),
               child: Column(
@@ -57,13 +61,16 @@ class NewsTab extends StatelessWidget {
                 children: [
                   if (image != null && image.isNotEmpty)
                     ClipRRect(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(12),
+                      ),
                       child: Image.network(
                         image,
                         height: 180,
                         width: double.infinity,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Container(height: 180, color: Colors.grey[300]),
+                        errorBuilder: (_, __, ___) =>
+                            Container(height: 180, color: Colors.grey[300]),
                       ),
                     )
                   else
@@ -72,12 +79,18 @@ class NewsTab extends StatelessWidget {
                     padding: const EdgeInsets.all(12.0),
                     child: Text(
                       title,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                   if (desc != null)
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       child: Text(
                         desc,
                         maxLines: 2,

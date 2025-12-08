@@ -458,6 +458,486 @@ class S {
       args: [],
     );
   }
+
+  /// `Home`
+  String get homeTitle {
+    return Intl.message('Home', name: 'homeTitle', desc: '', args: []);
+  }
+
+  /// `News categories`
+  String get newsCategories {
+    return Intl.message(
+      'News categories',
+      name: 'newsCategories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No description available.`
+  String get noDescriptionAvailable {
+    return Intl.message(
+      'No description available.',
+      name: 'noDescriptionAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Favorites`
+  String get favoritesTitle {
+    return Intl.message(
+      'Favorites',
+      name: 'favoritesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No favorites yet`
+  String get noFavoritesYet {
+    return Intl.message(
+      'No favorites yet',
+      name: 'noFavoritesYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add categories to see them here`
+  String get addCategoriesToSeeThem {
+    return Intl.message(
+      'Add categories to see them here',
+      name: 'addCategoriesToSeeThem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile`
+  String get profileTitle {
+    return Intl.message('Profile', name: 'profileTitle', desc: '', args: []);
+  }
+
+  /// `Choose profile picture`
+  String get chooseProfilePicture {
+    return Intl.message(
+      'Choose profile picture',
+      name: 'chooseProfilePicture',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload from Gallery`
+  String get uploadFromGallery {
+    return Intl.message(
+      'Upload from Gallery',
+      name: 'uploadFromGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Take a Photo`
+  String get takeAPhoto {
+    return Intl.message('Take a Photo', name: 'takeAPhoto', desc: '', args: []);
+  }
+
+  /// `Email`
+  String get emailLabel {
+    return Intl.message('Email', name: 'emailLabel', desc: '', args: []);
+  }
+
+  /// `Username: {username}`
+  String usernameLabel(Object username) {
+    return Intl.message(
+      'Username: $username',
+      name: 'usernameLabel',
+      desc: '',
+      args: [username],
+    );
+  }
+
+  /// `Edit username`
+  String get editUsernameHint {
+    return Intl.message(
+      'Edit username',
+      name: 'editUsernameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update / Save`
+  String get updateSaveButton {
+    return Intl.message(
+      'Update / Save',
+      name: 'updateSaveButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log out`
+  String get logoutButton {
+    return Intl.message('Log out', name: 'logoutButton', desc: '', args: []);
+  }
+
+  /// `No news found`
+  String get noNewsFound {
+    return Intl.message(
+      'No news found',
+      name: 'noNewsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search news...`
+  String get searchNewsHint {
+    return Intl.message(
+      'Search news...',
+      name: 'searchNewsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Source1`
+  String get source1 {
+    return Intl.message('Source1', name: 'source1', desc: '', args: []);
+  }
+
+  /// `Source2`
+  String get source2 {
+    return Intl.message('Source2', name: 'source2', desc: '', args: []);
+  }
+
+  /// `No summary available`
+  String get noSummaryAvailable {
+    return Intl.message(
+      'No summary available',
+      name: 'noSummaryAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View article`
+  String get viewArticle {
+    return Intl.message(
+      'View article',
+      name: 'viewArticle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Similar News`
+  String get similarNews {
+    return Intl.message(
+      'Similar News',
+      name: 'similarNews',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No similar news found`
+  String get noSimilarNewsFound {
+    return Intl.message(
+      'No similar news found',
+      name: 'noSimilarNewsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot open this article`
+  String get cannotOpenArticle {
+    return Intl.message(
+      'Cannot open this article',
+      name: 'cannotOpenArticle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No categories available`
+  String get noCategoriesAvailable {
+    return Intl.message(
+      'No categories available',
+      name: 'noCategoriesAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load categories`
+  String get failedToLoadCategories {
+    return Intl.message(
+      'Failed to load categories',
+      name: 'failedToLoadCategories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load news for {category}`
+  String failedToLoadNewsFor(Object category) {
+    return Intl.message(
+      'Failed to load news for $category',
+      name: 'failedToLoadNewsFor',
+      desc: '',
+      args: [category],
+    );
+  }
+
+  /// `Business`
+  String get business {
+    return Intl.message('Business', name: 'business', desc: '', args: []);
+  }
+
+  /// `Entertainment`
+  String get entertainment {
+    return Intl.message(
+      'Entertainment',
+      name: 'entertainment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General`
+  String get general {
+    return Intl.message('General', name: 'general', desc: '', args: []);
+  }
+
+  /// `Health`
+  String get health {
+    return Intl.message('Health', name: 'health', desc: '', args: []);
+  }
+
+  /// `Science`
+  String get science {
+    return Intl.message('Science', name: 'science', desc: '', args: []);
+  }
+
+  /// `Sports`
+  String get sports {
+    return Intl.message('Sports', name: 'sports', desc: '', args: []);
+  }
+
+  /// `Technology`
+  String get technology {
+    return Intl.message('Technology', name: 'technology', desc: '', args: []);
+  }
+
+  /// `Internal server error`
+  String get internalServerError {
+    return Intl.message(
+      'Internal server error',
+      name: 'internalServerError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resource not found`
+  String get resourceNotFound {
+    return Intl.message(
+      'Resource not found',
+      name: 'resourceNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bad request`
+  String get badRequest {
+    return Intl.message('Bad request', name: 'badRequest', desc: '', args: []);
+  }
+
+  /// `Unauthorized access`
+  String get unauthorizedAccess {
+    return Intl.message(
+      'Unauthorized access',
+      name: 'unauthorizedAccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Access forbidden. Please check your API key.`
+  String get accessForbidden {
+    return Intl.message(
+      'Access forbidden. Please check your API key.',
+      name: 'accessForbidden',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Too many requests. Please try again later.`
+  String get tooManyRequests {
+    return Intl.message(
+      'Too many requests. Please try again later.',
+      name: 'tooManyRequests',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No internet connection`
+  String get noInternetConnection {
+    return Intl.message(
+      'No internet connection',
+      name: 'noInternetConnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request was cancelled`
+  String get requestCancelled {
+    return Intl.message(
+      'Request was cancelled',
+      name: 'requestCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An unknown error occurred`
+  String get unknownError {
+    return Intl.message(
+      'An unknown error occurred',
+      name: 'unknownError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `News Notifications`
+  String get newsNotifications {
+    return Intl.message(
+      'News Notifications',
+      name: 'newsNotifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications for favorite categories`
+  String get notificationsChannelDescription {
+    return Intl.message(
+      'Notifications for favorite categories',
+      name: 'notificationsChannelDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `AI News Briefing`
+  String get aiNewsBriefing {
+    return Intl.message(
+      'AI News Briefing',
+      name: 'aiNewsBriefing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Briefing: {label}`
+  String briefingTitle(Object label) {
+    return Intl.message(
+      'Briefing: $label',
+      name: 'briefingTitle',
+      desc: '',
+      args: [label],
+    );
+  }
+
+  /// `No recent articles found regarding this topic.`
+  String get noRecentArticles {
+    return Intl.message(
+      'No recent articles found regarding this topic.',
+      name: 'noRecentArticles',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while analyzing news.`
+  String get errorAnalyzingNews {
+    return Intl.message(
+      'An error occurred while analyzing news.',
+      name: 'errorAnalyzingNews',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `AI Briefing`
+  String get aiBriefingSource {
+    return Intl.message(
+      'AI Briefing',
+      name: 'aiBriefingSource',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gemini AI`
+  String get geminiAiAuthor {
+    return Intl.message(
+      'Gemini AI',
+      name: 'geminiAiAuthor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `NewsAPI`
+  String get newsApiSource {
+    return Intl.message('NewsAPI', name: 'newsApiSource', desc: '', args: []);
+  }
+
+  /// `No Title`
+  String get noTitle {
+    return Intl.message('No Title', name: 'noTitle', desc: '', args: []);
+  }
+
+  /// `GNews Source`
+  String get gnewsSource {
+    return Intl.message(
+      'GNews Source',
+      name: 'gnewsSource',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gemini returned an empty response.`
+  String get geminiEmptyResponse {
+    return Intl.message(
+      'Gemini returned an empty response.',
+      name: 'geminiEmptyResponse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gemini API Error: {error}`
+  String geminiApiError(Object error) {
+    return Intl.message(
+      'Gemini API Error: $error',
+      name: 'geminiApiError',
+      desc: '',
+      args: [error],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

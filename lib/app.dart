@@ -25,11 +25,11 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
 
-      locale: Locale('ar'),
+      locale: Locale('en'),
       // route
       initialRoute: AuthService().isLoggedIn()
-          ? AppPages.loginPage
-          : AppPages.loginPage,
+          ? AppPages.layout
+          : AppPages.layout,
 
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
