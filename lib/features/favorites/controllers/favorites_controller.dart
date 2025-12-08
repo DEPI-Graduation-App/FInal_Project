@@ -157,14 +157,16 @@ class FavoritesController extends GetxController {
   /// -------------------- Notification Tracking --------------------
 
   bool _alreadyNotified(String title) {
-    final notified =
-        _storage.read<List<String>>('notified_${userId.value}') ?? [];
+    final List<dynamic> rawNotified =
+        _storage.read('notified_${userId.value}') ?? [];
+    final notified = rawNotified.cast<String>().toList();
     return notified.contains(title);
   }
 
   void _markAsNotified(String title) {
-    final notified =
-        _storage.read<List<String>>('notified_${userId.value}') ?? [];
+    final List<dynamic> rawNotified =
+        _storage.read('notified_${userId.value}') ?? [];
+    final notified = rawNotified.cast<String>().toList();
     notified.add(title);
     _storage.write('notified_${userId.value}', notified);
   }

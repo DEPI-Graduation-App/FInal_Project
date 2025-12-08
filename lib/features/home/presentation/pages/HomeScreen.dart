@@ -113,7 +113,7 @@ class HomeScreen extends GetView<HomeController> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
                             child: Text(
-                              category.name,
+                              _getLocalizedCategoryName(context, category.name),
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               style: const TextStyle(
@@ -135,5 +135,27 @@ class HomeScreen extends GetView<HomeController> {
         );
       }),
     );
+  }
+
+  String _getLocalizedCategoryName(BuildContext context, String categoryName) {
+    final s = S.of(context);
+    switch (categoryName.toLowerCase()) {
+      case 'business':
+        return s.business;
+      case 'entertainment':
+        return s.entertainment;
+      case 'general':
+        return s.general;
+      case 'health':
+        return s.health;
+      case 'science':
+        return s.science;
+      case 'sports':
+        return s.sports;
+      case 'technology':
+        return s.technology;
+      default:
+        return categoryName;
+    }
   }
 }
