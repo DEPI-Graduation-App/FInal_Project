@@ -14,7 +14,10 @@ class GeminiRemoteDataSourceImpl implements IGeminiRemoteDataSource {
   @override
   Future<String> generateText(String prompt) async {
     try {
-      final response = await _gemini.text(prompt);
+      final response = await _gemini.text(
+        prompt,
+        modelName: 'gemini-1.5-flash',
+      );
 
       final text = response?.output;
 

@@ -5,8 +5,8 @@ import '../model/GnewsModel.dart';
 import '../model/NewsApiModel.dart';
 
 class NewsService extends GetxService {
-  final String newsAPIKey = '32a4184658214dd8aeffec62c2ac5717';
-  final String gNewsKey = '0c5880b3e409e7fc23abf33424b3e8af';
+  final String newsAPIKey = 'd4bbfd0aed394c0d9db6df9fe359c022';
+  final String gNewsKey = 'a608a1d14632e3e2b37be025bd9cb611';
   final String currentNewsKey =
       'qDUdQd7Vi2YCV-yIL0WR9Yo9lcO_WSdX-Ulc19lwjFpLiR24';
 

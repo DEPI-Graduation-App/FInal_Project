@@ -4,6 +4,7 @@ import 'package:news_depi_final_project/generated/l10n.dart';
 import '../controller/SNSController.dart';
 import 'NewsTab.dart';
 import '../../home/data/model/category_model.dart';
+import '../../briefing/controller/briefing_controller.dart';
 
 class SelectedNewsScreen extends GetView<SelectedNewsController> {
   const SelectedNewsScreen({super.key});
@@ -81,6 +82,137 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
               NewsTab(apiKey: 'gnews', articles: controller.gnewsArticles),
               NewsTab(apiKey: 'newsApi', articles: controller.newsApiArticles),
             ],
+          );
+        }),
+        floatingActionButton: Obx(() {
+          final hasArticles =
+              controller.newsApiArticles.isNotEmpty ||
+              controller.gnewsArticles.isNotEmpty;
+          if (controller.currentTopic.isEmpty ||
+              !hasArticles ||
+              controller.isLoading.value ||
+              !controller.isSearchMode.value) {
+            return const SizedBox.shrink();
+          }
+
+          final briefingController = Get.find<AiBriefingController>();
+          final topicName = controller.currentTopic.value;
+
+          // Determine topic ID (value)
+          final matchingTopic = briefingController.staticTopics.firstWhere(
+            (t) =>
+                t['value'] == topicName.toLowerCase() ||
+                t['label'] == topicName,
+            orElse: () => {},
+          );
+          final topicId = matchingTopic.isNotEmpty
+              ? matchingTopic['value']!
+              : topicName;
+
+          final isLoading = briefingController.loadingTopicIds.contains(
+            topicId,
+          );
+          final isCached = briefingController.cachedSummaries.containsKey(
+            topicId,
+          );
+
+          return GestureDetector(
+            onTap: () {
+              String image = 'assets/images/general.png';
+              if (matchingTopic.isNotEmpty) {
+                image = matchingTopic['image']!;
+              } else {
+                if (controller.newsApiArticles.isNotEmpty) {
+                  final article = controller.newsApiArticles.firstWhere(
+                    (a) => a.urlToImage != null && a.urlToImage!.isNotEmpty,
+                    orElse: () => controller.newsApiArticles.first,
+                  );
+                  if (article.urlToImage != null &&
+                      article.urlToImage!.isNotEmpty) {
+                    image = article.urlToImage!;
+                  }
+                } else if (controller.gnewsArticles.isNotEmpty) {
+                  final article = controller.gnewsArticles.firstWhere(
+                    (a) => a.image.isNotEmpty,
+                    orElse: () => controller.gnewsArticles.first,
+                  );
+                  if (article.image.isNotEmpty) {
+                    image = article.image;
+                  }
+                }
+              }
+
+              final label = matchingTopic.isNotEmpty
+                  ? matchingTopic['label']!
+                  : topicName;
+
+              briefingController.selectAndSummarizeTopic({
+                'label': label,
+                'value': topicName,
+                'image': image,
+              });
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: isLoading
+                      ? [Colors.grey.shade400, Colors.grey.shade600]
+                      : (isCached
+                            ? [Colors.green.shade400, Colors.green.shade700]
+                            : [
+                                Colors.blue.shade400,
+                                Colors.blueAccent.shade700,
+                              ]),
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color:
+                        (isLoading
+                                ? Colors.grey
+                                : (isCached ? Colors.green : Colors.blueAccent))
+                            .withOpacity(0.4),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (isLoading)
+                    const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                  else
+                    Icon(
+                      isCached ? Icons.check_circle : Icons.auto_awesome,
+                      color: Colors.white,
+                    ),
+                  const SizedBox(width: 8),
+                  Text(
+                    isLoading
+                        ? S.of(context).analyzing
+                        : (isCached
+                              ? S.of(context).briefingReadyShort
+                              : S.of(context).generateSummary),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         }),
       ),
