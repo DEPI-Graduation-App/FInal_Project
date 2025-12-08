@@ -62,11 +62,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
       "لديك حساب بالفعل؟ ",
     ),
+    "analyzing": MessageLookupByLibrary.simpleMessage("جار التحليل..."),
     "authenticationError": MessageLookupByLibrary.simpleMessage(
       "خطأ في المصادقة",
     ),
     "badRequest": MessageLookupByLibrary.simpleMessage("طلب غير صالح"),
     "briefingReady": MessageLookupByLibrary.simpleMessage("ملخصك جاهز"),
+    "briefingReadyShort": MessageLookupByLibrary.simpleMessage("جاهز"),
     "briefingTitle": m0,
     "business": MessageLookupByLibrary.simpleMessage("أعمال"),
     "cannotOpenArticle": MessageLookupByLibrary.simpleMessage(
@@ -117,6 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "أعاد Gemini استجابة فارغة.",
     ),
     "general": MessageLookupByLibrary.simpleMessage("عام"),
+    "generateSummary": MessageLookupByLibrary.simpleMessage("إنشاء ملخص"),
     "gnewsSource": MessageLookupByLibrary.simpleMessage("مصدر GNews"),
     "health": MessageLookupByLibrary.simpleMessage("صحة"),
     "homeTitle": MessageLookupByLibrary.simpleMessage("الرئيسية"),

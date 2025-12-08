@@ -953,6 +953,31 @@ class S {
       args: [],
     );
   }
+
+  /// `Analyzing...`
+  String get analyzing {
+    return Intl.message('Analyzing...', name: 'analyzing', desc: '', args: []);
+  }
+
+  /// `Ready`
+  String get briefingReadyShort {
+    return Intl.message(
+      'Ready',
+      name: 'briefingReadyShort',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generate Summary`
+  String get generateSummary {
+    return Intl.message(
+      'Generate Summary',
+      name: 'generateSummary',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
       "Already have an account? ",
     ),
+    "analyzing": MessageLookupByLibrary.simpleMessage("Analyzing..."),
     "authenticationError": MessageLookupByLibrary.simpleMessage(
       "Authentication Error",
     ),
@@ -65,6 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "briefingReady": MessageLookupByLibrary.simpleMessage(
       "Your briefing is read",
     ),
+    "briefingReadyShort": MessageLookupByLibrary.simpleMessage("Ready"),
     "briefingTitle": m0,
     "business": MessageLookupByLibrary.simpleMessage("Business"),
     "cannotOpenArticle": MessageLookupByLibrary.simpleMessage(
@@ -115,6 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Gemini returned an empty response.",
     ),
     "general": MessageLookupByLibrary.simpleMessage("General"),
+    "generateSummary": MessageLookupByLibrary.simpleMessage("Generate Summary"),
     "gnewsSource": MessageLookupByLibrary.simpleMessage("GNews Source"),
     "health": MessageLookupByLibrary.simpleMessage("Health"),
     "homeTitle": MessageLookupByLibrary.simpleMessage("Home"),
