@@ -4,12 +4,10 @@ import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
 import 'package:news_depi_final_project/features/news/data/Services/NewsService.dart';
 import 'package:news_depi_final_project/generated/l10n.dart';
-
 import 'package:news_depi_final_project/features/gemini/data/datasources/gemini_remote_datasource.dart';
 import 'package:news_depi_final_project/features/gemini/domain/repositories/i_gemini_repository.dart';
-import 'package:news_depi_final_project/features/gemini/data/repositories/gemini_repository_impl.dart'; // افترضنا وجود الـ Impl هنا
+import 'package:news_depi_final_project/features/gemini/data/repositories/gemini_repository_impl.dart';
 import 'package:news_depi_final_project/features/gemini/domain/usecases/get_ai_summary_usecase.dart';
-
 import 'package:news_depi_final_project/features/news/data/model/NewsApiModel.dart'
     as news_api;
 import 'package:news_depi_final_project/features/news/data/model/GnewsModel.dart'
@@ -58,13 +56,8 @@ class AiBriefingController extends GetxController {
     },
   ];
 
-  // ==================================================
-  //  MANUAL DEPENDENCY INJECTION
-  // ==================================================
   void _initGeminiModule() {
     if (!Get.isRegistered<GetAiSummaryUseCase>()) {
-      print(" Initializing Gemini Module on Demand...");
-
       Get.put<IGeminiRemoteDataSource>(
         GeminiRemoteDataSourceImpl(Gemini.instance),
       );
@@ -77,9 +70,6 @@ class AiBriefingController extends GetxController {
     }
   }
 
-  // ==================================================
-  //  Main Logic
-  // ==================================================
   Future<void> selectAndSummarizeTopic(
     Map<String, String> topic, {
     bool forceRefresh = false,
@@ -114,11 +104,8 @@ class AiBriefingController extends GetxController {
         borderRadius: 8,
         duration: const Duration(seconds: 3),
       );
-
-      // _navigateToDetails(result);
     } catch (e) {
       loadingTopicIds.remove(topicId);
-      print("ERROR: $e");
       Get.snackbar(S.current.error, S.current.errorAnalyzingNews);
     }
   }
@@ -144,40 +131,38 @@ class AiBriefingController extends GetxController {
       );
       List<Article> unifiedList = _mapRawDataToArticles(rawData);
 
-      // Filter for last 24 hours
       final now = DateTime.now();
       final yesterday = now.subtract(const Duration(hours: 24));
-      unifiedList = unifiedList.where((article) {
+
+      var recentList = unifiedList.where((article) {
         return article.publishedAt.isAfter(yesterday);
       }).toList();
 
-      if (unifiedList.isNotEmpty) {
-        articleUrl = unifiedList.first.articleUrl;
+      if (recentList.isEmpty && unifiedList.isNotEmpty) {
+        recentList = unifiedList;
+      }
+
+      if (recentList.isNotEmpty) {
+        articleUrl = recentList.first.articleUrl;
         final useCase = Get.find<GetAiSummaryUseCase>();
 
-        // Extract sources (Top 5)
-        final topArticles = unifiedList.take(5).toList();
+        final topArticles = recentList.take(5).toList();
         sources = topArticles
             .map((a) => ArticleSource(name: a.sourceName, url: a.articleUrl))
             .toList();
 
-        // Request Dual Language
         final fullResponse = await useCase.callDualLang(
           topic: label,
-          articles: unifiedList.take(20).toList(),
+          articles: recentList.take(20).toList(),
         );
 
-        // Parse Response
         const separator = "###SPLIT###";
         if (fullResponse.contains(separator)) {
           final parts = fullResponse.split(separator);
           contentEn = parts[0].trim();
           contentAr = parts.length > 1 ? parts[1].trim() : "";
-
-          // Default description to English (or current lang)
           summaryText = contentEn;
         } else {
-          // Fallback if separator missing
           summaryText = fullResponse;
           contentEn = fullResponse;
           contentAr = "";
@@ -188,7 +173,6 @@ class AiBriefingController extends GetxController {
         contentAr = summaryText;
       }
     } catch (e) {
-      print("Error inside fetch: $e");
       summaryText = S.current.errorAnalyzingNews;
       contentEn = summaryText;
       contentAr = summaryText;
@@ -198,7 +182,7 @@ class AiBriefingController extends GetxController {
       id: value,
       sourceName: S.current.aiBriefingSource,
       title: S.current.briefingTitle(label),
-      description: summaryText, // Default display
+      description: summaryText,
       articleUrl: articleUrl,
       imageUrl: fixedImage,
       publishedAt: DateTime.now(),
@@ -211,7 +195,6 @@ class AiBriefingController extends GetxController {
     );
   }
 
-  // ... (Mapping Function Remains the same)
   List<Article> _mapRawDataToArticles(Map<String, dynamic> rawData) {
     List<Article> list = [];
 
