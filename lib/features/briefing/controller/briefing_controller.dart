@@ -207,6 +207,7 @@ class AiBriefingController extends GetxController {
       contentEn: contentEn,
       contentAr: contentAr,
       sources: sources,
+      isAiGenerated: true,
     );
   }
 

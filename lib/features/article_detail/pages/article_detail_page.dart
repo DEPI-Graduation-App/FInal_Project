@@ -152,7 +152,9 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          article.sourceName,
+                          article.isAiGenerated
+                              ? S.of(context).aiBriefingSource
+                              : article.sourceName,
                           style: Theme.of(context).textTheme.labelMedium
                               ?.copyWith(
                                 color: Colors.white,
@@ -178,7 +180,13 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
               children: [
                 // --- 1. Title ---
                 Text(
-                  article.title,
+                  article.isAiGenerated
+                      ? S
+                            .of(context)
+                            .briefingTitle(
+                              _getLocalizedTopicLabel(context, article.id),
+                            )
+                      : article.title,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w900,
                     height: 1.3,
@@ -222,19 +230,23 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
                 const SizedBox(height: 24),
 
                 // --- 3. Description Text ---
-                Text(
-                  controller.displayContent.isNotEmpty
-                      ? controller.displayContent
-                      : S.of(context).noDescriptionAvailable,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: 17,
-                    height: 1.7,
-                    color: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge?.color?.withOpacity(0.85),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                  child: Text(
+                    controller.displayContent.isNotEmpty
+                        ? controller.displayContent
+                        : S.of(context).noDescriptionAvailable,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontSize: 17,
+                      height: 1.7,
+                      color: Theme.of(
+                        context,
+                      ).textTheme.bodyLarge?.color?.withOpacity(0.85),
+                    ),
                   ),
                 ),
 
+                SizedBox(height: 24),
                 // --- 4. Sources Section ---
                 if (article.sources != null && article.sources!.isNotEmpty) ...[
                   const SizedBox(height: 30),
@@ -307,10 +319,25 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(
-                                  Icons.public,
-                                  size: 16,
-                                  color: Theme.of(context).primaryColor,
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        "https://www.google.com/s2/favicons?sz=64&domain_url=${source.url}",
+                                    width: 20,
+                                    height: 20,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => Icon(
+                                      Icons.public,
+                                      size: 16,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    errorWidget: (context, url, error) => Icon(
+                                      Icons.public,
+                                      size: 16,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
@@ -424,5 +451,26 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
         );
       },
     );
+  }
+
+  String _getLocalizedTopicLabel(BuildContext context, String topicId) {
+    switch (topicId) {
+      case 'general':
+        return S.of(context).general;
+      case 'sports':
+        return S.of(context).sports;
+      case 'technology':
+        return S.of(context).technology;
+      case 'business':
+        return S.of(context).business;
+      case 'science':
+        return S.of(context).science;
+      case 'health':
+        return S.of(context).health;
+      case 'entertainment':
+        return S.of(context).entertainment;
+      default:
+        return topicId;
+    }
   }
 }
