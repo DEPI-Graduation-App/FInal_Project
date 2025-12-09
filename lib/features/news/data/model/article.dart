@@ -12,6 +12,10 @@ class Article {
   final String? author;
 
   final String? content;
+  final String? contentEn;
+  final String? contentAr;
+  final List<ArticleSource>? sources;
+  final bool isAiGenerated;
 
   const Article({
     required this.id,
@@ -23,19 +27,29 @@ class Article {
     required this.publishedAt,
     this.author,
     this.content,
+    this.contentEn,
+    this.contentAr,
+    this.sources,
+    this.isAiGenerated = false,
   });
 
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
-      id: json['id'] as String,
-      title: json['title'] as String,
-      description: json['description'] as String?,
-      imageUrl: json['imageUrl'] as String?,
-      sourceName: json['sourceName'] as String,
-      articleUrl: json['articleUrl'] as String,
-      publishedAt: DateTime.parse(json['publishedAt'] as String),
-      author: json['author'] as String?,
-      content: json['content'] as String?,
+      id: json['id'] ?? '',
+      title: json['title'] ?? '',
+      description: json['description'],
+      imageUrl: json['imageUrl'],
+      sourceName: json['sourceName'] ?? '',
+      articleUrl: json['articleUrl'] ?? '',
+      publishedAt: DateTime.parse(json['publishedAt']),
+      author: json['author'],
+      content: json['content'],
+      contentEn: json['contentEn'],
+      contentAr: json['contentAr'],
+      sources: (json['sources'] as List<dynamic>?)
+          ?.map((e) => ArticleSource.fromJson(e))
+          .toList(),
+      isAiGenerated: json['isAiGenerated'] ?? false,
     );
   }
 
@@ -50,6 +64,10 @@ class Article {
       'publishedAt': publishedAt.toIso8601String(),
       'author': author,
       'content': content,
+      'contentEn': contentEn,
+      'contentAr': contentAr,
+      'sources': sources?.map((e) => e.toJson()).toList(),
+      'isAiGenerated': isAiGenerated,
     };
   }
 
@@ -62,4 +80,54 @@ class Article {
 
   @override
   int get hashCode => id.hashCode;
+
+  Article copyWith({
+    String? id,
+    String? title,
+    String? description,
+    String? imageUrl,
+    String? sourceName,
+    String? articleUrl,
+    DateTime? publishedAt,
+    String? author,
+    String? content,
+    String? contentEn,
+    String? contentAr,
+    List<ArticleSource>? sources,
+    bool? isAiGenerated,
+  }) {
+    return Article(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      imageUrl: imageUrl ?? this.imageUrl,
+      sourceName: sourceName ?? this.sourceName,
+      articleUrl: articleUrl ?? this.articleUrl,
+      publishedAt: publishedAt ?? this.publishedAt,
+      author: author ?? this.author,
+      content: content ?? this.content,
+      contentEn: contentEn ?? this.contentEn,
+      contentAr: contentAr ?? this.contentAr,
+      sources: sources ?? this.sources,
+      isAiGenerated: isAiGenerated ?? this.isAiGenerated,
+    );
+  }
+}
+
+class ArticleSource {
+  final String name;
+  final String url;
+
+  ArticleSource({required this.name, required this.url});
+
+  factory ArticleSource.fromJson(Map<String, dynamic> json) {
+    return ArticleSource(
+      name: json['name'] as String,
+      url: json['url'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'name': name, 'url': url};
+  }
 }

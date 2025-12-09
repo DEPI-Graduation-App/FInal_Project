@@ -47,7 +47,6 @@ dependencies:
   flutter_dotenv: ^6.0.0
   lottie: ^3.3.2
 
-
   # 
   flutter_gemini: ^3.0.0
   timeago: ^3.7.1
@@ -56,11 +55,14 @@ dependencies:
   vibration: ^3.1.4
   get_storage: ^2.1.1
 
-
-
-
+  # localization
+  flutter_localizations:
+    sdk: flutter
+  awesome_notifications: ^0.10.1
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
+
   flutter_test:
     sdk: flutter
 
@@ -73,7 +75,6 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -84,25 +85,24 @@ flutter:
   assets:
     - assets/images/
     - .env
-    
+
 flutter_native_splash:
   color: "#f7f4ef"
   image: assets/images/logo1.png
   fullscreen: true
   android_12:
     color: "#f7f4ef"
-    image: assets/images/logo1.png
+    image: assets/images/logo.png
     icon_background_color: "#f7f4ef"
-
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo1.png"
   # To add assets to your application, add an assets section, like this:
-
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
@@ -122,3 +122,5 @@ flutter_native_splash:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_intl:
+  enabled: true

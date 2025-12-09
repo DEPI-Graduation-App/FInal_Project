@@ -5,11 +5,8 @@ import '../model/GnewsModel.dart';
 import '../model/NewsApiModel.dart';
 
 class NewsService extends GetxService {
-  final String newsAPIKey = 'c7edb54fa7e24e58b11df93744ea9d9e';
-  final String gNewsKey = '422170ff1016b2871e6c98a7995b0821';
-  final String currentNewsKey =
-      'qDUdQd7Vi2YCV-yIL0WR9Yo9lcO_WSdX-Ulc19lwjFpLiR24';
-
+  final String newsAPIKey = '2528ed953bb247ccbe11c1cc63afb51c';
+  final String gNewsKey = 'a751fa0bae26c6fc64db5be3e57730b6';
   final Dio dio = Dio();
   final cancelToken = CancelToken();
 
@@ -90,7 +87,6 @@ class NewsService extends GetxService {
       return null;
     }
   }
-
 
   Future<Map<String, dynamic>> getCombinedNews(String query) async {
     final results = await Future.wait([

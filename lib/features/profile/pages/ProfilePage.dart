@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_depi_final_project/core/constants/assets_manager.dart';
 import 'package:news_depi_final_project/features/profile/controller/ProfileController.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
+import '../../../core/controller/LanguageController.dart';
 
 class ProfilePage extends GetView<Profilecontroller> {
   const ProfilePage({super.key});
@@ -10,7 +12,17 @@ class ProfilePage extends GetView<Profilecontroller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: const Text('Profile')),
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: Text(
+          S.of(context).profileTitle,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+      ),
+
       body: Obx(() {
         if (controller.userData.value == null ||
             controller.username.value.isEmpty) {
@@ -19,175 +31,328 @@ class ProfilePage extends GetView<Profilecontroller> {
 
         final rawPic = controller.userData.value?.profilePic;
         final pic = (rawPic == null || rawPic.isEmpty) ? null : rawPic;
-        final urlWithTs =
-        pic == null ? null : "$pic?t=${DateTime.now().millisecondsSinceEpoch}";
+        final urlWithTs = pic == null
+            ? null
+            : "$pic?t=${DateTime.now().millisecondsSinceEpoch}";
 
         return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
             children: [
-              const SizedBox(height: 10),
-
-
               Center(
                 child: Stack(
                   alignment: Alignment.bottomRight,
                   children: [
-                    ClipOval(
-                      child: Container(
-                        width: 130,
-                        height: 130,
-                        color: Colors.grey[200],
+                    Container(
+                      width: 140,
+                      height: 140,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: controller.accent, width: 3),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: ClipOval(
                         child: urlWithTs == null
                             ? Image.asset(AssetsManager.pp, fit: BoxFit.cover)
-                            : Image.network(
-                          urlWithTs,
-                          fit: BoxFit.cover,
-                          width: 130,
-                          height: 130,
-                        ),
+                            : Image.network(urlWithTs, fit: BoxFit.cover),
                       ),
                     ),
 
                     CircleAvatar(
+                      radius: 22,
                       backgroundColor: Colors.white,
-                      radius: 18,
                       child: IconButton(
-                        icon: const Icon(Icons.camera_alt, size: 18),
+                        icon: Icon(
+                          Icons.camera_alt,
+                          color: controller.accent,
+                          size: 20,
+                        ),
                         onPressed: () {
                           showModalBottomSheet(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(25),
+                              ),
+                            ),
                             context: context,
                             builder: (_) => SafeArea(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ListTile(
-                                    leading: const Icon(Icons.photo_library),
-                                    title: const Text("Gallery"),
-                                    onTap: () async {
-                                      final picked = await controller.picker.pickImage(
-                                          source: ImageSource.gallery);
-                                      if (picked != null) controller.setImage(picked);
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  ListTile(
-                                    leading: const Icon(Icons.camera_alt),
-                                    title: const Text("Camera"),
-                                    onTap: () async {
-                                      final picked = await controller.picker.pickImage(
-                                          source: ImageSource.camera);
-                                      if (picked != null) controller.setImage(picked);
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ],
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      width: 40,
+                                      height: 5,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[400],
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+
+                                    Text(
+                                      S.of(context).chooseProfilePicture,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 15),
+
+                                    ListTile(
+                                      leading: const Icon(Icons.photo_library),
+                                      title: Text(
+                                        S.of(context).uploadFromGallery,
+                                      ),
+                                      onTap: () async {
+                                        final picked = await controller.picker
+                                            .pickImage(
+                                              source: ImageSource.gallery,
+                                            );
+                                        if (picked != null)
+                                          controller.setImage(picked);
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: const Icon(Icons.camera_alt),
+                                      title: Text(S.of(context).takeAPhoto),
+                                      onTap: () async {
+                                        final picked = await controller.picker
+                                            .pickImage(
+                                              source: ImageSource.camera,
+                                            );
+                                        if (picked != null)
+                                          controller.setImage(picked);
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           );
                         },
                       ),
-                    )
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 30),
+              const Divider(),
+              const SizedBox(height: 20),
+
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
+                  boxShadow: const [
+                    BoxShadow(color: Colors.blueAccent, blurRadius: 12),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Email",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blueAccent,width: 2),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Text(
+                        controller.userData.value!.email,
+                        style: const TextStyle(
+                          color: Colors.blueAccent,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    Text(
+                      "Username: ${controller.userData.value!.username}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    TextField(
+                      onChanged: (value) {
+                        controller.isVisable.value = value.isNotEmpty;
+                      },
+                      controller: controller.usernameController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+
+                        hintText: "Edit username",
+                        hintStyle: const TextStyle(color: Colors.blueAccent),
+
+                        labelStyle: const TextStyle(color: Colors.blueAccent),
+
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: const BorderSide(
+                            color: Colors.blueAccent,
+                            width: 2,
+                          ),
+                        ),
+
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: const BorderSide(
+                            color: Colors.blue,
+                            width: 2.5,
+                          ),
+                        ),
+
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: const BorderSide(
+                            color: Colors.blueAccent,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                      style: const TextStyle(color: Colors.blueAccent),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 15),
+              const Divider(),
+              const SizedBox(height: 15),
+
+              // Language Switcher
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
+                  boxShadow: const [
+                    BoxShadow(color: Colors.blueAccent, blurRadius: 12),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).language,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          Get.find<LanguageController>().isArabic
+                              ? 'العربية'
+                              : 'English',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            final langCtrl = Get.find<LanguageController>();
+                            if (langCtrl.isArabic) {
+                              langCtrl.changeLanguage('en');
+                            } else {
+                              langCtrl.changeLanguage('ar');
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: controller.accent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          child: Text(
+                            S.of(context).changeLanguage,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 35),
+              const SizedBox(height: 15),
+              const Divider(),
+              const SizedBox(height: 15),
 
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Email",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                decoration: BoxDecoration(
-                  color: Colors.grey[700],
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  controller.userData.value!.email,
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ),
-
-              const SizedBox(height: 25),
-
-
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Username",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 8),
-
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: Colors.grey[700],
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: TextField(
-                  controller: controller.usernameController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Edit username ${controller.userData.value!.username}",
-                    hintStyle: TextStyle(color: Colors.white70),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 30),
-
+              controller.isVisable.value
+                  ? SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: controller.updateUsername,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: controller.accent,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
+                        child: Text(
+                          S.of(context).updateSaveButton,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+              const SizedBox(height: 15),
 
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: controller.updateUsername,
+                  onPressed: controller.logout,
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    backgroundColor: Colors.teal,
+                    backgroundColor: Colors.redAccent,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(25),
                     ),
                   ),
-                  child: const Text(
-                    "Update / Save",
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  child: Text(
+                    S.of(context).logoutButton,
+                    style: const TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 30),
-
-
-                   SizedBox(
-                     width: double.infinity,
-                     child: ElevatedButton(
-                        onPressed: controller.logout ,
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          backgroundColor: Colors.redAccent,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                        ),
-                        child: const Text("Log out",
-                            style: TextStyle(fontSize: 16, color: Colors.white)),
-                      ),
-                   ),
-
-                  const SizedBox(width: 16),
-
-
-
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
             ],
           ),
         );

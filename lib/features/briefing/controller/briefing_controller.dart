@@ -3,12 +3,11 @@ import 'package:get/get.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
 import 'package:news_depi_final_project/features/news/data/Services/NewsService.dart';
-
+import 'package:news_depi_final_project/generated/l10n.dart';
 import 'package:news_depi_final_project/features/gemini/data/datasources/gemini_remote_datasource.dart';
 import 'package:news_depi_final_project/features/gemini/domain/repositories/i_gemini_repository.dart';
-import 'package:news_depi_final_project/features/gemini/data/repositories/gemini_repository_impl.dart'; // افترضنا وجود الـ Impl هنا
+import 'package:news_depi_final_project/features/gemini/data/repositories/gemini_repository_impl.dart';
 import 'package:news_depi_final_project/features/gemini/domain/usecases/get_ai_summary_usecase.dart';
-
 import 'package:news_depi_final_project/features/news/data/model/NewsApiModel.dart'
     as news_api;
 import 'package:news_depi_final_project/features/news/data/model/GnewsModel.dart'
@@ -26,36 +25,39 @@ class AiBriefingController extends GetxController {
 
   List<Map<String, String>> get staticTopics => [
     {
-      'label': 'General',
+      'label': S.current.general,
       'value': 'general',
       'image': 'assets/images/general.png',
     },
-    {'label': 'Sports', 'value': 'sports', 'image': 'assets/images/Sports.png'},
     {
-      'label': 'Technology',
+      'label': S.current.sports,
+      'value': 'sports',
+      'image': 'assets/images/Sports.png',
+    },
+    {
+      'label': S.current.technology,
       'value': 'technology',
       'image': 'assets/images/Technology.png',
     },
     {
-      'label': 'Business',
+      'label': S.current.business,
       'value': 'business',
       'image': 'assets/images/Business.png',
     },
-    {'label': 'Health', 'value': 'health', 'image': 'assets/images/Health.png'},
     {
-      'label': 'Science',
+      'label': S.current.health,
+      'value': 'health',
+      'image': 'assets/images/Health.png',
+    },
+    {
+      'label': S.current.science,
       'value': 'science',
       'image': 'assets/images/Science.png',
     },
   ];
 
-  // ==================================================
-  //  MANUAL DEPENDENCY INJECTION
-  // ==================================================
   void _initGeminiModule() {
     if (!Get.isRegistered<GetAiSummaryUseCase>()) {
-      print(" Initializing Gemini Module on Demand...");
-
       Get.put<IGeminiRemoteDataSource>(
         GeminiRemoteDataSourceImpl(Gemini.instance),
       );
@@ -68,9 +70,6 @@ class AiBriefingController extends GetxController {
     }
   }
 
-  // ==================================================
-  //  Main Logic
-  // ==================================================
   Future<void> selectAndSummarizeTopic(
     Map<String, String> topic, {
     bool forceRefresh = false,
@@ -97,20 +96,17 @@ class AiBriefingController extends GetxController {
       Vibration.vibrate(duration: 400);
 
       Get.snackbar(
-        "Your briefing is read",
-        "${topic['label']} summary is ready",
+        S.current.briefingReady,
+        S.current.briefingTitle(topic['label']!),
         backgroundColor: Colors.green,
         snackPosition: SnackPosition.TOP,
         margin: const EdgeInsets.all(16),
         borderRadius: 8,
         duration: const Duration(seconds: 3),
       );
-
-      // _navigateToDetails(result);
     } catch (e) {
       loadingTopicIds.remove(topicId);
-      print("ERROR: $e");
-      Get.snackbar("Error", "Failed to generate summary: $e");
+      Get.snackbar(S.current.error, S.current.errorAnalyzingNews);
     }
   }
 
@@ -124,6 +120,9 @@ class AiBriefingController extends GetxController {
     final fixedImage = topic['image']!;
 
     String summaryText = "";
+    String contentEn = "";
+    String contentAr = "";
+    List<ArticleSource> sources = [];
     String articleUrl = "https://news.google.com";
 
     try {
@@ -132,46 +131,81 @@ class AiBriefingController extends GetxController {
       );
       List<Article> unifiedList = _mapRawDataToArticles(rawData);
 
-      if (unifiedList.isNotEmpty) {
-        articleUrl = unifiedList.first.articleUrl;
+      final now = DateTime.now();
+      final yesterday = now.subtract(const Duration(hours: 24));
+
+      var recentList = unifiedList.where((article) {
+        return article.publishedAt.isAfter(yesterday);
+      }).toList();
+
+      if (recentList.isEmpty && unifiedList.isNotEmpty) {
+        recentList = unifiedList;
+      }
+
+      if (recentList.isNotEmpty) {
+        articleUrl = recentList.first.articleUrl;
         final useCase = Get.find<GetAiSummaryUseCase>();
 
-        summaryText = await useCase.call(
+        final topArticles = recentList.take(5).toList();
+        sources = topArticles
+            .map((a) => ArticleSource(name: a.sourceName, url: a.articleUrl))
+            .toList();
+
+        final fullResponse = await useCase.callDualLang(
           topic: label,
-          articles: unifiedList.take(20).toList(),
+          articles: recentList.take(20).toList(),
         );
+
+        const separator = "###SPLIT###";
+        if (fullResponse.contains(separator)) {
+          final parts = fullResponse.split(separator);
+          contentEn = parts[0].trim();
+          contentAr = parts.length > 1 ? parts[1].trim() : "";
+          summaryText = contentEn;
+        } else {
+          summaryText = fullResponse;
+          contentEn = fullResponse;
+          contentAr = "";
+        }
       } else {
-        summaryText = "No recent articles found regarding this topic.";
+        summaryText = S.current.noRecentArticles;
+        contentEn = summaryText;
+        contentAr = summaryText;
       }
     } catch (e) {
-      print("Error inside fetch: $e");
-      summaryText = "An error occurred while analyzing news.";
+      summaryText = S.current.errorAnalyzingNews;
+      contentEn = summaryText;
+      contentAr = summaryText;
     }
 
     return Article(
       id: value,
-      sourceName: "AI Briefing",
-      title: "Briefing: $label",
+      sourceName: S.current.aiBriefingSource,
+      title: S.current.briefingTitle(label),
       description: summaryText,
       articleUrl: articleUrl,
       imageUrl: fixedImage,
       publishedAt: DateTime.now(),
-      author: "Gemini AI",
+      author: S.current.geminiAiAuthor,
       content: summaryText,
+      contentEn: contentEn,
+      contentAr: contentAr,
+      sources: sources,
+      isAiGenerated: true,
     );
   }
 
-  // ... (Mapping Function Remains the same)
   List<Article> _mapRawDataToArticles(Map<String, dynamic> rawData) {
     List<Article> list = [];
+
     if (rawData['newsApi'] != null) {
       final data = rawData['newsApi'] as news_api.NewsApiModel;
       for (var item in data.articles) {
         list.add(
           Article(
             id: item.url ?? DateTime.now().toString(),
-            sourceName: item.source?.name ?? "NewsAPI",
-            title: item.title ?? "No Title",
+            sourceName: item.source?.name ?? S.current.newsApiSource,
+            title: item.title ?? S.current.noTitle,
             description: item.description,
             articleUrl: item.url ?? "",
             imageUrl: item.urlToImage,
@@ -193,7 +227,7 @@ class AiBriefingController extends GetxController {
             articleUrl: item.url,
             imageUrl: item.image,
             publishedAt: item.publishedAt,
-            author: "GNews Source",
+            author: S.current.gnewsSource,
           ),
         );
       }

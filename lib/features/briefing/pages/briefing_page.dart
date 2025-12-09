@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:news_depi_final_project/features/briefing/controller/briefing_controller.dart';
 import 'package:news_depi_final_project/features/briefing/widgets/build_smart_topic_card.dart';
 import 'package:news_depi_final_project/features/news/data/model/article.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 
 class AiBriefingPage extends GetView<AiBriefingController> {
   const AiBriefingPage({super.key});
@@ -22,21 +23,21 @@ class AiBriefingPage extends GetView<AiBriefingController> {
           // Header
           SliverAppBar(
             backgroundColor: Colors.white,
-            expandedHeight: 150,
+            expandedHeight: 120,
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               titlePadding: const EdgeInsets.only(left: 20, bottom: 16),
-              title: const Text(
-                "AI News Briefing",
-                style: TextStyle(
+              title: Text(
+                S.of(context).aiNewsBriefing,
+                style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               background: Container(
                 alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(left: 20, top: 50),
+                padding: const EdgeInsets.only(left: 20, top: 20),
                 child: Text(
                   todayDate,
                   style: const TextStyle(color: Colors.grey, fontSize: 14),

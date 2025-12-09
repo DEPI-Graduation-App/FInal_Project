@@ -5,18 +5,19 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
 import 'package:news_depi_final_project/features/auth/data/model/UserModel.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 
 import '../../auth/data/services/AuthService.dart';
 import '../../auth/data/services/SupaBaseServices.dart';
 
 class Profilecontroller extends GetxController {
-
   RxString email = ''.obs;
   RxString username = ''.obs;
   RxBool loading = false.obs;
   Rx<XFile?> pickedImage = Rx<XFile?>(null);
   final usernameController = TextEditingController();
-
+  final Color accent = Colors.blueAccent;
+  RxBool isVisable = false.obs;
   final ImagePicker picker = ImagePicker();
 
   final Rxn<UserModel> userData = Rxn<UserModel>();
@@ -31,31 +32,36 @@ class Profilecontroller extends GetxController {
   Future<void> updateUsername() async {
     final newUsername = usernameController.text.trim();
     if (newUsername.isEmpty) {
-      Get.snackbar("Error", "You didn't update nothing",backgroundColor: Colors.redAccent, colorText: Colors.white);
+      Get.snackbar(
+        S.current.error,
+        S.current.youDidntUpdateNothing,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
       return;
     }
 
     final uid = userData.value?.id;
 
     if (uid == null) {
-      Get.snackbar("Error", "User not logged in");
+      Get.snackbar(S.current.error, S.current.userNotLoggedIn);
       return;
     }
 
     try {
-      await cloud
-          .from("user")
-          .update({"username": newUsername})
-          .eq("id", uid);
+      await cloud.from("user").update({"username": newUsername}).eq("id", uid);
 
       username.value = newUsername;
       userData.value = userData.value!.copyWith(username: newUsername);
 
-      Get.snackbar("Success", "Username updated");
+      Get.snackbar(S.current.success, S.current.usernameUpdated);
+      usernameController.clear();
+      isVisable.value = false;
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      Get.snackbar(S.current.error, e.toString());
     }
   }
+
   Future<void> fetchUserData() async {
     loading.value = true;
 
@@ -83,7 +89,6 @@ class Profilecontroller extends GetxController {
     await pickAndUploadImage(userId);
   }
 
-
   Future<void> pickAndUploadImage(String userId) async {
     if (pickedImage.value == null) return;
 
@@ -100,11 +105,14 @@ class Profilecontroller extends GetxController {
     if (baseUrl == null) return;
 
     // Step 2: Add ONE cache buster
-    final cacheBustedUrl = "$baseUrl?t=${DateTime.now().millisecondsSinceEpoch}";
+    final cacheBustedUrl =
+        "$baseUrl?t=${DateTime.now().millisecondsSinceEpoch}";
 
     // Step 3: Save to database
     final updated = await SupaBaseServices().updateUserProfilePic(
-        userId, cacheBustedUrl);
+      userId,
+      cacheBustedUrl,
+    );
 
     debugPrint('updateUserProfilePic -> $updated');
 
@@ -120,29 +128,33 @@ class Profilecontroller extends GetxController {
       pickedImage.value = null;
     }
   }
-  Future<bool> validateImageSize(File file, {int maxWidth = 2000, int maxHeight = 2000}) async {
+
+  Future<bool> validateImageSize(
+    File file, {
+    int maxWidth = 2000,
+    int maxHeight = 2000,
+  }) async {
     try {
       final bytes = await file.readAsBytes();
       final decoded = await decodeImageFromList(bytes);
 
-      debugPrint("Selected image width: ${decoded.width}, height: ${decoded.height}");
+      debugPrint(
+        "Selected image width: ${decoded.width}, height: ${decoded.height}",
+      );
 
       if (decoded.width > maxWidth || decoded.height > maxHeight) {
         Get.snackbar(
-          "Image too large",
-          "Image dimensions exceed $maxWidth x $maxHeight. Please choose a smaller image.",
+          S.current.imageTooLarge,
+          S.current.imageDimensionsExceed(maxWidth, maxHeight),
         );
         return false;
       }
 
       return true;
-
     } catch (e) {
       debugPrint("Failed to read image size: $e");
-      Get.snackbar("Error", "Unable to read image. Please choose another picture.");
+      Get.snackbar(S.current.error, S.current.unableToReadImage);
       return false;
     }
   }
-
-
 }

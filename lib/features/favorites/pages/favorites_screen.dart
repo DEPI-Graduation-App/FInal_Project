@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 import '../controllers/favorites_controller.dart';
 
 class FavoritesScreen extends GetView<FavoritesController> {
@@ -10,43 +11,26 @@ class FavoritesScreen extends GetView<FavoritesController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF7F8FA),
+
       appBar: AppBar(
-        title: const Text('Favorites'),
-        backgroundColor: Colors.white,
+        title: Text(
+          S.of(context).favoritesTitle,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
         foregroundColor: Colors.black87,
         elevation: 0,
+
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(height: 1, color: Colors.blueAccent),
+        ),
       ),
+
       body: Obx(() {
         if (controller.favoriteItems.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.favorite_border,
-                  size: 80,
-                  color: Colors.grey[400],
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'No favorites yet',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey[600],
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Add categories to see them here',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[500],
-                  ),
-                ),
-              ],
-            ),
-          );
+          return _buildEmptyState(context);
         }
 
         return ListView.builder(
@@ -55,53 +39,72 @@ class FavoritesScreen extends GetView<FavoritesController> {
           itemBuilder: (context, index) {
             final category = controller.favoriteItems[index];
 
-            return Card(
-              margin: const EdgeInsets.only(bottom: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+            return Container(
+              margin: const EdgeInsets.only(bottom: 14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.06),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+                border: Border.all(
+                  color: Colors.blueAccent.withOpacity(0.5),
+                  width: 1.2,
+                ),
               ),
               child: ListTile(
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
-                  vertical: 8,
+                  vertical: 10,
                 ),
+
                 leading: Container(
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.blueAccent.withOpacity(0.07),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.blueAccent),
                   ),
                   child: Center(
-                    child: category.imageUrl != null &&
-                        category.imageUrl!.isNotEmpty
-                        ? Image.asset(
-                      category.imageUrl!,
-                      width: 30,
-                      height: 30,
-                    )
+                    child:
+                        category.imageUrl != null &&
+                            category.imageUrl!.isNotEmpty
+                        ? Image.asset(category.imageUrl!, width: 32, height: 32)
                         : Text(
-                      category.icon ?? "📰",
-                      style: const TextStyle(fontSize: 28),
-                    ),
+                            category.icon ?? "📰",
+                            style: const TextStyle(fontSize: 28),
+                          ),
                   ),
                 ),
+
                 title: Text(
-                  category.name,
+                  _getLocalizedCategoryName(context, category.name),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                trailing: IconButton(
-                  icon: const Icon(
+
+                trailing: GestureDetector(
+                  onTap: () =>
+                      controller.removeFromFavorites(category, category.name),
+                  child: const Icon(
                     Icons.favorite,
-                    color: Colors.red,
+                    color: Colors.blueAccent,
+                    size: 28,
                   ),
-                  onPressed: () => controller.removeFromFavorites(category,category.name),
                 ),
+
                 onTap: () {
-                  Get.toNamed(AppPages.SelectedNews, arguments: [category.name,category]);
+                  Get.toNamed(
+                    AppPages.SelectedNews,
+                    arguments: [category.name, category],
+                  );
                 },
               ),
             );
@@ -109,5 +112,59 @@ class FavoritesScreen extends GetView<FavoritesController> {
         );
       }),
     );
+  }
+
+  Widget _buildEmptyState(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.favorite_border,
+            size: 90,
+            color: Colors.blueAccent.withOpacity(0.4),
+          ),
+          const SizedBox(height: 20),
+
+          Text(
+            S.of(context).noFavoritesYet,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          Text(
+            S.of(context).addCategoriesToSeeThem,
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getLocalizedCategoryName(BuildContext context, String categoryName) {
+    final s = S.of(context);
+    switch (categoryName.toLowerCase()) {
+      case 'business':
+        return s.business;
+      case 'entertainment':
+        return s.entertainment;
+      case 'general':
+        return s.general;
+      case 'health':
+        return s.health;
+      case 'science':
+        return s.science;
+      case 'sports':
+        return s.sports;
+      case 'technology':
+        return s.technology;
+      default:
+        return categoryName;
+    }
   }
 }

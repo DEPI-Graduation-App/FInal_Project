@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:news_depi_final_project/features/news/data/model/article.dart';
+import '../../../core/controller/LanguageController.dart';
 
 enum TtsState { playing, stopped, paused, continued }
 
@@ -25,6 +26,26 @@ class ArticleDetailController extends GetxController {
       article = args;
     }
     _initTts();
+  }
+
+  String get displayContent {
+    if (article == null) return "";
+
+    // Check Language
+    final isArabic = Get.find<LanguageController>().isArabic;
+
+    if (isArabic &&
+        article!.contentAr != null &&
+        article!.contentAr!.isNotEmpty) {
+      return article!.contentAr!;
+    } else if (!isArabic &&
+        article!.contentEn != null &&
+        article!.contentEn!.isNotEmpty) {
+      return article!.contentEn!;
+    }
+
+    // Fallback
+    return article!.description ?? article!.content ?? "";
   }
 
   void toggleLike() {
@@ -61,7 +82,10 @@ class ArticleDetailController extends GetxController {
   }
 
   Future<void> speak() async {
-    String textToSpeak = article?.description ?? article?.title ?? "";
+    String textToSpeak = displayContent;
+    if (textToSpeak.isEmpty) {
+      textToSpeak = article?.title ?? "";
+    }
 
     if (textToSpeak.isNotEmpty) {
       bool isArabic = RegExp("[\u0600-\u06FF]").hasMatch(textToSpeak);

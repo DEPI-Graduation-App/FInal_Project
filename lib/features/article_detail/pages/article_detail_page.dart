@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_depi_final_project/features/article_detail/widgets/build_tts_controls.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:news_depi_final_project/features/article_detail/controller/article_detail_controller.dart';
+import 'package:news_depi_final_project/generated/l10n.dart';
 
 class ArticleDetailsPage extends GetView<ArticleDetailController> {
   const ArticleDetailsPage({super.key});
@@ -150,7 +152,9 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          article.sourceName,
+                          article.isAiGenerated
+                              ? S.of(context).aiBriefingSource
+                              : article.sourceName,
                           style: Theme.of(context).textTheme.labelMedium
                               ?.copyWith(
                                 color: Colors.white,
@@ -176,7 +180,13 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
               children: [
                 // --- 1. Title ---
                 Text(
-                  article.title,
+                  article.isAiGenerated
+                      ? S
+                            .of(context)
+                            .briefingTitle(
+                              _getLocalizedTopicLabel(context, article.id),
+                            )
+                      : article.title,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w900,
                     height: 1.3,
@@ -220,16 +230,141 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
                 const SizedBox(height: 24),
 
                 // --- 3. Description Text ---
-                Text(
-                  article.description ?? "No description available.",
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: 17,
-                    height: 1.7,
-                    color: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge?.color?.withOpacity(0.85),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                  child: Text(
+                    controller.displayContent.isNotEmpty
+                        ? controller.displayContent
+                        : S.of(context).noDescriptionAvailable,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontSize: 17,
+                      height: 1.7,
+                      color: Theme.of(
+                        context,
+                      ).textTheme.bodyLarge?.color?.withOpacity(0.85),
+                    ),
                   ),
                 ),
+
+                SizedBox(height: 24),
+                // --- 4. Sources Section ---
+                if (article.sources != null && article.sources!.isNotEmpty) ...[
+                  const SizedBox(height: 30),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Theme.of(
+                            context,
+                          ).primaryColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.source_rounded,
+                          color: Theme.of(context).primaryColor,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        S.of(context).aiBriefingSource,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: article.sources!.map((source) {
+                      return Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () async {
+                            final uri = Uri.parse(source.url);
+                            if (await canLaunchUrl(uri)) {
+                              await launchUrl(
+                                uri,
+                                mode: LaunchMode.externalApplication,
+                              );
+                            }
+                          },
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Theme.of(
+                                  context,
+                                ).dividerColor.withOpacity(0.1),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        "https://www.google.com/s2/favicons?sz=64&domain_url=${source.url}",
+                                    width: 20,
+                                    height: 20,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => Icon(
+                                      Icons.public,
+                                      size: 16,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    errorWidget: (context, url, error) => Icon(
+                                      Icons.public,
+                                      size: 16,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  source.name,
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(
+                                          context,
+                                        ).textTheme.bodyMedium?.color,
+                                      ),
+                                ),
+                                const SizedBox(width: 4),
+                                Icon(
+                                  Icons.arrow_outward_rounded,
+                                  size: 14,
+                                  color: Theme.of(context).disabledColor,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 40),
+                ],
               ],
             ),
           ),
@@ -316,5 +451,26 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
         );
       },
     );
+  }
+
+  String _getLocalizedTopicLabel(BuildContext context, String topicId) {
+    switch (topicId) {
+      case 'general':
+        return S.of(context).general;
+      case 'sports':
+        return S.of(context).sports;
+      case 'technology':
+        return S.of(context).technology;
+      case 'business':
+        return S.of(context).business;
+      case 'science':
+        return S.of(context).science;
+      case 'health':
+        return S.of(context).health;
+      case 'entertainment':
+        return S.of(context).entertainment;
+      default:
+        return topicId;
+    }
   }
 }

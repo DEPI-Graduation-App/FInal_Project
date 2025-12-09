@@ -59,9 +59,9 @@ $articlesContent
     $articlesContent
 
     Task:
-    1. Write a short summary in **ENGLISH**.
+    1. Write a short summary of the **news from the last 24 hours** in **ENGLISH**.
     2. Write exactly "$separator".
-    3. Write a short summary in **ARABIC**.
+    3. Write a short summary of the **news from the last 24 hours** in **ARABIC**.
     
     Constraint: Output ONLY the requested format. Do not add conversational text.
     ''';

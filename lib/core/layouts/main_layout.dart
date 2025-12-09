@@ -14,7 +14,6 @@ class MainLayout extends GetView<LayoutController> {
 
   @override
   Widget build(BuildContext context) {
-    // final controller = Get.put(LayoutController());
 
     final pages = const [HomeScreen(), AiBriefingPage(),FavoritesScreen(), ProfilePage(),];
 
