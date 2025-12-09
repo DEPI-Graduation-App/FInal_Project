@@ -67,7 +67,7 @@ class RegisterScreen extends GetView<RegisterController> {
                     controller.showPassword.value
                         ? Icons.visibility
                         : Icons.visibility_off,
-                    color: Colors.white,
+                    color: Colors.blueAccent,
                   ),
                   onPressed: controller.togglePassword,
                 ),
@@ -87,7 +87,7 @@ class RegisterScreen extends GetView<RegisterController> {
                     controller.showRePassword.value
                         ? Icons.visibility
                         : Icons.visibility_off,
-                    color: Colors.white,
+                    color: Colors.blueAccent,
                   ),
                   onPressed: controller.toggleRePassword,
                 ),
@@ -101,7 +101,7 @@ class RegisterScreen extends GetView<RegisterController> {
                   : ElevatedButton(
                       onPressed: controller.register,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
+                        backgroundColor: Colors.blueAccent,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 120,

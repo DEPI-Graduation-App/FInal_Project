@@ -162,9 +162,9 @@ class ProfilePage extends GetView<Profilecontroller> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      S.of(context).emailLabel,
-                      style: const TextStyle(
+                    const Text(
+                      "Email",
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -177,13 +177,14 @@ class ProfilePage extends GetView<Profilecontroller> {
                         vertical: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.grey[900],
+                        border: Border.all(color: Colors.blueAccent,width: 2),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: Text(
                         controller.userData.value!.email,
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.blueAccent,
                           fontSize: 16,
                         ),
                       ),
@@ -191,10 +192,8 @@ class ProfilePage extends GetView<Profilecontroller> {
                     const SizedBox(height: 20),
 
                     Text(
-                      S
-                          .of(context)
-                          .usernameLabel(controller.userData.value!.username),
-                      style: const TextStyle(
+                      "Username: ${controller.userData.value!.username}",
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -207,15 +206,38 @@ class ProfilePage extends GetView<Profilecontroller> {
                       controller: controller.usernameController,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: Colors.grey[900],
-                        hintText: S.of(context).editUsernameHint,
-                        hintStyle: const TextStyle(color: Colors.white),
-                        labelStyle: const TextStyle(color: Colors.white70),
+                        fillColor: Colors.white,
+
+                        hintText: "Edit username",
+                        hintStyle: const TextStyle(color: Colors.blueAccent),
+
+                        labelStyle: const TextStyle(color: Colors.blueAccent),
+
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: const BorderSide(
+                            color: Colors.blueAccent,
+                            width: 2,
+                          ),
+                        ),
+
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: const BorderSide(
+                            color: Colors.blue,
+                            width: 2.5,
+                          ),
+                        ),
+
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
+                          borderSide: const BorderSide(
+                            color: Colors.blueAccent,
+                            width: 2,
+                          ),
                         ),
                       ),
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.blueAccent),
                     ),
                   ],
                 ),

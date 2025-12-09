@@ -10,18 +10,20 @@ class BottomNavBar extends GetView<LayoutController> {
   Widget build(BuildContext context) {
     const Color primaryColor = Colors.blueAccent;
 
-    return Obx(() {
-      final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
-      if (isKeyboardOpen) return const SizedBox.shrink();
+    final isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
 
+    if (isKeyboardOpen) return const SizedBox.shrink();
+
+    return Obx(() {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),child: SafeArea(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+        child: SafeArea(
           child: Container(
             height: 74,
             decoration: BoxDecoration(
               border: Border.all(color: primaryColor.withOpacity(0.9), width: 2.4),
               color: Colors.white.withOpacity(0.55),
-              borderRadius: BorderRadius.circular(24), // slightly smaller radius
+              borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.07),
@@ -71,14 +73,13 @@ class BottomNavBar extends GetView<LayoutController> {
     return BottomNavigationBarItem(
       icon: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOut,
         decoration: BoxDecoration(
           color: isActive ? activeColor.withOpacity(0.15) : Colors.transparent,
           shape: BoxShape.circle,
         ),
         child: Icon(
           isActive ? activeIcon : icon,
-          size: isActive ? 30 : 24, // adjusted for tighter spacing
+          size: 24,
           color: isActive ? activeColor : Colors.grey.shade600,
         ),
       ),

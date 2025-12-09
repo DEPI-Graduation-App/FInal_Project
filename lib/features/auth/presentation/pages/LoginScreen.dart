@@ -58,7 +58,7 @@ class LoginScreen extends GetView<LoginController> {
                       controller.showPassword.value
                           ? Icons.visibility
                           : Icons.visibility_off,
-                      color: Colors.white,
+                      color: Colors.blueAccent,
                     ),
                     onPressed: controller.togglePassword,
                   ),
@@ -85,7 +85,7 @@ class LoginScreen extends GetView<LoginController> {
                     decoration: BoxDecoration(
                       color: controller.isLoading.value
                           ? Colors.grey
-                          : Colors.black,
+                          : Colors.blueAccent,
                       borderRadius: BorderRadius.circular(40),
                     ),
                     child: Center(

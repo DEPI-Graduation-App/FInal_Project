@@ -7,7 +7,7 @@ plugins {
 android {
     namespace = "com.example.news_depi_final_project"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "29.0.13599879"
+    ndkVersion = "27.0.12077973"
     
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
