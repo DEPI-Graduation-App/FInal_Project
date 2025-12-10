@@ -12,161 +12,231 @@ class SelectedSingleNewsScreen extends GetView<SelectedSingleNewsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xff0D0D0D),
       appBar: AppBar(
-        title: Text(controller.title, overflow: TextOverflow.ellipsis),
-        centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.blueAccent),
+          onPressed: () => Get.back(),
+        ),
+        title: Text(
+          controller.title,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            color: Colors.blueAccent,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        centerTitle: true,
       ),
+
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image
+
+            // ---------- IMAGE ----------
             if (controller.image != null && controller.image!.isNotEmpty)
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(12),
-                ),
-                child: Image.network(
-                  controller.image!,
-                  width: double.infinity,
-                  height: 260,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) =>
-                      Container(height: 260, color: Colors.grey[300]),
-                ),
-              )
-            else
-              Container(
-                height: 260,
-                width: double.infinity,
-                color: Colors.grey[300],
-                child: const Center(
-                  child: Icon(Icons.image_not_supported, size: 40),
-                ),
-              ),
-
-            // Description
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                controller.description ?? S.of(context).noSummaryAvailable,
-                style: const TextStyle(fontSize: 14, height: 1.4),
-              ),
-            ),
-
-            // View Article Button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (controller.link != null &&
-                      Uri.tryParse(controller.link!) != null) {
-                    await launchUrl(
-                      Uri.parse(controller.link!),
-                      mode: LaunchMode.externalApplication,
-                    );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueAccent.withOpacity(0.25),
+                          blurRadius: 15,
+                          offset: const Offset(0, 6),
+                        )
+                      ],
+                    ),
+                    child: Image.network(
+                      controller.image!,
+                      height: 260,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) =>
+                          Container(height: 260, color: Colors.grey[800]),
+                    ),
                   ),
-                  minimumSize: const Size(double.infinity, 50),
+                ),
+              ),
+
+            // ---------- DESCRIPTION CARD ----------
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color(0xff151515),
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.4),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: Text(
-                  S.of(context).viewArticle,
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                  controller.description ??
+                      S.of(context).noSummaryAvailable,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    height: 1.5,
+                  ),
                 ),
               ),
             ),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
 
-            // Similar News Title
+            // ---------- VIEW ARTICLE BUTTON ----------
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.blue.shade400,
+                      Colors.blueAccent.shade700,
+                    ],
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blueAccent.withOpacity(0.4),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (controller.link != null &&
+                        Uri.tryParse(controller.link!) != null) {
+                      await launchUrl(
+                        Uri.parse(controller.link!),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  child: Text(
+                    S.of(context).viewArticle,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // ---------- SIMILAR NEWS HEADER ----------
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 S.of(context).similarNews,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
             ),
-            const SizedBox(height: 10),
 
-            // Similar News List
+            const SizedBox(height: 12),
+
+            // ---------- HORIZONTAL SIMILAR NEWS ----------
             Obx(() {
               if (controller.similarArticles.isEmpty) {
                 return Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Text(S.of(context).noSimilarNewsFound),
+                  child: Text(
+                    S.of(context).noSimilarNewsFound,
+                    style: const TextStyle(color: Colors.grey),
+                  ),
                 );
               }
 
               return SizedBox(
-                height: 110,
-                child: Expanded(
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: controller.similarArticles.length,
-                    separatorBuilder: (_, __) => const SizedBox(width: 12),
-                    itemBuilder: (context, index) {
-                      final sim = controller.similarArticles[index];
+                height: 150,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: controller.similarArticles.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 14),
+                  itemBuilder: (context, index) {
+                    final sim = controller.similarArticles[index];
 
-                      return GestureDetector(
-                        onTap: () async {
-                          final url = sim is Article
-                              ? sim.url
-                              : (sim as GnewsArticle).url;
-                          if (url != null && Uri.tryParse(url) != null) {
-                            await launchUrl(
-                              Uri.parse(url),
-                              mode: LaunchMode.externalApplication,
-                            );
-                          } else {
-                            Get.snackbar(
-                              "Error",
-                              S.of(context).cannotOpenArticle,
-                            );
-                          }
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: sim is Article || sim is GnewsArticle
-                              ? Image.network(
-                                  sim is Article
-                                      ? sim.urlToImage ?? ''
-                                      : sim.image ?? '',
-                                  width: 120,
-                                  height: 110,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) => Container(
-                                    width: 120,
-                                    height: 110,
-                                    color: Colors.grey[300],
-                                  ),
-                                )
-                              : Container(
-                                  width: 120,
-                                  height: 110,
-                                  color: Colors.grey[300],
-                                ),
+                    return GestureDetector(
+                      onTap: () async {
+                        final url = sim is Article
+                            ? sim.url
+                            : (sim as GnewsArticle).url;
+
+                        if (url != null && Uri.tryParse(url) != null) {
+                          await launchUrl(
+                            Uri.parse(url),
+                            mode: LaunchMode.externalApplication,
+                          );
+                        } else {
+                          Get.snackbar(
+                            "Error",
+                            S.of(context).cannotOpenArticle,
+                            backgroundColor: Colors.redAccent,
+                            colorText: Colors.white,
+                          );
+                        }
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(14),
+                        child: Container(
+                          width: 140,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[900],
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 3),
+                              )
+                            ],
+                          ),
+                          child: Image.network(
+                            sim is Article
+                                ? (sim.urlToImage ?? '')
+                                : (sim as GnewsArticle).image ?? '',
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => Container(
+                              color: Colors.grey[800],
+                            ),
+                          ),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
               );
             }),
-            const SizedBox(height: 50),
+
+            const SizedBox(height: 40),
           ],
         ),
       ),

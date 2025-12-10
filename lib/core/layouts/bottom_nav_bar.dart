@@ -15,44 +15,49 @@ class BottomNavBar extends GetView<LayoutController> {
     if (isKeyboardOpen) return const SizedBox.shrink();
 
     return Obx(() {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-        child: SafeArea(
-          child: Container(
-            height: 74,
-            decoration: BoxDecoration(
-              border: Border.all(color: primaryColor.withOpacity(0.9), width: 2.4),
-              color: Colors.white.withOpacity(0.55),
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.07),
-                  blurRadius: 10,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                child: BottomNavigationBar(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  currentIndex: controller.currentIndex.value,
-                  onTap: controller.changeTab,
-                  type: BottomNavigationBarType.fixed,
-                  selectedItemColor: primaryColor,
-                  unselectedItemColor: Colors.grey.shade600,
-                  showSelectedLabels: false,
-                  showUnselectedLabels: false,
-                  iconSize: 0,
-                  items: [
-                    _navItem(0, Icons.home_outlined, Icons.home_rounded, primaryColor),
-                    _navItem(1, Icons.auto_awesome_outlined, Icons.auto_awesome, primaryColor),
-                    _navItem(2, Icons.bookmark_border, Icons.bookmark, primaryColor),
-                    _navItem(3, Icons.person_outline_rounded, Icons.person_rounded, primaryColor),
-                  ],
+      return Container(
+        color: Colors.black,
+        child: Padding(
+
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14,),
+
+          child: SafeArea(
+            child: Container(
+              height: 74,
+              decoration: BoxDecoration(
+                border: Border.all(color: primaryColor.withOpacity(0.9), width: 2.4),
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 10,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                  child: BottomNavigationBar(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    currentIndex: controller.currentIndex.value,
+                    onTap: controller.changeTab,
+                    type: BottomNavigationBarType.fixed,
+                    selectedItemColor: primaryColor,
+                    unselectedItemColor: Colors.black,
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    iconSize: 0,
+                    items: [
+                      _navItem(0, Icons.home_outlined, Icons.home_rounded, primaryColor),
+                      _navItem(1, Icons.auto_awesome_outlined, Icons.auto_awesome, primaryColor),
+                      _navItem(2, Icons.bookmark_border, Icons.bookmark, primaryColor),
+                      _navItem(3, Icons.person_outline_rounded, Icons.person_rounded, primaryColor),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -80,7 +85,7 @@ class BottomNavBar extends GetView<LayoutController> {
         child: Icon(
           isActive ? activeIcon : icon,
           size: 24,
-          color: isActive ? activeColor : Colors.grey.shade600,
+          color: isActive ? activeColor : Colors.white,
         ),
       ),
       label: '',

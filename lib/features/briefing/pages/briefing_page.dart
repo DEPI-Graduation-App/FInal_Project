@@ -17,12 +17,12 @@ class AiBriefingPage extends GetView<AiBriefingController> {
     const Color primaryColor = Colors.blueAccent;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: CustomScrollView(
         slivers: [
           // Header
           SliverAppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.black,
             expandedHeight: 120,
             floating: false,
             pinned: true,
@@ -31,7 +31,7 @@ class AiBriefingPage extends GetView<AiBriefingController> {
               title: Text(
                 S.of(context).aiNewsBriefing,
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),

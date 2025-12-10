@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:news_depi_final_project/generated/l10n.dart';
 import '../controller/SNSController.dart';
 import 'NewsTab.dart';
@@ -10,35 +11,41 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
 
   @override
   Widget build(BuildContext context) {
-    final Name = Get.arguments[0];
-    final category = Get.arguments[1];
-    controller.loadAllNews(Name);
+
+    controller.loadAllNews(controller.Name);
 
     return DefaultTabController(
+
       length: 2,
       child: Scaffold(
+
         appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.blueAccent),
+            onPressed: () => Get.back(),
+          ),
+
           actions: [
             IconButton(
               onPressed: () {
                 //controller.favController.toggleFavoriteIcon(Name);
-                controller.favController.toggleFavorite(category, Name);
+                controller.favController.toggleFavorite(controller.category, controller.Name);
               },
               icon: Obx(() {
                 return Icon(
-                  controller.favController.isFavorite(category)
+                  controller.favController.isFavorite(controller.category)
                       ? Icons.favorite
                       : Icons.favorite_border,
-                  color: controller.favController.isFavorite(category)
+                  color: controller.favController.isFavorite(controller.category)
                       ? Colors.blueAccent
-                      : Colors.black,
+                      : Colors.grey,
                 );
               }),
             ),
           ],
           title: Column(
             children: [
-              Text(Name, style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text(controller.Name, style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white)),
               SizedBox(
                 height: 36,
                 child: TextField(
@@ -46,9 +53,9 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
                     controller.searchNews(value);
                   },
                   decoration: InputDecoration(
-                    hintText: S.of(context).searchNewsHint,
+                    hint:Text( S.of(context).searchNewsHint ,style: TextStyle(color: Colors.white,fontSize: 15),),
                     filled: true,
-                    fillColor: Colors.grey[200],
+                    fillColor: Colors.blueAccent,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -60,17 +67,35 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
               ),
             ],
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.black,
           centerTitle: true,
           bottom: TabBar(
             tabs: [
-              Tab(text: S.of(context).source1),
-              Tab(text: S.of(context).source2),
+              Tab(
+                child: Text(
+                  S.of(context).source1,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
+              Tab(
+                child: Text(
+                  S.of(context).source2,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+              )
             ],
           ),
         ),
 
-        backgroundColor: const Color(0xffF7F8FA),
+        backgroundColor:  Colors.black,
         body: Obx(() {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
@@ -154,6 +179,7 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
+                border: Border.all(color: Colors.blueAccent),
                 gradient: LinearGradient(
                   colors: isLoading
                       ? [Colors.grey.shade400, Colors.grey.shade600]

@@ -10,17 +10,19 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
 
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text(
           S.of(context).homeTitle,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
         ),
         centerTitle: true,
+
       ),
+
 
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -55,7 +57,7 @@ class HomeScreen extends GetView<HomeController> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey.shade800,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -81,7 +83,7 @@ class HomeScreen extends GetView<HomeController> {
                     onTap: () => controller.onCategoryTap(category, index),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Colors.black,
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
                           BoxShadow(
@@ -107,7 +109,7 @@ class HomeScreen extends GetView<HomeController> {
                                 )
                               : Text(
                                   category.icon ?? "📰",
-                                  style: const TextStyle(fontSize: 32),
+                                  style: const TextStyle(fontSize: 32,color: Colors.white),
                                 ),
                           const SizedBox(height: 10),
                           Padding(
@@ -119,6 +121,7 @@ class HomeScreen extends GetView<HomeController> {
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
+                                color: Colors.white
                               ),
                             ),
                           ),

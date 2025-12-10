@@ -13,98 +13,124 @@ class NewsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      if (articles.isEmpty) {
-        return Center(child: Text(S.of(context).noNewsFound));
-      }
-
-      return ListView.separated(
-        padding: const EdgeInsets.all(16),
-        itemCount: articles.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 16),
-        itemBuilder: (context, index) {
-          final item = articles[index];
-
-          String title = '';
-          String? image;
-          String? desc;
-
-          // newsApi Article
-          if (item is Article) {
-            title = item.title ?? '';
-            image = item.urlToImage;
-            desc = item.description;
-          } else if (item is GnewsArticle) {
-            title = item.title;
-            image = item.image;
-            desc = item.content;
-          }
-
-          return GestureDetector(
-            onTap: () {
-              Get.toNamed(AppPages.SelectedSingleNews, arguments: item);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 4,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (image != null && image.isNotEmpty)
-                    ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(12),
-                      ),
-                      child: Image.network(
-                        image,
-                        height: 180,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) =>
-                            Container(height: 180, color: Colors.grey[300]),
-                      ),
-                    )
-                  else
-                    Container(height: 180, color: Colors.grey[300]),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  if (desc != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      child: Text(
-                        desc,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
-                    ),
-                  const SizedBox(height: 12),
-                ],
-              ),
+    return Container(
+      color: Colors.black,
+      child: Obx(() {
+        if (articles.isEmpty) {
+          return Center(
+            child: Text(
+              S.of(context).noNewsFound,
+              style: const TextStyle(color: Colors.white),
             ),
           );
-        },
-      );
-    });
+        }
+
+        return ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: articles.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 16),
+          itemBuilder: (context, index) {
+            final item = articles[index];
+
+            String title = '';
+            String? image;
+            String? desc;
+
+            if (item is Article) {
+              title = item.title ?? '';
+              image = item.urlToImage;
+              desc = item.description;
+            } else if (item is GnewsArticle) {
+              title = item.title;
+              image = item.image;
+              desc = item.content;
+            }
+
+            return GestureDetector(
+              onTap: () {
+                Get.toNamed(AppPages.SelectedSingleNews, arguments: item);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: Colors.blueAccent,
+                    width: 2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blueAccent.withOpacity(0.08),
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (image != null && image.isNotEmpty)
+                      ClipRRect(
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(12),
+                        ),
+                        child: Image.network(
+                          image,
+                          height: 180,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) =>
+                              Container(height: 180, color: Colors.grey[300]),
+                        ),
+                      )
+                    else
+                      Container(
+                        height: 180,
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent.withOpacity(0.1),
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(12),
+                          ),
+                        ),
+                      ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
+
+                    if (desc != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        child: Text(
+                          desc!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+
+                    const SizedBox(height: 12),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      }),
+    );
   }
 }
