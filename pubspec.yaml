@@ -87,13 +87,13 @@ flutter:
     - .env
 
 flutter_native_splash:
-  color: "#f7f4ef"
-  image: assets/images/logo1.png
+  color: "#000000"
+  image: assets/images/logo.png
   fullscreen: true
   android_12:
-    color: "#f7f4ef"
+    color: "#000000"
     image: assets/images/logo.png
-    icon_background_color: "#f7f4ef"
+    icon_background_color: "#000000"
 flutter_launcher_icons:
   android: true
   ios: true

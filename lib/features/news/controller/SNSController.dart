@@ -8,7 +8,8 @@ import '../../briefing/controller/briefing_controller.dart';
 class SelectedNewsController extends GetxController {
   final NewsService newsService = Get.find<NewsService>();
   final favController = Get.find<FavoritesController>();
-
+  final Name = Get.arguments[0];
+  final category = Get.arguments[1];
   RxBool isLoading = false.obs;
   RxList<Article> newsApiArticles = <Article>[].obs;
   RxList<GnewsArticle> gnewsArticles = <GnewsArticle>[].obs;

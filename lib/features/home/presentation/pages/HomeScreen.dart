@@ -10,14 +10,17 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+
+      // backgroundColor: Colors.black, // ❌ متشال
 
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+
+
         title: Text(
           S.of(context).homeTitle,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20,      color: Color(0xFFD62828),), // ❌ متشال
         ),
         centerTitle: true,
       ),
@@ -25,7 +28,7 @@ class HomeScreen extends GetView<HomeController> {
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(
-            child: CircularProgressIndicator(color: Colors.blueAccent),
+            child: CircularProgressIndicator(     color: Color(0xFFD62828),), // ❌ متشال
           );
         }
 
@@ -33,15 +36,13 @@ class HomeScreen extends GetView<HomeController> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Column(
             children: [
-              Column(
-                children: [
-                  Image.asset(AssetsManager.logo, width: 140, height: 140),
-                ],
-              ),
+              Image.asset(AssetsManager.logo, width: 140, height: 140),
 
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: Divider(color: Colors.grey.shade300, thickness: 1),
+                child: Divider(
+                  color: Color(0xFFD62828),                  thickness: 1,
+                ),
               ),
 
               const SizedBox(height: 10),
@@ -52,11 +53,10 @@ class HomeScreen extends GetView<HomeController> {
                   padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: Text(
                     S.of(context).newsCategories,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey.shade800,
-                    ),
+                      color: Color(0xFFD62828),                    ),
                   ),
                 ),
               ),
@@ -81,35 +81,34 @@ class HomeScreen extends GetView<HomeController> {
                     onTap: () => controller.onCategoryTap(category, index),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                          color: Color(0xFFD62828),
+
                         borderRadius: BorderRadius.circular(16),
                         boxShadow: [
+
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.06),
-                            blurRadius: 8,
+                            color: Color(0xFFD62828),                            blurRadius: 8,
                             offset: const Offset(0, 3),
                           ),
                         ],
-                        border: Border.all(
-                          color: Colors.blueAccent,
-                          width: 1.4,
-                        ),
+
+                        border: Border.all(     color: Color(0xFFD62828), width: 1.4), // ❌ متشال
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           category.imageUrl != null &&
-                                  category.imageUrl!.isNotEmpty
-                              ? Image.asset(
-                                  category.imageUrl!,
-                                  width: 46,
-                                  height: 46,
-                                )
+                              category.imageUrl!.isNotEmpty
+                              ? Image.asset(category.imageUrl!, width: 46, height: 46)
                               : Text(
-                                  category.icon ?? "📰",
-                                  style: const TextStyle(fontSize: 32),
-                                ),
+                            category.icon ?? "📰",
+                            style: const TextStyle(
+                              fontSize: 32,
+                              color: Color(0xFFD62828),                            ),
+                          ),
+
                           const SizedBox(height: 10),
+
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
                             child: Text(
@@ -119,6 +118,7 @@ class HomeScreen extends GetView<HomeController> {
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
+                                 color: Colors.white, // ❌ متشال
                               ),
                             ),
                           ),
