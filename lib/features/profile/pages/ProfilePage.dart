@@ -12,14 +12,14 @@ class ProfilePage extends GetView<Profilecontroller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor:Colors.black,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text(
           S.of(context).profileTitle,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
         ),
       ),
 
@@ -66,7 +66,7 @@ class ProfilePage extends GetView<Profilecontroller> {
 
                     CircleAvatar(
                       radius: 22,
-                      backgroundColor: Colors.white,
+                      backgroundColor:Colors.black,
                       child: IconButton(
                         icon: Icon(
                           Icons.camera_alt,
@@ -91,11 +91,11 @@ class ProfilePage extends GetView<Profilecontroller> {
                                       width: 40,
                                       height: 5,
                                       decoration: BoxDecoration(
-                                        color: Colors.grey[400],
+                                        color: Colors.black54,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
-                                    const SizedBox(height: 20),
+                                    const SizedBox(height: 10),
 
                                     Text(
                                       S.of(context).chooseProfilePicture,
@@ -145,7 +145,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                   ],
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               const Divider(),
               const SizedBox(height: 20),
 
@@ -153,11 +153,9 @@ class ProfilePage extends GetView<Profilecontroller> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.black,
                   borderRadius: BorderRadius.circular(18),
-                  boxShadow: const [
-                    BoxShadow(color: Colors.blueAccent, blurRadius: 12),
-                  ],
+                border: Border.all(color: Colors.blueAccent)
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,6 +163,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                     const Text(
                       "Email",
                       style: TextStyle(
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -178,7 +177,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.blueAccent,width: 2),
-                        color: Colors.white,
+                        color: Colors.black,
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: Text(
@@ -189,13 +188,14 @@ class ProfilePage extends GetView<Profilecontroller> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
 
                     Text(
                       "Username: ${controller.userData.value!.username}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
+                        color: Colors.white
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -206,7 +206,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                       controller: controller.usernameController,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: Colors.black,
 
                         hintText: "Edit username",
                         hintStyle: const TextStyle(color: Colors.blueAccent),
@@ -242,20 +242,16 @@ class ProfilePage extends GetView<Profilecontroller> {
                   ],
                 ),
               ),
-              const SizedBox(height: 15),
-              const Divider(),
-              const SizedBox(height: 15),
+              const SizedBox(height: 20),
 
               // Language Switcher
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.black,
                   borderRadius: BorderRadius.circular(18),
-                  boxShadow: const [
-                    BoxShadow(color: Colors.blueAccent, blurRadius: 12),
-                  ],
+                 border: Border.all(color:Colors.blueAccent)
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -263,12 +259,12 @@ class ProfilePage extends GetView<Profilecontroller> {
                     Text(
                       S.of(context).language,
                       style: const TextStyle(
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Row(
+Divider(),                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -278,6 +274,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
+                            color: Colors.white
                           ),
                         ),
                         ElevatedButton(
@@ -307,8 +304,6 @@ class ProfilePage extends GetView<Profilecontroller> {
               ),
 
               const SizedBox(height: 15),
-              const Divider(),
-              const SizedBox(height: 15),
 
               controller.isVisable.value
                   ? SizedBox(
@@ -332,7 +327,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                       ),
                     )
                   : const SizedBox.shrink(),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
 
               SizedBox(
                 width: double.infinity,
@@ -352,7 +347,6 @@ class ProfilePage extends GetView<Profilecontroller> {
                 ),
               ),
 
-              const SizedBox(height: 40),
             ],
           ),
         );
