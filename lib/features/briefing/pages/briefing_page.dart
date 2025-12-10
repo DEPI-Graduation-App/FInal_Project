@@ -12,17 +12,17 @@ class AiBriefingPage extends GetView<AiBriefingController> {
   @override
   Widget build(BuildContext context) {
     final topics = controller.staticTopics;
-    final todayDate = DateFormat('EEEE, d MMMM').format(DateTime.now());
+   // final todayDate = DateFormat('EEEE, d MMMM').format(DateTime.now());
 
     const Color primaryColor = Colors.blueAccent;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+ //     backgroundColor: Colors.black,
       body: CustomScrollView(
         slivers: [
           // Header
           SliverAppBar(
-            backgroundColor: Colors.white,
+   //         backgroundColor: Colors.black,
             expandedHeight: 120,
             floating: false,
             pinned: true,
@@ -31,17 +31,16 @@ class AiBriefingPage extends GetView<AiBriefingController> {
               title: Text(
                 S.of(context).aiNewsBriefing,
                 style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFD62828),                  fontWeight: FontWeight.bold,
                 ),
               ),
               background: Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(left: 20, top: 20),
-                child: Text(
-                  todayDate,
-                  style: const TextStyle(color: Colors.grey, fontSize: 14),
-                ),
+          //       child: Text(
+          //         //todayDate,
+          // //   style: const TextStyle(     color: Color(0xFFD62828), fontSize: 14),
+          //       ),
               ),
             ),
           ),

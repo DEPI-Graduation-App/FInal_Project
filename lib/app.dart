@@ -12,7 +12,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       //
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red,
+            brightness: Brightness.light,
+        ),
+      ),
       themeMode: ThemeMode.system,
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue,
+          brightness: Brightness.dark
+        )
+      ),
       //
       builder: (context, child) =>
           Overlay(initialEntries: [OverlayEntry(builder: (context) => child!)]),

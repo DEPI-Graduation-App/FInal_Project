@@ -10,21 +10,28 @@ class FavoritesScreen extends GetView<FavoritesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF7F8FA),
+//      backgroundColor: Colors.black,
 
       appBar: AppBar(
+  //      backgroundColor: Colors.black,
+        elevation: 0,
+        centerTitle: true,
+
         title: Text(
           S.of(context).favoritesTitle,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            color: Color(0xFFD62828),
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black87,
-        elevation: 0,
 
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(height: 1, color: Colors.blueAccent),
+          child: Container(
+            height: 1,
+            color: Colors.blueAccent.withOpacity(0.5),
+          ),
         ),
       ),
 
@@ -40,63 +47,68 @@ class FavoritesScreen extends GetView<FavoritesController> {
             final category = controller.favoriteItems[index];
 
             return Container(
-              margin: const EdgeInsets.only(bottom: 14),
+              margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.06),
-                    blurRadius: 8,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
+                color: Color(0xFFD62828),                borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: Colors.blueAccent.withOpacity(0.5),
                   width: 1.2,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blueAccent.withOpacity(0.15),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
+
               child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
-                  vertical: 10,
+                  vertical: 14,
                 ),
 
                 leading: Container(
-                  width: 50,
-                  height: 50,
+                  width: 55,
+                  height: 55,
                   decoration: BoxDecoration(
-                    color: Colors.blueAccent.withOpacity(0.07),
+                    color: Color(0xFFD62828).withOpacity(0.07),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.blueAccent),
+                   border: Border.all(     color: Color(0xFFD62828), width: 1.1),
                   ),
                   child: Center(
-                    child:
-                        category.imageUrl != null &&
-                            category.imageUrl!.isNotEmpty
-                        ? Image.asset(category.imageUrl!, width: 32, height: 32)
+                    child: category.imageUrl != null &&
+                        category.imageUrl!.isNotEmpty
+                        ? Image.asset(category.imageUrl!, width: 34, height: 34)
                         : Text(
-                            category.icon ?? "📰",
-                            style: const TextStyle(fontSize: 28),
-                          ),
+                      category.icon ?? "📰",
+                      style: const TextStyle(fontSize: 28),
+                    ),
                   ),
                 ),
 
                 title: Text(
                   _getLocalizedCategoryName(context, category.name),
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 17,
                     fontWeight: FontWeight.w600,
+                    color: Color(0xFFD62828),
                   ),
                 ),
 
                 trailing: GestureDetector(
-                  onTap: () =>
-                      controller.removeFromFavorites(category, category.name),
-                  child: const Icon(
+                  onTap: () => controller.removeFromFavorites(
+                    category,
+                    category.name,
+                  ),
+                  child: Icon(
                     Icons.favorite,
-                    color: Colors.blueAccent,
-                    size: 28,
+                    color: Color(0xFFD62828),
+                    size: 30,
                   ),
                 ),
 
@@ -121,25 +133,27 @@ class FavoritesScreen extends GetView<FavoritesController> {
         children: [
           Icon(
             Icons.favorite_border,
-            size: 90,
-            color: Colors.blueAccent.withOpacity(0.4),
+            size: 100,
+            color: Colors.red.withOpacity(0.4),
           ),
           const SizedBox(height: 20),
 
           Text(
             S.of(context).noFavoritesYet,
             style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFFD62828),            ),
           ),
 
           const SizedBox(height: 10),
 
           Text(
             S.of(context).addCategoriesToSeeThem,
-            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white.withOpacity(0.6),
+            ),
           ),
         ],
       ),

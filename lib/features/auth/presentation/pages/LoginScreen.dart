@@ -14,7 +14,8 @@ class LoginScreen extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff7f4ef),
+    //  backgroundColor: const Color(0xFF0A1A2F),
+
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -34,14 +35,15 @@ class LoginScreen extends GetView<LoginController> {
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff47515b),
+                  color: Color(0xFFD62828),
                 ),
               ),
 
               const Divider(),
               const SizedBox(height: 30),
 
-              CustomTextAlignment(text: S.of(context).emailAddress),
+              CustomTextAlignment(text: S.of(context).emailAddress,
+              ),
               const SizedBox(height: 8),
               CustomTextField(controller: controller.usernameController),
               const SizedBox(height: 20),
@@ -58,7 +60,7 @@ class LoginScreen extends GetView<LoginController> {
                       controller.showPassword.value
                           ? Icons.visibility
                           : Icons.visibility_off,
-                      color: Colors.blueAccent,
+                      color: Color(0xFFD62828),
                     ),
                     onPressed: controller.togglePassword,
                   ),
@@ -84,20 +86,20 @@ class LoginScreen extends GetView<LoginController> {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     decoration: BoxDecoration(
                       color: controller.isLoading.value
-                          ? Colors.grey
-                          : Colors.blueAccent,
+                          ? Colors.white
+                          :     Color(0xFFD62828),
+
                       borderRadius: BorderRadius.circular(40),
                     ),
                     child: Center(
                       child: controller.isLoading.value
                           ? const CircularProgressIndicator(
                               strokeWidth: 2,
-                              color: Colors.white,
-                            )
+                        color: Color(0xFFD62828),                            )
                           : Text(
                               S.of(context).login,
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: Color(0xFFFFFFFF),
                                 fontSize: 16,
                               ),
                             ),
@@ -113,7 +115,11 @@ class LoginScreen extends GetView<LoginController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(S.of(context).dontHaveAccount),
+                    Text(S.of(context).dontHaveAccount,
+                      style:TextStyle(
+                        color: Color(0xFFD62828),
+                      )
+                    ),
                     Text(
                       S.of(context).create,
                       style: const TextStyle(color: Colors.red),

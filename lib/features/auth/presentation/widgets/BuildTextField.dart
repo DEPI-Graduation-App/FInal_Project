@@ -21,17 +21,17 @@ class CustomTextField extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.blueAccent,width: 2),
+        border: Border.all(     color: Color(0xFFD62828),width: 2),
         borderRadius: BorderRadius.circular(40),
       ),
       child: TextField(
         controller: controller,
         obscureText: obscureText,
         keyboardType: keyboardType,
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(     color: Color(0xFFD62828),),
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: const TextStyle(color: Colors.white70),
+          hintStyle: const TextStyle(     color: Color(0xFFD62828),),
           border: InputBorder.none,
           suffixIcon: suffixIcon,
         ),
