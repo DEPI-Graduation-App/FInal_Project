@@ -61,7 +61,7 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
                       borderRadius: BorderRadius.circular(8),
                       borderSide: BorderSide.none,
                     ),
-                    suffixIcon: const Icon(Icons.search),
+                    suffixIcon: Icon(Icons.search,color: Colors.white,),
                   ),
                 ),
               ),
@@ -182,7 +182,7 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
                 border: Border.all(color: Colors.blueAccent),
                 gradient: LinearGradient(
                   colors: isLoading
-                      ? [Colors.grey.shade400, Colors.grey.shade600]
+                      ? [Colors.blueAccent, Colors.grey.shade600]
                       : (isCached
                             ? [Colors.green.shade400, Colors.green.shade700]
                             : [

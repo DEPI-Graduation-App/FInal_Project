@@ -16,14 +16,11 @@ class FavoritesScreen extends GetView<FavoritesController> {
         backgroundColor: Colors.black,
         elevation: 0,
         centerTitle: true,
-        leading: IconButton(
-          onPressed: () => Get.back(),
-          icon: const Icon(Icons.arrow_back, color: Colors.blueAccent),
-        ),
+
         title: Text(
           S.of(context).favoritesTitle,
           style: const TextStyle(
-            color: Colors.blueAccent,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
