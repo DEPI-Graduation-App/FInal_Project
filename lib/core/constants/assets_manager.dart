@@ -3,4 +3,5 @@ class AssetsManager {
   static const String logo = "$base/logo.png";
   static const String Googlelogo = "$base/google-logo.png";
   static const String pp = "$base/pp.png";
+  static const String slogan = "$base/slogan.png";
 }

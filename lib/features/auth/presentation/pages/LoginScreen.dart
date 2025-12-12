@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
 import 'package:news_depi_final_project/generated/l10n.dart';
 
@@ -14,13 +15,19 @@ class LoginScreen extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff7f4ef),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        
+        title: Text("Login",style: TextStyle(color: Color(0xFFD62828)),),
+      ),
+    //  backgroundColor: const Color(0xFF0A1A2F),
+
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
-              const SizedBox(height: 40),
 
               Image.asset(
                 AssetsManager.logo,
@@ -30,18 +37,19 @@ class LoginScreen extends GetView<LoginController> {
               ),
 
               Text(
-                S.of(context).welcomeToApp,
+                S.of(context).WelcomeToApp,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff47515b),
+                  color: Color(0xFFD62828),
                 ),
               ),
 
               const Divider(),
               const SizedBox(height: 30),
 
-              CustomTextAlignment(text: S.of(context).emailAddress),
+              CustomTextAlignment(text: S.of(context).emailAddress,
+              ),
               const SizedBox(height: 8),
               CustomTextField(controller: controller.usernameController),
               const SizedBox(height: 20),
@@ -58,7 +66,7 @@ class LoginScreen extends GetView<LoginController> {
                       controller.showPassword.value
                           ? Icons.visibility
                           : Icons.visibility_off,
-                      color: Colors.blueAccent,
+                      color: Color(0xFFD62828),
                     ),
                     onPressed: controller.togglePassword,
                   ),
@@ -84,20 +92,20 @@ class LoginScreen extends GetView<LoginController> {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     decoration: BoxDecoration(
                       color: controller.isLoading.value
-                          ? Colors.grey
-                          : Colors.blueAccent,
+                          ? Colors.white
+                          :     Color(0xFFD62828),
+
                       borderRadius: BorderRadius.circular(40),
                     ),
                     child: Center(
                       child: controller.isLoading.value
                           ? const CircularProgressIndicator(
                               strokeWidth: 2,
-                              color: Colors.white,
-                            )
+                        color: Color(0xFFD62828),                            )
                           : Text(
                               S.of(context).login,
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: Color(0xFFFFFFFF),
                                 fontSize: 16,
                               ),
                             ),
@@ -109,11 +117,15 @@ class LoginScreen extends GetView<LoginController> {
               const SizedBox(height: 30),
 
               InkWell(
-                onTap: () => Get.toNamed(AppPages.registerPage),
+                onTap: () => Get.offAllNamed(AppPages.registerPage),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(S.of(context).dontHaveAccount),
+                    Text(S.of(context).dontHaveAccount,
+                      style:TextStyle(
+                        color: Colors.white,
+                      )
+                    ),
                     Text(
                       S.of(context).create,
                       style: const TextStyle(color: Colors.red),
@@ -122,7 +134,7 @@ class LoginScreen extends GetView<LoginController> {
                 ),
               ),
 
-              const SizedBox(height: 40),
+               SizedBox(height: 200,child: Image.asset(AssetsManager.slogan),),
             ],
           ),
         ),

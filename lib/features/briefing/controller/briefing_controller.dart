@@ -14,9 +14,12 @@ import 'package:news_depi_final_project/features/news/data/model/GnewsModel.dart
     as g_news;
 import 'package:vibration/vibration.dart';
 import '../../news/data/model/article.dart';
+import 'package:intl/intl.dart';
+
 
 class AiBriefingController extends GetxController {
   final NewsService newsService;
+  final todayDate = DateFormat('EEEE, d MMMM').format(DateTime.now());
 
   AiBriefingController({required this.newsService});
 

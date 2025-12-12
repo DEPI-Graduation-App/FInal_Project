@@ -9,22 +9,26 @@ import '../data/model/NewsApiModel.dart';
 class SelectedSingleNewsScreen extends GetView<SelectedSingleNewsController> {
   const SelectedSingleNewsScreen({super.key});
 
+  final Color mainColor = const Color(0xFFD62828); // اللون الأساسي القرمزي
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff0D0D0D),
+     // backgroundColor: Colors.white, // خلفية خفيفة
+
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
         elevation: 0,
+
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.blueAccent),
+          icon: Icon(Icons.arrow_back, color: mainColor),
           onPressed: () => Get.back(),
         ),
         title: Text(
           controller.title,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            color: Colors.blueAccent,
+          style: TextStyle(
+            color:  Color(0xFFD62828) ,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -47,11 +51,12 @@ class SelectedSingleNewsScreen extends GetView<SelectedSingleNewsController> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.blueAccent.withOpacity(0.25),
+                          color: mainColor,
                           blurRadius: 15,
                           offset: const Offset(0, 6),
-                        )
+                        ),
                       ],
+                      border: Border.all(color: mainColor, width: 2), // أي بوردر
                     ),
                     child: Image.network(
                       controller.image!,
@@ -59,7 +64,7 @@ class SelectedSingleNewsScreen extends GetView<SelectedSingleNewsController> {
                       width: double.infinity,
                       fit: BoxFit.cover,
                       errorBuilder: (_, __, ___) =>
-                          Container(height: 260, color: Colors.grey[800]),
+                          Container(height: 260, color: mainColor.withOpacity(0.3)),
                     ),
                   ),
                 ),
@@ -71,19 +76,19 @@ class SelectedSingleNewsScreen extends GetView<SelectedSingleNewsController> {
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: const Color(0xff151515),
+                  color: mainColor,
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.4),
+                      color: mainColor.withOpacity(0.6),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
                   ],
+                  border: Border.all(color: mainColor, width: 2),
                 ),
                 child: Text(
-                  controller.description ??
-                      S.of(context).noSummaryAvailable,
+                  controller.description ?? S.of(context).noSummaryAvailable,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 15,
@@ -102,18 +107,16 @@ class SelectedSingleNewsScreen extends GetView<SelectedSingleNewsController> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
                   gradient: LinearGradient(
-                    colors: [
-                      Colors.blue.shade400,
-                      Colors.blueAccent.shade700,
-                    ],
+                    colors: [mainColor.withOpacity(0.8), mainColor],
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.blueAccent.withOpacity(0.4),
+                      color: mainColor.withOpacity(0.5),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
                   ],
+                  border: Border.all(color: mainColor, width: 2),
                 ),
                 child: ElevatedButton(
                   onPressed: () async {
@@ -170,7 +173,7 @@ class SelectedSingleNewsScreen extends GetView<SelectedSingleNewsController> {
                   padding: const EdgeInsets.all(16),
                   child: Text(
                     S.of(context).noSimilarNewsFound,
-                    style: const TextStyle(color: Colors.grey),
+                    style: TextStyle(color: mainColor.withOpacity(0.8)),
                   ),
                 );
               }
@@ -200,7 +203,7 @@ class SelectedSingleNewsScreen extends GetView<SelectedSingleNewsController> {
                           Get.snackbar(
                             "Error",
                             S.of(context).cannotOpenArticle,
-                            backgroundColor: Colors.redAccent,
+                            backgroundColor: mainColor,
                             colorText: Colors.white,
                           );
                         }
@@ -210,23 +213,23 @@ class SelectedSingleNewsScreen extends GetView<SelectedSingleNewsController> {
                         child: Container(
                           width: 140,
                           decoration: BoxDecoration(
-                            color: Colors.grey[900],
+                            color: mainColor.withOpacity(0.1),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
+                                color: mainColor.withOpacity(0.5),
                                 blurRadius: 8,
                                 offset: const Offset(0, 3),
-                              )
+                              ),
                             ],
+                            border: Border.all(color: mainColor, width: 2),
                           ),
                           child: Image.network(
                             sim is Article
                                 ? (sim.urlToImage ?? '')
                                 : (sim as GnewsArticle).image ?? '',
                             fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => Container(
-                              color: Colors.grey[800],
-                            ),
+                            errorBuilder: (_, __, ___) =>
+                                Container(color: mainColor.withOpacity(0.2)),
                           ),
                         ),
                       ),

@@ -12,15 +12,27 @@ class ProfilePage extends GetView<Profilecontroller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Colors.black,
+   //   backgroundColor:Colors.black,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text(
           S.of(context).profileTitle,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(
+          0xFFD62828)
+      ),
         ),
+          actions: [
+            IconButton(onPressed: (){
+              Get.changeThemeMode(ThemeMode.light);
+            }, icon: Icon(Icons.light_mode),     color: Color(0xFFD62828),),
+            IconButton(onPressed: (){
+              Get.changeThemeMode(ThemeMode.dark);
+            }, icon: Icon(Icons.dark_mode),     color: Color(0xFFD62828),)
+
+          ]
+
       ),
 
       body: Obx(() {
@@ -48,10 +60,10 @@ class ProfilePage extends GetView<Profilecontroller> {
                       height: 140,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: controller.accent, width: 3),
+                        border: Border.all(     color: Color(0xFFD62828), width: 3),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.15),
+                            color: Colors.red.withOpacity(0.15),
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),
@@ -66,11 +78,11 @@ class ProfilePage extends GetView<Profilecontroller> {
 
                     CircleAvatar(
                       radius: 22,
-                      backgroundColor:Colors.black,
+                      backgroundColor:  Color(0xFF0A1A2F),
                       child: IconButton(
                         icon: Icon(
                           Icons.camera_alt,
-                          color: controller.accent,
+                          color: Color(0xFFD62828),
                           size: 20,
                         ),
                         onPressed: () {
@@ -91,7 +103,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                                       width: 40,
                                       height: 5,
                                       decoration: BoxDecoration(
-                                        color: Colors.black54,
+                                        color: Color(0xFFD62828),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
@@ -100,6 +112,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                                     Text(
                                       S.of(context).chooseProfilePicture,
                                       style: const TextStyle(
+                                        color: Color(0xFFD62828),
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -107,7 +120,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                                     const SizedBox(height: 15),
 
                                     ListTile(
-                                      leading: const Icon(Icons.photo_library),
+                                      leading: const Icon(Icons.photo_library,color: Color(0xFFD62828),),
                                       title: Text(
                                         S.of(context).uploadFromGallery,
                                       ),
@@ -122,8 +135,10 @@ class ProfilePage extends GetView<Profilecontroller> {
                                       },
                                     ),
                                     ListTile(
-                                      leading: const Icon(Icons.camera_alt),
-                                      title: Text(S.of(context).takeAPhoto),
+                                      leading: const Icon(Icons.camera_alt,     color: Color(0xFFD62828),),
+                                      title: Text(S.of(context).takeAPhoto,
+                                        style: TextStyle(color: Color(0xFFD62828),),
+                                      ),
                                       onTap: () async {
                                         final picked = await controller.picker
                                             .pickImage(
@@ -153,9 +168,9 @@ class ProfilePage extends GetView<Profilecontroller> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.black,
+               //   color: Color(0xFFD62828),
                   borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: Colors.blueAccent)
+                  border: Border.all(color:Color(0xFFD62828))
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,7 +178,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                     const Text(
                       "Email",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Color(0xFFD62828),
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -176,14 +191,14 @@ class ProfilePage extends GetView<Profilecontroller> {
                         vertical: 12,
                       ),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent,width: 2),
-                        color: Colors.black,
+                        border: Border.all(color: Color(0xFFD62828),width: 2),
+                      //  color: Color(0xFFD62828),
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: Text(
                         controller.userData.value!.email,
                         style: const TextStyle(
-                          color: Colors.blueAccent,
+                          color: Color(0xFFD62828),
                           fontSize: 16,
                         ),
                       ),
@@ -195,7 +210,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        color: Colors.white
+                          color: Color(0xFFD62828),
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -206,17 +221,20 @@ class ProfilePage extends GetView<Profilecontroller> {
                       controller: controller.usernameController,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: Colors.black,
+                   //    fillColor:  Color(0xFF0A1A2F),
 
-                        hintText: "Edit username",
-                        hintStyle: const TextStyle(color: Colors.blueAccent),
 
-                        labelStyle: const TextStyle(color: Colors.blueAccent),
+                      hintText: "Edit username",
+                        hintStyle: const TextStyle(color: Color(0xFFD62828),
+                        ),
+
+                        labelStyle: const TextStyle(color: Color(0xFFD62828),
+                        ),
 
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
                           borderSide: const BorderSide(
-                            color: Colors.blueAccent,
+                            color: Color(0xFFD62828),
                             width: 2,
                           ),
                         ),
@@ -224,7 +242,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
                           borderSide: const BorderSide(
-                            color: Colors.blue,
+                            color: Color(0xFFD62828),
                             width: 2.5,
                           ),
                         ),
@@ -232,12 +250,13 @@ class ProfilePage extends GetView<Profilecontroller> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
                           borderSide: const BorderSide(
-                            color: Colors.blueAccent,
+                            color: Color(0xFFD62828),
                             width: 2,
                           ),
                         ),
                       ),
-                      style: const TextStyle(color: Colors.blueAccent),
+                         style: const TextStyle(color: Color(0xFFD62828),
+                    ),
                     ),
                   ],
                 ),
@@ -249,9 +268,10 @@ class ProfilePage extends GetView<Profilecontroller> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.black,
+//                  color: Colors.black,
                   borderRadius: BorderRadius.circular(18),
-                 border: Border.all(color:Colors.blueAccent)
+                 border: Border.all(color: Color(0xFFD62828),
+                 )
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,7 +279,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                     Text(
                       S.of(context).language,
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Color(0xFFD62828),
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -274,7 +294,7 @@ Divider(),                    Row(
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white
+                            color: Color(0xFFD62828),
                           ),
                         ),
                         ElevatedButton(
@@ -286,15 +306,17 @@ Divider(),                    Row(
                               langCtrl.changeLanguage('ar');
                             }
                           },
+
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: controller.accent,
+                          backgroundColor: Color(0xFFD62828),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                           child: Text(
                             S.of(context).changeLanguage,
-                            style: const TextStyle(color: Colors.white),
+                         style: const TextStyle(color: Colors.white,
+                         ),
                           ),
                         ),
                       ],
@@ -311,7 +333,7 @@ Divider(),                    Row(
                       child: ElevatedButton(
                         onPressed: controller.updateUsername,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: controller.accent,
+                          backgroundColor: Colors.green,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
@@ -334,7 +356,7 @@ Divider(),                    Row(
                 child: ElevatedButton(
                   onPressed: controller.logout,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent,
+                    backgroundColor: Color(0xFFD62828),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
@@ -342,11 +364,10 @@ Divider(),                    Row(
                   ),
                   child: Text(
                     S.of(context).logoutButton,
-                    style: const TextStyle(fontSize: 16, color: Colors.white),
+                   style: const TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),
-
             ],
           ),
         );

@@ -24,6 +24,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
   }
 
   Widget _buildContent(
+
     BuildContext context,
     Color dynamicColor,
     ArticleDetailController controller,
@@ -59,7 +60,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
                   icon: const Icon(
                     Icons.arrow_back_ios_new,
                     size: 18,
-                    color: Colors.white,
+                    color: Color(0xFFD62828),
                   ),
                   onPressed: () => Get.back(),
                 ),
@@ -71,6 +72,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
           actions: [
             _buildGlassActionButton(
               icon: Icons.share_rounded,
+              color: Color(0xFFD62828),
               onTap: () =>
                   Share.share("${article.title}\n${article.description}"),
             ),
@@ -83,7 +85,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
                 icon: isFav
                     ? Icons.favorite_rounded
                     : Icons.favorite_border_rounded,
-                color: isFav ? Colors.redAccent : Colors.white,
+                color: isFav ? Colors.redAccent : Colors.red,
                 onTap: () {
                   controller.toggleLike();
                 },
@@ -116,8 +118,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
                       colors: [
                         Colors.black26,
                         Colors.transparent,
-                        Colors.black87,
-                      ],
+                         Color(0xFFD62828),                      ],
                       stops: [0.0, 0.5, 1.0],
                     ),
                   ),
@@ -133,11 +134,11 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: dynamicColor,
+                      color: Color(0xFFD62828),
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Color(0xFFD62828).withOpacity(0.2),
                           blurRadius: 4,
                           offset: const Offset(0, 2),
                         ),
@@ -190,6 +191,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w900,
                     height: 1.3,
+                    color: Color(0xFFD62828),
                   ),
                 ),
 
@@ -262,7 +264,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
                         ),
                         child: Icon(
                           Icons.source_rounded,
-                          color: Theme.of(context).primaryColor,
+                          color: Color(0xFFD62828),
                           size: 20,
                         ),
                       ),
@@ -330,13 +332,11 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
                                     placeholder: (context, url) => Icon(
                                       Icons.public,
                                       size: 16,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
+                                      color: Color(0xFFD62828),                                    ),
                                     errorWidget: (context, url, error) => Icon(
                                       Icons.public,
                                       size: 16,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
+                                      color: Color(0xFFD62828),                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 8),
@@ -377,7 +377,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
   Widget _buildGlassActionButton({
     required IconData icon,
     required VoidCallback onTap,
-    Color color = Colors.white,
+    Color color = Colors.red,
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -410,8 +410,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
         child: Icon(
           Icons.broken_image_rounded,
           size: 50,
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2),
-        ),
+          color: Color(0xFFD62828),        ),
       );
     }
 
@@ -430,8 +429,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
           color: Theme.of(context).colorScheme.surface,
           child: Icon(
             Icons.broken_image_rounded,
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
-            size: 40,
+            color: Color(0xFFD62828),            size: 40,
           ),
         ),
       );
@@ -445,8 +443,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
           color: Theme.of(context).colorScheme.surface,
           child: Icon(
             Icons.broken_image_rounded,
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
-            size: 40,
+            color: Color(0xFFD62828),            size: 40,
           ),
         );
       },

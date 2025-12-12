@@ -10,7 +10,9 @@ class CustomTextAlignment extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Text(
         text,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold,),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold,
+          color: Color(0xFFD62828),
+        ),
       ),
     );
   }

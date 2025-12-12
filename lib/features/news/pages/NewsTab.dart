@@ -13,14 +13,22 @@ class NewsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color mainColor = const Color(0xFFD62828FF);
+
+    // تحديد لون الخلفية حسب الثيم
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final Color backgroundColor = isDark ? Color(0xFF0A1A2F) : Colors.white;
+    final Color textColor = isDark ? Colors.white : Colors.black;
+    final Color subtitleColor = isDark ? Colors.grey[400]! : Colors.grey[700]!;
+
     return Container(
-      color: Colors.black,
+      color: backgroundColor, // يعتمد على المود
       child: Obx(() {
         if (articles.isEmpty) {
           return Center(
             child: Text(
               S.of(context).noNewsFound,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: mainColor),
             ),
           );
         }
@@ -52,15 +60,13 @@ class NewsTab extends StatelessWidget {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: backgroundColor, // يعتمد على المود
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.blueAccent,
-                    width: 2,
-                  ),
+                  border: Border.all(color:  Color(0xFFD62828)
+                      , width: 2), // قرمزي
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.blueAccent.withOpacity(0.08),
+                     color:  Color(0xFFD62828) ,
                       blurRadius: 6,
                       offset: const Offset(0, 3),
                     ),
@@ -71,9 +77,7 @@ class NewsTab extends StatelessWidget {
                   children: [
                     if (image != null && image.isNotEmpty)
                       ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(12),
-                        ),
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                         child: Image.network(
                           image,
                           height: 180,
@@ -87,10 +91,8 @@ class NewsTab extends StatelessWidget {
                       Container(
                         height: 180,
                         decoration: BoxDecoration(
-                          color: Colors.blueAccent.withOpacity(0.1),
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(12),
-                          ),
+                          color: mainColor.withOpacity(0.1), // إطار أو خلفية خفيفة
+                          borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                         ),
                       ),
 
@@ -98,26 +100,23 @@ class NewsTab extends StatelessWidget {
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
                         title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
-                          color: Colors.white,
+                          color:  Color(0xFFD62828) , // يعتمد على المود
                         ),
                       ),
                     ),
 
                     if (desc != null)
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         child: Text(
                           desc!,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            color: Colors.grey[700],
+                            color: subtitleColor, // يعتمد على المود
                             fontSize: 13,
                           ),
                         ),

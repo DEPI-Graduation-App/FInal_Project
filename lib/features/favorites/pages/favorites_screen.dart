@@ -10,17 +10,16 @@ class FavoritesScreen extends GetView<FavoritesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-
+      //      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
 
         title: Text(
           S.of(context).favoritesTitle,
           style: const TextStyle(
-            color: Colors.white,
+            color: Color(0xFFD62828),
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -49,19 +48,9 @@ class FavoritesScreen extends GetView<FavoritesController> {
             return Container(
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
-                color: const Color(0xff111111),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: Colors.blueAccent.withOpacity(0.5),
-                  width: 1.2,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blueAccent.withOpacity(0.15),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
+    border: Border.all(color: Color(0xFFD62828),width: 2),
+
               ),
 
               child: ListTile(
@@ -77,18 +66,21 @@ class FavoritesScreen extends GetView<FavoritesController> {
                   width: 55,
                   height: 55,
                   decoration: BoxDecoration(
-                    color: Colors.blueAccent.withOpacity(0.07),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.blueAccent, width: 1.1),
+                    border: Border.all(color: Color(0xFFD62828), width: 2),
                   ),
                   child: Center(
-                    child: category.imageUrl != null &&
-                        category.imageUrl!.isNotEmpty
+                    child:
+                        category.imageUrl != null &&
+                            category.imageUrl!.isNotEmpty
                         ? Image.asset(category.imageUrl!, width: 34, height: 34)
                         : Text(
-                      category.icon ?? "📰",
-                      style: const TextStyle(fontSize: 28),
-                    ),
+                            category.icon ?? "📰",
+                            style: const TextStyle(
+                              fontSize: 28,
+                              color: Colors.white,
+                            ),
+                          ),
                   ),
                 ),
 
@@ -97,18 +89,16 @@ class FavoritesScreen extends GetView<FavoritesController> {
                   style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                    color: Color(0xFFD62828),
                   ),
                 ),
 
                 trailing: GestureDetector(
-                  onTap: () => controller.removeFromFavorites(
-                    category,
-                    category.name,
-                  ),
+                  onTap: () =>
+                      controller.removeFromFavorites(category, category.name),
                   child: Icon(
                     Icons.favorite,
-                    color: Colors.blueAccent.shade200,
+                    color: Color(0xFFD62828),
                     size: 30,
                   ),
                 ),
@@ -135,7 +125,7 @@ class FavoritesScreen extends GetView<FavoritesController> {
           Icon(
             Icons.favorite_border,
             size: 100,
-            color: Colors.blueAccent.withOpacity(0.4),
+            color: Colors.red.withOpacity(0.4),
           ),
           const SizedBox(height: 20),
 
@@ -144,7 +134,7 @@ class FavoritesScreen extends GetView<FavoritesController> {
             style: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w700,
-              color: Colors.white,
+              color: Color(0xFFD62828),
             ),
           ),
 

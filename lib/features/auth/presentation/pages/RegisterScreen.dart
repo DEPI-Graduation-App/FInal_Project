@@ -12,26 +12,24 @@ class RegisterScreen extends GetView<RegisterController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xfff7f4ef),
-      appBar: AppBar(
-        backgroundColor: const Color(0xfff7f4ef),
-        title: Text(S.of(context).register),
+    return Scaffold(appBar: AppBar(
+      backgroundColor: Colors.transparent,
+        centerTitle: true,
+        title: Text(S.of(context).register,style: TextStyle(color: Color(0xFFD62828)),),
         elevation: 0,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            const SizedBox(height: 20),
             Image.asset(AssetsManager.logo, width: 300, height: 140),
 
             Text(
-              S.of(context).welcomeToApp,
+              S.of(context).WelcomeToApp,
               style: const TextStyle(
+                color: Color(0xFFD62828),
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Color(0xff47515b),
               ),
             ),
 
@@ -67,7 +65,8 @@ class RegisterScreen extends GetView<RegisterController> {
                     controller.showPassword.value
                         ? Icons.visibility
                         : Icons.visibility_off,
-                    color: Colors.blueAccent,
+
+                    color: Color(0xFFD62828),
                   ),
                   onPressed: controller.togglePassword,
                 ),
@@ -87,7 +86,7 @@ class RegisterScreen extends GetView<RegisterController> {
                     controller.showRePassword.value
                         ? Icons.visibility
                         : Icons.visibility_off,
-                    color: Colors.blueAccent,
+                    color: Color(0xFFD62828),
                   ),
                   onPressed: controller.toggleRePassword,
                 ),
@@ -101,7 +100,7 @@ class RegisterScreen extends GetView<RegisterController> {
                   : ElevatedButton(
                       onPressed: controller.register,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent,
+                        backgroundColor: Color(0xFFD62828),
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 120,
