@@ -78,20 +78,7 @@ class ArticleDetailsPage extends GetView<ArticleDetailController> {
             ),
             const SizedBox(width: 8), // AppGaps.h8
 
-            Obx(() {
-              final isFav = controller.isLiked.value;
 
-              return _buildGlassActionButton(
-                icon: isFav
-                    ? Icons.favorite_rounded
-                    : Icons.favorite_border_rounded,
-                color: isFav ? Colors.redAccent : Colors.red,
-                onTap: () {
-                  controller.toggleLike();
-                },
-              );
-            }),
-            const SizedBox(width: 16), // AppGaps.h16
           ],
 
           // --- Background Image & Gradient ---
