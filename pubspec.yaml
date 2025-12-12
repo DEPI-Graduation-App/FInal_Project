@@ -90,10 +90,13 @@ flutter_native_splash:
   color: "#0A1A2F"
   image: assets/images/logo.png
   fullscreen: true
+  branding: assets/images/slogan.png
   android_12:
     color: "#0A1A2F"
     image: assets/images/logo.png
     icon_background_color: "#0A1A2F"
+    branding: assets/images/slogan.png
+
 flutter_launcher_icons:
   android: true
   ios: true
