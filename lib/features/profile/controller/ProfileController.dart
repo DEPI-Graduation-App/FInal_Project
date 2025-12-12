@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -128,33 +129,96 @@ class Profilecontroller extends GetxController {
       pickedImage.value = null;
     }
   }
+  Future<File?> cropImageToMaxSize(File file, int maxWidth, int maxHeight) async {
+    try {
+      final bytes = await file.readAsBytes();
+      final decoded = await decodeImageFromList(bytes);
+
+      int width = decoded.width;
+      int height = decoded.height;
+
+      // If already within limits → no cropping needed
+      if (width <= maxWidth && height <= maxHeight) {
+        return file;
+      }
+
+      // Calculate cropping dimensions
+      int cropWidth = width > maxWidth ? maxWidth : width;
+      int cropHeight = height > maxHeight ? maxHeight : height;
+
+      // Center crop offsets
+      int x = (width - cropWidth) ~/ 2;
+      int y = (height - cropHeight) ~/ 2;
+
+      // Convert RawImage to ui.Image to process
+      final recorder = PictureRecorder();
+      final canvas = Canvas(recorder);
+      final paint = Paint();
+
+      canvas.drawImageRect(
+        decoded,
+        Rect.fromLTWH(x.toDouble(), y.toDouble(), cropWidth.toDouble(),
+            cropHeight.toDouble()),
+        Rect.fromLTWH(0, 0, cropWidth.toDouble(), cropHeight.toDouble()),
+        paint,
+      );
+
+      final picture = recorder.endRecording();
+      final croppedImage =
+      await picture.toImage(cropWidth, cropHeight);
+
+      final pngBytes = await croppedImage.toByteData(format: ImageByteFormat.png);
+
+      if (pngBytes == null) return null;
+
+      final tempPath = file.path;
+      final croppedFile = File(tempPath)
+        ..writeAsBytesSync(pngBytes.buffer.asUint8List());
+
+      return croppedFile;
+    } catch (e) {
+      debugPrint("Cropping failed: $e");
+      return null;
+    }
+  }
 
   Future<bool> validateImageSize(
-    File file, {
-    int maxWidth = 2000,
-    int maxHeight = 2000,
-  }) async {
+      File file, {
+        int maxWidth = 2000,
+        int maxHeight = 2000,
+      }) async {
     try {
       final bytes = await file.readAsBytes();
       final decoded = await decodeImageFromList(bytes);
 
       debugPrint(
-        "Selected image width: ${decoded.width}, height: ${decoded.height}",
-      );
+          "Selected image width: ${decoded.width}, height: ${decoded.height}");
 
+      // If image is too big → crop it
       if (decoded.width > maxWidth || decoded.height > maxHeight) {
         Get.snackbar(
-          S.current.imageTooLarge,
-          S.current.imageDimensionsExceed(maxWidth, maxHeight),
+          S.current.processing,
+          S.current.imageTooLargeCropping,
         );
-        return false;
+
+        final cropped = await cropImageToMaxSize(file, maxWidth, maxHeight);
+
+        if (cropped == null) {
+          Get.snackbar(S.current.error, S.current.unableToCropImage);
+          return false;
+        }
+
+        // Replace original with cropped file
+        pickedImage.value = XFile(cropped.path);
+        return true;
       }
 
-      return true;
+      return true; // Image fits
     } catch (e) {
       debugPrint("Failed to read image size: $e");
       Get.snackbar(S.current.error, S.current.unableToReadImage);
       return false;
     }
   }
+
 }

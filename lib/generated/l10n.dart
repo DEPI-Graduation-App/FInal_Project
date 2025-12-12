@@ -55,10 +55,10 @@ class S {
   }
 
   /// `welcome to our app`
-  String get welcomeToApp {
+  String get WelcomeToApp {
     return Intl.message(
-      'welcome to our app',
-      name: 'welcomeToApp',
+      'Welcome to our app',
+      name: 'WelcomeToApp',
       desc: '',
       args: [],
     );
@@ -172,6 +172,31 @@ class S {
   /// `Error`
   String get error {
     return Intl.message('Error', name: 'error', desc: '', args: []);
+  }
+  String get unableToCropImage{
+    return Intl.message(
+      'Unable to crop image',
+      name: 'unableToCropImage',
+      desc: '',
+      args: [],
+    );
+
+  }
+  String get processing{
+    return Intl.message(
+      "Processing",
+        name: "Processing",
+        desc: "",
+      args: [],
+    );
+  }
+  String get imageTooLargeCropping{
+    return Intl.message(
+      "Image is too large, Cropping..",
+      name: "imageTooLargeCropping",
+      desc: "",
+      args: [],
+    );
   }
 
   /// `Success`

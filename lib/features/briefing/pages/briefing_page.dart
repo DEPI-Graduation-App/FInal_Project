@@ -13,7 +13,7 @@ class AiBriefingPage extends GetView<AiBriefingController> {
   Widget build(BuildContext context) {
     final topics = controller.staticTopics;
 
-    const Color primaryColor = Colors.blueAccent;
+    const Color primaryColor = Color(0xFFD62828);
 
     return Scaffold(
  //     backgroundColor: Colors.black,

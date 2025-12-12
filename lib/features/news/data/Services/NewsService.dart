@@ -6,7 +6,7 @@ import '../model/NewsApiModel.dart';
 
 class NewsService extends GetxService {
   final String newsAPIKey = '2528ed953bb247ccbe11c1cc63afb51c';
-  final String gNewsKey = 'a751fa0bae26c6fc64db5be3e57730b6';
+  final String gNewsKey = 'b626a87f91cda2579ba73078032db27f';
   final Dio dio = Dio();
   final cancelToken = CancelToken();
 

@@ -112,6 +112,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                                     Text(
                                       S.of(context).chooseProfilePicture,
                                       style: const TextStyle(
+                                        color: Color(0xFFD62828),
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -119,7 +120,7 @@ class ProfilePage extends GetView<Profilecontroller> {
                                     const SizedBox(height: 15),
 
                                     ListTile(
-                                      leading: const Icon(Icons.photo_library),
+                                      leading: const Icon(Icons.photo_library,color: Color(0xFFD62828),),
                                       title: Text(
                                         S.of(context).uploadFromGallery,
                                       ),
@@ -307,7 +308,7 @@ Divider(),                    Row(
                           },
 
                           style: ElevatedButton.styleFrom(
-                          iconColor: Color(0xFFD62828),
+                          backgroundColor: Color(0xFFD62828),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -332,7 +333,7 @@ Divider(),                    Row(
                       child: ElevatedButton(
                         onPressed: controller.updateUsername,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: controller.accent,
+                          backgroundColor: Colors.green,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
@@ -342,7 +343,7 @@ Divider(),                    Row(
                           S.of(context).updateSaveButton,
                           style: const TextStyle(
                             fontSize: 18,
-                            color: Color(0xFFD62828),
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -355,7 +356,7 @@ Divider(),                    Row(
                 child: ElevatedButton(
                   onPressed: controller.logout,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent,
+                    backgroundColor: Color(0xFFD62828),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),

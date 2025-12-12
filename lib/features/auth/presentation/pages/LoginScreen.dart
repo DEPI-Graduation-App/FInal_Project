@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:news_depi_final_project/core/routes/app_pages.dart';
 import 'package:news_depi_final_project/generated/l10n.dart';
 
@@ -14,6 +15,12 @@ class LoginScreen extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        
+        title: Text("Login",style: TextStyle(color: Color(0xFFD62828)),),
+      ),
     //  backgroundColor: const Color(0xFF0A1A2F),
 
       body: SafeArea(
@@ -21,7 +28,6 @@ class LoginScreen extends GetView<LoginController> {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
-              const SizedBox(height: 40),
 
               Image.asset(
                 AssetsManager.logo,
@@ -31,7 +37,7 @@ class LoginScreen extends GetView<LoginController> {
               ),
 
               Text(
-                S.of(context).welcomeToApp,
+                S.of(context).WelcomeToApp,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -111,13 +117,13 @@ class LoginScreen extends GetView<LoginController> {
               const SizedBox(height: 30),
 
               InkWell(
-                onTap: () => Get.toNamed(AppPages.registerPage),
+                onTap: () => Get.offAllNamed(AppPages.registerPage),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(S.of(context).dontHaveAccount,
                       style:TextStyle(
-                        color: Color(0xFFD62828),
+                        color: Colors.white,
                       )
                     ),
                     Text(
@@ -128,7 +134,7 @@ class LoginScreen extends GetView<LoginController> {
                 ),
               ),
 
-              const SizedBox(height: 40),
+               SizedBox(height: 200,child: Image.asset(AssetsManager.slogan),),
             ],
           ),
         ),

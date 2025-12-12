@@ -19,13 +19,11 @@ class SelectedNewsScreen extends GetView<SelectedNewsController> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
 
 
         // ---------- AppBar ----------
         appBar: AppBar(
-          backgroundColor: Color(0xFF0A1A2F),
-
+          backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: mainColor),
